@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <!-- favicon -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css"/>
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="/css/slick.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/slick-theme.css"/>
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="/css/nouislider.min.css"/>
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="/css/style.css"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+<!-- HEADER -->
+<header>
+    <!-- TOP HEADER -->
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-left">
+                <li><a href="#">Xin chào <strong>quý khách!</strong></a></li>
+            </ul>
+
+            <style>
+                #logout-button {
+                    padding: 0;
+                    border: none;
+                    background-color: transparent;
+                }
+
+                #logout_label {
+                    color: #FFF;
+                }
+
+               #logout_label:hover {
+                        color: #D10024;
+               }
+            </style>
+            <form id="logout_form" action="/Login/Logout" method="post">
+            </form>
+            }
+            else
+            {
+            <ul class="header-links pull-right">
+                <li><a th:href="@{/login}">Đăng nhập</a></li>
+                <li><a th:href="@{/register}"> Đăng ký</a></li>
+            </ul>
+            }
+        </div>
+    </div>
+    <div id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="header-logo">
+                        <a href="/" class="logo">
+                            <img src="/img/phone.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- /LOGO -->
+                <!-- SEARCH BAR -->
+                <div class="col-md-6">
+                    <div class="header-search">
+                        <form th:action="@{/search-productByKeyword/0}" method="get">
+                            <input type="text" name="keyword" class="input" placeholder="Tìm kiếm ở đây"
+                                   style="border-radius: 20px 0px 0px 20px ;"  th:value="${keyword}"/>
+                            <button type="submit" class="search-btn">Tìm</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- /SEARCH BAR -->
+                <!-- ACCOUNT -->
+                <div class="col-md-3 clearfix">
+                    <div class="header-ctn">
+                        <!-- Cart -->
+                        <div class="dropdown">
+                            <a th:href="@{/cart}">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Giỏ hàng</span>
+                                <div class="qty" id="lbl_number_of_items_header">0</div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /Cart -->
+                </div>
+            </div>
+            <!-- /ACCOUNT -->
+        </div>
+        <!-- row -->
+    </div>
+    <!-- container -->
+    </div>
+    <!-- /MAIN HEADER -->
+</header>
+
+<nav th:fragment="navigation" id="navigation">
+    <div class="container">
+        <div id="responsive-nav">
+            <ul class="main-nav nav navbar-nav">
+                <li class="active"><a th:href="@{/indexCustomer}">Trang chủ</a></li>
+                <li th:each="category : ${categories}">
+                    <a th:href="@{/ViewByCategory/0(categoryId=${category.id})}"
+                       class="btn btn-primary btn-edit"
+                       th:text="${category.name}"></a>
+                </li>
+                <li><a th:href="@{/couponCustomer/0}">KHUYẾN MÃI</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- shop -->
+            <div class="col-md-4 col-xs-6">
+                <div class="shop">
+                    <div class="shop-img">
+                        <img style="width:260px; height:300px; margin-left: 50px; margin-top: 30px; margin-bottom:30px"
+                             th:src="@{../img/14pro-tim-600x600-8.png}" alt="">
+                    </div>
+                    <div class="shop-body">
+                        <h3>iPhone<br></h3>
+                        <a href="#" class="cta-btn">Mua ngay <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /shop -->
+            <!-- shop -->
+            <div class="col-md-4 col-xs-6">
+                <div class="shop">
+                    <div class="shop-img">
+                        <img style="width:260px; height:300px; margin-left: 50px; margin-top:30px; margin-bottom:30px"
+                             src="https://hoanghamobile.com/i/productlist/dsp/Uploads/2021/03/10/image-removebg-preview_637509826551438442.png"
+                             alt="">
+                    </div>
+                    <div class="shop-body">
+                        <h3>Samsung<br></h3>
+                        <a href="#" class="cta-btn">Mua ngay <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /shop -->
+            <!-- shop -->
+            <div class="col-md-4 col-xs-6">
+                <div class="shop">
+                    <div class="shop-img">
+                        <img style="width:190px; height:300px; margin-left: 85px; margin-top:30px; margin-bottom:30px"
+                             src="https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/a53/navigation/A53-navigation-blue-v2.png"
+                             alt="">
+                    </div>
+                    <div class="shop-body">
+                        <h3>Oppo<br></h3>
+                        <a href="#" class="cta-btn">Mua ngay <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /shop -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+
+    <!-- HOT DEAL SECTION -->
+    <div id="hot-deal" class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hot-deal">
+                        <ul class="hot-deal-countdown">
+                            <li>
+                                <div>
+                                    <h3>02</h3>
+                                    <span>Ngày</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <h3>5</h3>
+                                    <span>Tiếng</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <h3>34</h3>
+                                    <span>Phút</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <h3>60</h3>
+                                    <span>Giây</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <h2 class="text-uppercase">Ưu đãi hot tuần này</h2>
+                        <p>Giảm lên đến 30%</p>
+                        <a class="primary-btn cta-btn" href="#">Mua ngay</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /HOT DEAL SECTION -->
+
+
+    <div class="col-md-12">
+        <div class="section-title">
+            <h3 class="title">Sản phẩm mới</h3>
+            <div class="section-nav">
+                <ul class="section-tab-nav tab-nav">
+                    <li class="active"><a data-toggle="tab" href="#tab1">Smartphones</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Products  -->
+    <div class="col-md-12">
+        <div class="row">
+            <div class="products-tabs">
+                <!-- tab -->
+                <div class="tab-pane active">
+                    <div class="products-slick" data-nav="#slick-nav-1">
+                        <div class="col-lg-3 col-md-6 special-grid" th:each="product : ${listProducts}">
+                            <div class="product">
+                                <a th:href="@{/product-details/{id}(id=${product.id})}">
+                                    <div class="thumbnail">
+                                        <div th:if="${product.quantity <= 0}" class="icon-new-label new-right">
+                                            Hết hàng
+                                        </div>
+                                        <div th:else class="icon-hot-label new-right">Mới</div>
+
+                                        <img class="edit-image product-image"
+                                             th:src="@{'../img/' + ${product.image}}">
+                                    </div>
+                                    <div class="product-body">
+                                        <h4 th:text="${product.name}"></h4>
+                                        <div class="item-price">
+                                            <div class="price-box"><span class="regular-price"> <span
+                                                    class="price" th:text="${product.price}"><span></span></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="products-slick-nav"></div>
+                    </div>
+                    <!-- /tab -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- section title -->
+    <div class="col-md-12">
+        <div class="section-title">
+            <h3 class="title">Bán chạy</h3>
+            <div class="section-nav">
+                <ul class="section-tab-nav tab-nav">
+                    <li><a data-toggle="tab" href="#tab2">Smartphones</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /section title -->
+
+    <!-- Start Products  -->
+    <div class="col-md-12">
+        <div class="row">
+            <div class="products-tabs">
+                <!-- tab -->
+                <div class="tab-pane active">
+                    <div class="products-slick" data-nav="#slick-nav-1">
+                        <div class="col-lg-3 col-md-6 special-grid" th:each="product : ${top10Products}">
+                            <div class="product">
+                                <a th:href="@{/product-details/{id}(id=${product.id})}">
+                                    <div class="thumbnail">
+                                        <div th:if="${product.quantity <= 0}" class="icon-new-label new-right">
+                                            Hết hàng
+                                        </div>
+                                        <div th:else class="icon-hot-label new-right">Mới</div>
+
+                                        <img class="edit-image product-image"
+                                             th:src="@{'../img/' + ${product.image}}">
+                                    </div>
+                                    <div class="product-body">
+                                        <h4 th:text="${product.name}"></h4>
+                                        <div class="item-price">
+                                            <div class="price-box"><span class="regular-price"> <span
+                                                    class="price" th:text="${product.price}"><span></span></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="products-slick-nav"></div>
+                    </div>
+                    <!-- /tab -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- NEWSLETTER -->
+                <div id="newsletter" class="section">
+                    <!-- container -->
+                    <div class="container">
+                        <!-- row -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="newsletter">
+                                    <ul class="newsletter-follow">
+                                        <li><a href="https://www.facebook.com/congkhpro/"><i class="fa fa-facebook"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="https://twitter.com/Cristiano?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
+                                                    class="fa fa-twitter"></i></a>
+                                        </li>
+                                        <li><a href="https://www.instagram.com/conglovedark/?hl=en"><i
+                                                class="fa fa-instagram"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /row -->
+                    </div>
+                    <!-- /container -->
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /NEWSLETTER -->
+
+    <!-- FOOTER -->
+    <footer th:fragment="footer" id="footer">
+        <!-- top footer -->
+        <div class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Về chúng tôi</h3>
+                            <p>Hệ thống bán lẻ điện thoại di động, smartphone, iPad, laptop, phụ kiện chính
+                                hãng, giá
+                                tốt nhất.</p>
+                            <ul class="footer-links">
+                                <li><a href="#"><i class="fa fa-map-marker"></i>99 An Dương Vương P.16
+                                    Q.8</a></li>
+                                <li><a href="#"><i class="fa fa-phone"></i>0386431800</a></li>
+                                <li><a href="#"><i class="fa fa-envelope-o"></i>congnguyen29102002@gmail.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Danh mục</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">iPhone</a></li>
+                                <li><a href="#">Samsung</a></li>
+                                <li><a href="#">Oppo</a></li>
+                                <li><a href="#">Vivo</a></li>
+                                <li><a href="#">Xiaomi</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="clearfix visible-xs"></div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Thông tin</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Về chúng tôi</a></li>
+                                <li><a href="#">Liên hệ</a></li>
+                                <li><a href="#">Chính sách bảo mật</a></li>
+                                <li><a href="#">Điều khoản và điều kiện</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xs-6">
+                        <div class="footer">
+                            <h3 class="footer-title">Dịch vụ</h3>
+                            <ul class="footer-links">
+                                <li><a href="#">Tài khoản</a></li>
+                                <li><a href="#">Giỏ hàng</a></li>
+                                <li><a href="#">Trạng thái đơn hàng</a></li>
+                                <li><a href="#">Hỗ trợ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /top footer -->
+    </footer>
+</div>
+<!-- /SECTION -->
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/slick.min.js"></script>
+<script src="/js/nouislider.min.js"></script>
+<script src="/js/jquery.zoom.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/site.js"></script>
+<script src="/js/cart.js"></script>
+<script>
+    var siteController = new SiteController();
+    siteController.initialize();
+</script>
+</body>
+</html>

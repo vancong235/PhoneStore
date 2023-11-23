@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+<head th:replace="~{fragments::header}"></head>
+
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper">
+
+    <!-- /.navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+
+            <!-- Messages Dropdown Menu -->
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;Thoát
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{fragments::sidebar}"></aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="min-height: 388.4px;">
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mt-4">
+                                <div id="content">
+                                    <div class="container-fluid">
+                                        <div class="statistics-container">
+                                            <div class="statistics-card sold-products-statistics">
+                                                <h2>Tổng Số Khách Hàng</h2>
+                                                <h5><span th:text="${countCustomer}"></span></h5>
+                                            </div>
+
+                                            <div class="statistics-card revenue-statistics">
+                                                <h2>Tổng Số Sản Phẩm</h2>
+                                                <h5><span th:text="${countProduct}"></span></h5>
+                                            </div>
+
+                                            <div class="statistics-card customer-statistics">
+                                                <h2>Tổng Số Đơn Hàng</h2>
+                                                <h5><span th:text="${countOrder}"></span></h5>
+                                            </div>
+
+                                            <div class="statistics-card order-statistics">
+                                                <h2>Tổng doanh thu</h2>
+                                                <h5><span th:text="${total}"></span></h5>
+                                            </div>
+
+                                        </div>
+
+                                        <form id="editForm" th:action="@{/ShowChartType}" method="post">
+                                            <div class="date-input">
+                                                <label for="dateFrom">Từ ngày:</label>
+                                                <input type="date" id="dateFrom" name="dateFrom">
+                                            </div>
+
+                                            <div class="date-input">
+                                                <label for="dateTo">Đến ngày:</label>
+                                                <input type="date" id="dateTo" name="dateTo">
+                                            </div>
+
+                                            <select id="chartType" name="chartType" onchange="displayChart()">
+                                                <option value="top5Customers">Top 5 Khách Hàng Mua Nhiều Nhất</option>
+                                                <option value="top10Products">Top 10 Sản Phẩm Bán Chạy Nhất</option>
+                                                <option value="top5Employees">Top 5 Nhân Viên Bán Hàng Xuất Sắc Nhất</option>
+                                                <option value="monthlyRevenue">Doanh Thu theo tháng</option>
+                                                <option value="weeklyRevenue">Doanh Thu theo thứ trong tuần</option>
+                                            </select>
+                                            <button id="submitButton" type="submit" onclick="saveStatistical(event)">Xem thống kê</button>
+                                        </form>
+                                    </div>
+                                    <!-- /.container-fluid -->
+
+                                    <div id="top5CustomersDiv">
+                                        <table class="styled-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Top</th>
+                                                <th>Name</th>
+                                                <th>phoneNumber</th>
+                                                <th>address</th>
+                                                <th>email</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <!-- Lặp qua danh sách khách hàng -->
+                                            <tr th:each="customer,index : ${top5Customers}">
+                                                <td th:text="${index.count}"></td>
+                                                <td th:text="${customer.Name}"></td>
+                                                <td th:text="${customer.PhoneNumber}"></td>
+                                                <td th:text="${customer.Address}"></td>
+                                                <td th:text="${customer.Email}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div id="top5EmployeesDiv">
+                                        <table class="styled-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Top</th>
+                                                <th>Name</th>
+                                                <th>phoneNumber</th>
+                                                <th>address</th>
+                                                <th>email</th>
+                                                <th>salary</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <!-- Lặp qua danh sách khách hàng -->
+                                            <tr th:each="employee,index : ${top5Employees}">
+                                                <td th:text="${index.count}"></td>
+                                                <td th:text="${employee.Name}"></td>
+                                                <td th:text="${employee.PhoneNumber}"></td>
+                                                <td th:text="${employee.Address}"></td>
+                                                <td th:text="${employee.Email}"></td>
+                                                <td th:text="${employee.salary}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div id="top10ProductsDiv">
+                                        <table class="styled-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Top</th>
+                                                <th>Tên</th>
+                                                <th>Giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Mô Tả</th>
+                                                <th>Màu sắc</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <!-- Lặp qua danh sách khách hàng -->
+                                            <tr th:each="product,index : ${top10Products}">
+                                                <td th:text="${index.count}"></td>
+                                                <td th:text="${product.Name}"></td>
+                                                <td th:text="${product.price}"></td>
+                                                <td th:text="${product.quantity}"></td>
+                                                <td th:text="${product.description}"></td>
+                                                <td th:text="${product.color}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div id="monthlyRevenueDiv">
+                                        <table class="styled-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Tháng</th>
+                                                <th>Năm</th>
+                                                <th>Tổng Tiền</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <!-- Lặp qua danh sách khách hàng -->
+                                            <tr th:each="revenue : ${monthlyRevenue}">
+                                                <td th:text="${revenue.month}"></td>
+                                                <td th:text="${revenue.year}"></td>
+                                                <td th:text="${revenue.sumTotal}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div id="weeklyRevenueDiv">
+                                        <table class="styled-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Tuần</th>
+                                                <th>monday</th>
+                                                <th>tuesday</th>
+                                                <th>wednesday</th>
+                                                <th>thursday</th>
+                                                <th>friday</th>
+                                                <th>saturday</th>
+                                                <th>sunday</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <!-- Lặp qua danh sách khách hàng -->
+                                            <tr th:each="revenue : ${weeklyRevenue}">
+                                                <td th:text="${revenue.weekDate}"></td>
+                                                <td th:text="${revenue.mondayTotal}"></td>
+                                                <td th:text="${revenue.tuesdayTotal}"></td>
+                                                <td th:text="${revenue.wednesdayTotal}"></td>
+                                                <td th:text="${revenue.thursdayTotal}"></td>
+                                                <td th:text="${revenue.fridayTotal}"></td>
+                                                <td th:text="${revenue.saturdayTotal}"></td>
+                                                <td th:text="${revenue.sundayTotal}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- End of Main Content -->
+
+                            </div>
+                            <!-- /.card -->
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div><!-- Small boxes (Stat box) -->
+
+                <!-- /.row -->
+                <!-- Main row -->
+
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+</div>
+<div th:replace="~{fragments::script}"></div>
+</body>
+
+</html>

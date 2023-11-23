@@ -1,0 +1,13 @@
+  .form-group {
+        margin-bottom: 10px;
+    }
+
+    .control-label {
+        display: inline-block;
+        width: 150px;
+    }
+    .custom-modal-dialog {
+    width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="~{fragments::header}">
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    <ul th:replace="~{fragments::sidebar}">
+    </ul>
+    <!-- End of Sidebar -->
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="~{fragments::top-navbar}">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <a th:href="@{/product}">Quay lại</a>
+                <table class="table table-bordered styled-table" >
+                    <tr th:each="product : ${listProducts}">
+                        <th>ID:</th>
+                        <td th:text="${product.Id}"></td>
+                    </tr>
+                    <tr th:each="product : ${listProducts}">
+                        <th>Name:</th>
+                        <td th:text="${product.Name}"></td>
+                    </tr>
+                    <tr th:each="product : ${listProducts}">
+                        <th>Price:</th>
+                        <td th:text="${product.price}"></td>
+                    </tr>
+                    <tr th:each="product : ${listProducts}">
+                        <th>Image:</th>
+                        <td>
+                            <img class="product-image" th:src="@{'/img/' + ${product.image}}" alt="Product Image">
+                        </td>
+                    </tr>
+                    <tr th:each="product : ${listProducts}">
+                        <th>Description:</th>
+                        <td th:text="${product.description}"></td>
+                    </tr>
+                    <tr th:each="product : ${listProducts}">
+                        <th>Category ID:</th>
+                        <td th:text="${product.category.getId()}"></td>
+                    </tr>
+                    <tr th:each="product : ${listProducts}">
+                        <th>Quantity:</th>
+                        <td th:text="${product.quantity}"></td>
+                    </tr>
+                </table>
+
+
+                <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments::footer}">
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a th:replace="~{fragments::scroll}">
+</a>
+
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+</body>
+
+</html>

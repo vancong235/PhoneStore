@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="~{fragments::header}">
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    <ul th:replace="~{fragments::sidebar}">
+    </ul>
+    <!-- End of Sidebar -->
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="~{fragments::top-navbar}">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <h2>Thông tin người nhận</h2>
+
+                <table class="table table-bordered">
+                        <tr th:each="orders : ${listOrder}">
+                        <td class="font-weight-bold">Tên người đặt</td>
+                        <td th:text="${orders.customer.name}"></td>
+                    </tr>
+                    <tr th:each="orders : ${listOrder}">
+                        <td class="font-weight-bold">Tên người nhận</td>
+                        <td th:text="${orders.ShipName}"></td>
+                    </tr>
+                    <tr th:each="orders : ${listOrder}">
+                        <td class="font-weight-bold">Địa chỉ người nhận</td>
+                        <td th:text="${orders.ShipAddress}"></td>
+                    </tr>
+                    <tr th:each="orders : ${listOrder}">
+                        <td class="font-weight-bold">Số điện thoại người nhận</td>
+                        <td th:text="${orders.ShipPhoneNumber}"></td>
+                    </tr>
+                    <tr th:each="orders : ${listOrder}">
+                        <td class="font-weight-bold">Ngày đặt</td>
+                        <td th:text="${orders.orderDate}"></td>
+                    </tr>
+                    <tr th:each="orders : ${listOrder}">
+                        <td class="font-weight-bold">Trạng thái</td>
+                        <td th:text="${orders.Status}"></td>
+                    </tr>
+                    <tr th:each="orders : ${listOrder}">
+                        <td class="font-weight-bold">Giá trị đơn hàng</td>
+                        <td th:text="${orders.total}"></td>
+                    </tr>
+                </table>
+
+                <div>
+                    <table class="styled-table">
+                        <tr>
+                            <th>ID</th>
+                            <th>Ảnh Sản Phẩm</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Số lượng mua</th>
+                            <th>Giá bán</th>
+                        </tr>
+
+                            <tr th:each="orderdetail : ${listOrderDetail}">
+                            <td th:text="${orderdetail.order.id}"></td>
+                            <td>
+                                <img class="product-image"  style="height: 150px; width: 150px;"
+                                     th:src="@{'/img/' + ${orderdetail.product.getImage()}}" alt="Product Image">
+                            </td>
+                            <td th:text="${orderdetail.product.getName()}"></td>
+                            <td th:text="${orderdetail.quantity}"></td>
+                            <td th:text="${orderdetail.unitPrice}"></td>
+                        </tr>
+                    </table>
+                    <div>
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer th:replace="~{fragments::footer}">
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a th:replace="~{fragments::scroll}">
+        </a>
+
+
+        <!-- Bootstrap core JavaScript-->
+        <div th:replace="~{fragments::script}"></div>
+</body>
+
+</html>

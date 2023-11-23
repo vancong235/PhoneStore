@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="~{indexUser::header}">
+</head>
+<body>
+
+<nav th:replace="~{indexUser::navigation}"></nav>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a th:href="@{/indexCustomer}">Trang chủ</a></li>
+                    <li>KHUYẾN MÃI</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="main-container col1-layout">
+    <div class="container">
+        <div class="row">
+            <div class="col-main col-sm-12 col-xs-12">
+                <div class="shop-inner" th:each="coupon : ${listCoupon}">
+                    <div class="product-grid-area">
+                        <ul class="products-grid">
+                            <li class="item col-lg-3 col-md-4 col-sm-6 col-xs-6 ">
+                                <div class="product-item">
+                                    <div class="item-inner">
+                                        <div class="product-thumbnail">
+                                            <div class="pr-img-area">
+                                                <a th:href="@{/detailCoupon/{id}(id=${coupon.id})}">
+                                                    <figure>
+                                                        <img class="first-img"
+                                                             src="https://image.freepik.com/free-vector/mega-sale-banner_23-2147987220.jpg"
+                                                             alt="HTML template">
+                                                    </figure>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="item-info">
+                                            <div class="info-inner">
+                                                <div class="item-title">
+                                                    <a th:href="${coupon.description}">
+                                                    </a>
+                                                </div>
+                                                <span style="background-color:#FE316C;"
+                                                      class="badge badge-pill badge-success">Khuyến mãi</span>
+                                                <div class="item-content">
+                                                    <div class="item-price">
+                                                        <div class="price-box"><span
+                                                                class="regular-price"> Còn lại: <span
+                                                                style="color:#EF7E16;font-weight:bold"
+                                                                th:text="${coupon.count}">lần</span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Pagination  -->
+<nav aria-label="...">
+    <ul class="pagination" style="display: flex;justify-content: center;">
+        <li th:if="${currentPage != 0}" class="page-item ">
+            <a th:href="@{'/coupon/' + ${currentPage - 1}}" class="page-link">Previous</a>
+        </li>
+
+        <th:block th:if="${totalPages > 1}">
+            <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                <a th:href="@{'/coupon/' + ${i - 1}}" class="page-link" href="#">
+				     <span th:text="${i}">
+				     </span></a></li>
+        </th:block>
+
+        <li th:if="${currentPage + 1 != totalPages}" class="page-item">
+            <a th:href="@{'/coupon/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>
+        </li>
+    </ul>
+</nav>
+<!--Pagination  -->
+
+<footer th:replace="~{index::footer}"></footer>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/slick.min.js"></script>
+<script src="/js/nouislider.min.js"></script>
+<script src="/js/jquery.zoom.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/site.js"></script>
+<script src="/js/cart.js"></script>
+<script>
+    var siteController = new SiteController();
+    siteController.initialize();
+</script>
+</body>
+</html>

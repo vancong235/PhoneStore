@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{indexUser::header}">
+</head>
+<body>
+
+<nav th:replace="~{indexUser::navigation}"></nav>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a th:href="@{/indexCustomer}">Trang chủ</a></li>
+                    <li class="active">THƯƠNG HIỆU</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<div class="div_form">
+    <form class="toolbar__search" onsubmit="return false" style="margin-bottom: 30px;justify-content: center;">
+        <div class="toolbar__search-left">
+            <span class="toolbar__search-title" style=" width: 229px;">Sắp xếp theo</span>
+
+            <select id="category" name="category" class="form-control">
+                <option value="all">Tất cả</option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}"
+                ></option>
+            </select>
+
+            <span class="toolbar__search-title">Giá</span>
+            <select class="toolbar__search-range-title">
+                <option class="toolbar__search-range-item-up" value="ASC">
+                    Thấp đến Cao<i class="fa-solid fa-check"></i>
+                </option>
+                <option class="toolbar__search-range-item-down" value="DESC">
+                    Cao đến Thấp<i class="fa-solid fa-check"></i>
+                </option>
+            </select>
+        </div>
+
+        <div class="price-range">
+            <span class="toolbar__search-title">Khoảng Giá</span>
+            <input placeholder="Thấp" type="number" name="" step="10000"/>
+
+            <input placeholder="Cao" type="number" name="" step="10000"/>
+            <button class="toolbar__search-icon">Lọc</button>
+        </div>
+    </form>
+</div>
+
+<div class="main-container col1-layout">
+    <div class="container">
+        <div class="row">
+            <div class="col-main col-sm-12 col-xs-12">
+                <div class="shop-inner">
+                    <div class="product-grid-area">
+                        <ul class="thumbnails">
+                            <li class="span3 item col-lg-3 col-md-4 col-sm-6 col-xs-6"
+                                th:each="product : ${listProducts}">
+                                <div class="product-item">
+                                    <div class="item-inner">
+                                        <a th:href="@{/product-details/{id}(id=${product.id})}">
+                                            <div class="thumbnail">
+                                                <div th:if="${product.quantity <= 0}" class="icon-new-label new-right">
+                                                    Hết hàng
+                                                </div>
+                                                <div th:else class="icon-hot-label new-right">Mới</div>
+                                                <img class="product-image d-block w-100"
+                                                     th:src="@{'../img/' + ${product.image}}">
+                                            </div>
+                                            <div class="item-info">
+                                                <div class="info-inner">
+                                                    <div class="item-title">
+                                                        <h5 th:text="${product.name}"></h5>
+                                                    </div>
+                                                    <div class="item-content">
+                                                        <div class="item-price">
+                                                            <div class="price-box"><span class="regular-price"> <span
+                                                                    class="price"
+                                                                    th:text="${product.price}"><span></span></span> </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!--Pagination  -->
+                    <nav aria-label="...">
+                        <ul class="pagination" style="display: flex;justify-content: center;">
+                            <li th:if="${currentPage != 0}" class="page-item">
+                                <a th:href="@{/ViewByCategory/{pageNo}(pageNo=${currentPage - 1},
+                                    categoryId=${category.id})}"
+                                   class="page-link">
+                                    Previous
+                                </a>
+                            </li>
+
+                            <th:block th:if="${totalPages > 1}">
+                                <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                                    th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                                    <a th:href="@{/ViewByCategory/{pageNo}(pageNo=${i - 1}, categoryId=${category.id})}"
+                                       class="page-link">
+                                        <span th:text="${i}"></span>
+                                    </a>
+                                </li>
+                            </th:block>
+
+                            <li th:if="${currentPage + 1 != totalPages}" class="page-item">
+                                <a th:href="@{/ViewByCategory/{pageNo}(pageNo=${currentPage + 1}, categoryId=${category.id})}"
+                                   class="page-link">
+                                    Next
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!--Pagination  -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{indexUser::footer}"></footer>
+</body>
+</html>

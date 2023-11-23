@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="~{indexUser::header}">
+</head>
+<body>
+
+
+<nav th:replace="~{indexUser::navigation}"></nav>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a th:href="@{/indexCustomer}">Trang chủ</a></li>
+                    <li>CHI TIẾT SẢN PHẨM</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Product main img -->
+            <div class="col-md-5 col-md-push-2">
+                <div id="product-main-img">
+                    <div class="product-preview">
+                        <img class="product-image" style="height: 400px; width: 400px;"
+                             th:src="@{'/img/' + ${productDetail.image}}">
+                    </div>
+
+                    <div class="product-preview">
+                        <img class="product-image" style="height: 400px; width: 400px;"
+                             th:src="@{'/img/' + ${productDetail.image}}">
+                    </div>
+
+                    <div class="product-preview">
+                        <img class="product-image" style="height: 400px; width: 400px;"
+                             th:src="@{'/img/' + ${productDetail.image}}">
+                    </div>
+
+                    <div class="product-preview">
+                        <img class="product-image" style="height: 400px; width: 400px;"
+                             th:src="@{'/img/' + ${productDetail.image}}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2  col-md-pull-5">
+                <div id="product-imgs">
+                    <div class="product-preview">
+                        <img class="product-image" th:src="@{'/img/' + ${productDetail.image}}">
+                    </div>
+
+                    <div class="product-preview">
+                        <img class="product-image" th:src="@{'/img/' + ${productDetail.image}}">
+                    </div>
+
+                    <div class="product-preview">
+                        <img class="product-image" th:src="@{'/img/' + ${productDetail.image}}">
+                    </div>
+
+                    <div class="product-preview">
+                        <img class="product-image" th:src="@{'/img/' + ${productDetail.image}}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="product-details">
+                    <h2 class="product-name" th:text="${productDetail.name}"></h2>
+                    <div>
+                        <h3 th:text="${productDetail.price}" class="product-price"></h3>
+                        <span th:if="${productDetail.quantity <= 0}" class="product-available">Hết hàng</span>
+                        <span th:else class="product-available">Còn hàng</span>
+
+                    </div>
+
+                    <ul class="product-links">
+                        <li>Danh mục:</li>
+                        <li th:text="${productDetail.category.name}"></li>
+                    </ul>
+                    <div class="price-box-bar">
+                        <div class="add-to-cart" style="margin-top:10px">
+                            <button class="add-to-cart-btn" th:value="${productDetail.id}"><i
+                                    class="fa fa-shopping-cart"></i> thêm vào giỏ hàng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="product-tab">
+                    <!-- product tab nav -->
+                    <ul class="tab-nav">
+                        <li class="active"><a data-toggle="tab" href="#tab1">Thông số kỹ thuật</a></li>
+                        <li><a data-toggle="tab" href="#tab2">Chi tiết sản phẩm</a></li>
+                        <li><a data-toggle="tab" href="#tab3">Đánh giá</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- tab1  -->
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p th:text="${productDetail.description}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab1  -->
+
+                        <!-- tab2  -->
+                        <div id="tab2" class="tab-pane fade in">
+                            <div class="row">
+                                <style>
+                                    #more {
+                                        display: none;
+                                    }
+                                </style>
+                                <div class="col-md-12">
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab2  -->
+
+                        <!-- tab3  -->
+                        <div id="tab3" class="tab-pane fade in">
+                            <!--<div class="row">
+                                @foreach (var c in comments)
+                                {
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <span style="font-weight:bold">@c.UserName</span> <br />
+                                        <i>@c.PublishedDate</i>
+                                        <br />
+                                        @for (var i = 1; i <= c.Rating; i++)
+                                        {
+                                        <span class="starGlowN"></span>
+                                        }
+                                        @for (var i = (c.Rating + 1); i <= 5; i++)
+                                        {
+                                        <span class="starFadeN"></span>
+                                        }
+                                    </div>
+                                    <div class="col-md-9">
+                                        @Html.Raw(c.Comments.Replace("\n", "<br />"))
+                                    </div>
+                                </div>
+                                }
+                                <hr />
+                                <partial name="_CommentBox" />
+                            </div>-->
+                        </div>
+                        <!-- /tab3  -->
+                    </div>
+                    <!-- /product tab content  -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<footer th:replace="~{index::footer}"></footer>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/slick.min.js"></script>
+<script src="/js/nouislider.min.js"></script>
+<script src="/js/jquery.zoom.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/site.js"></script>
+<script src="/js/cart.js"></script>
+<script>
+    var siteController = new SiteController();
+    siteController.initialize();
+</script>
+</body>
+</html>

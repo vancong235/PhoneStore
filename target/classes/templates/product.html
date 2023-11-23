@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+<head th:replace="~{fragments::header}"></head>
+
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+    <div class="wrapper">
+
+        <!-- /.navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+
+                <!-- Messages Dropdown Menu -->
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fas fa-sign-out-alt"></i>&nbsp;Thoát
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Sidebar Container -->
+        <aside th:replace="~{fragments::sidebar}"></aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="min-height: 388.4px;">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card mt-4">
+                                    <!--Thông báo lỗi-->
+                                    <div>
+                                        <div th:if="${size == 0}" class="alert alert-warning text-center" role="alert">
+                                            <p>Không tìm thấy kết quả</p>
+                                        </div>
+
+                                        <div th:if="${success}" class="alert alert-success text-center" role="alert">
+                                            <p th:text="${success}"></p>
+                                        </div>
+
+                                        <div th:if="${error}" class="alert alert-danger text-center" role="alert">
+                                            <p th:text="${error}"></p>
+                                        </div>
+
+                                        <div th:if="${totalElements > 0}" class="alert alert-info text-center" role="alert">
+                                            <p class="pt-3">Tìm thấy <strong th:text="${totalElements}"></strong> danh mục</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            <div class="row mt-3">
+                                                <div class="col-lg-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <form th:action="@{/search-products/0}" method="get">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text" class="form-control"
+                                                                           placeholder="Bạn tìm gì?"
+                                                                           name="keyword" aria-label="Search"
+                                                                           aria-describedby="search-addon"/>
+                                                                    <span class="input-group-append">
+                                                                        <button type="submit" class="btn btn-info btn-flat">Tìm</button>
+                                                                    </span>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /input-group -->
+                                                </div>
+                                                <!-- /.col-lg-6 -->
+                                                <div class="col-lg-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group input-group-sm">
+                                                                <span class="input-group-append">
+                                                                        <button type="button" class="btn btn-info rounded"
+                                                                                data-toggle="modal" data-target="#addModal"
+                                                                                data-whatever="@mdo">
+                                                                                Thêm sản phẩm
+                                                                        </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /input-group -->
+                                                </div>
+                                                <!-- /.col-lg-6 -->
+                                            </div>
+                                        </h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table table-hover text-nowrap">
+                                            <thead>
+                                            <tr>
+                                                <th>Tên</th>
+                                                <th>Giá</th>
+                                                <th>Ảnh</th>
+                                                <th>Mô tả</th>
+                                                <th>Thương hiệu</th>
+                                                <th>Màu</th>
+                                                <th>Số lượng</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="product : ${listProducts}">
+                                                <td scope="row" th:text="${product.Name}"></td>
+                                                <td th:text="${product.price}"></td>
+                                                <td>
+                                                    <img class="product-image" th:src="@{'/img/' + phone.png}"
+                                                         alt="Product Image">
+                                                </td>
+                                                <td th:text="${product.description}"></td>
+                                                <td th:text="${product.category.name}"></td>
+                                                <td th:text="${product.color}"></td>
+                                                <td th:text="${product.quantity}"></td>
+                                                <td>
+                                                    <a id="editButton" th:href="@{/update-product/{id}(id=${product.id})}"
+                                                       class="btn btn-primary">Update</a>
+                                                    <a th:href="@{/status-product(id = ${product.id})}"
+                                                       class="btn btn-danger">Delete</a>
+                                                    <a id="detailButton" th:href="@{/detail-product/{id}(id=${product.id})}"
+                                                       class="btn btn-success">Detail</a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination">
+                                            <li th:if="${currentPage != 0}" class="page-item ">
+                                                <a th:href="@{/search-products/{pageNo}(pageNo=${currentPage - 1}, keyword=${keyword})}" class="page-link">Previous</a>
+                                            </li>
+
+                                            <th:block th:if="${totalPages > 1}">
+                                                <li th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                                                    th:classappend="${currentPage == i ? 'active' : ''}" class="page-item">
+                                                    <a th:href="@{/search-products/{pageNo}(pageNo=${i}, keyword=${keyword})}" class="page-link">
+                                                        <span th:text="${i + 1}"></span>
+                                                    </a>
+                                                </li>
+                                            </th:block>
+
+                                            <li th:if="${currentPage + 1 != totalPages}" class="page-item">
+                                                <a th:href="@{/search-products/{pageNo}(pageNo=${currentPage + 1},
+                                 keyword=${keyword})}" class="page-link">Next</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+                                <!-- /.card -->
+                            </div>
+
+                        </div>
+                        <!-- /.container-fluid -->
+
+                    </div><!-- Small boxes (Stat box) -->
+
+                    <!-- /.row -->
+                    <!-- Main row -->
+
+                    <!-- /.row (main row) -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+    </div>
+<div th:replace="~{fragments::script}"></div>
+</body>
+
+</html>

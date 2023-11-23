@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "~{indexUser::header}">
+<body>
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="/index">Trang chủ</a></li>
+                    <li class="active">Thanh toán</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<section class="main-container col2-right-layout">
+    <div class="main container">
+        <div class="row">
+            <div class="col-main col-sm-12 col-xs-12">
+                <div class="page-title">
+                    <h2>Thanh toán</h2>
+                </div>
+                <div class="page-content checkout-page">
+                    <h4 class="checkout-sep">1. Tóm tắt đơn hàng</h4>
+                    <div class="box-border">
+                        <div class="table-responsive">
+                            <table class="table table-bordered cart_summary" id="tbl_cart">
+                                <thead>
+                                <tr>
+                                    <th class="cart_product">Hình ảnh</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th class="text-center">Tình trạng </th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng tiền</th>
+                                    <th class="action text-center"><i class="fa fa-trash"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody id="cart_body">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td colspan="4"><strong>Tổng giá đơn hàng</strong></td>
+                                    <td colspan="2"><strong><span id="lbl_total"></span> <span>&#8363;</span> </strong></td>
+                                </tr>
+                                <tr id="discount_amount_row">
+                                    <td colspan="2"></td>
+                                    <td colspan="4"><strong>Số tiền giảm</strong></td>
+                                    <td colspan="2"><strong><span id="lbl_discount_amount"></span> <span>&#8363;</span> </strong></td>
+                                </tr>
+                                <tr id="total_discounted_row">
+                                    <td colspan="2"></td>
+                                    <td colspan="4"><strong>Tổng giá đơn hàng đã giảm</strong></td>
+                                    <td colspan="2"><strong><span id="lbl_total_discounted"></span> <span>&#8363;</span> </strong></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <h4 class="checkout-sep">2. Phương thức thanh toán</h4>
+                    <div class="box-border">
+                        <div style="margin: 10px 0px;font-weight:500">
+                            Thanh toán khi nhận hàng
+                        </div>
+                        <div>
+                            Hoặc
+                        </div>
+                        <form asp-action="Processing" asp-controller="Cart" method="POST">
+                            <input type="hidden" asp-for="CheckoutModel.PaymentMethod" value="@PaymentMethod.CreditCard" />
+                            <input type="hidden" id="txt_name_cc" asp-for="CheckoutModel.Name" value="@Model.Name">
+                            <input type="hidden" id="txt_address_cc" asp-for="CheckoutModel.Address" value="@Model.Address">
+                            <input type="hidden" id="txt_phoneNumber_cc" asp-for="CheckoutModel.PhoneNumber" value="@Model.PhoneNumber">
+                            <div style="margin: 10px 0px">
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="@Stripe.Value.PublishableKey"
+                                        data-amount="@ViewBag.Total"
+                                        data-name="[Deveducate]"
+                                        data-description="Flower payments"
+                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                        data-locale="en"
+                                        data-zip-code="true">
+                                </script>
+                            </div>
+                        </form>
+                    </div>
+
+                    <form asp-action="Checkout" asp-controller="Cart" method="POST">
+                        <input type="hidden" asp-for="CheckoutModel.PaymentMethod" value="@PaymentMethod.COD" />
+                        <h4 class="checkout-sep">3. Thông tin giao hàng</h4>
+                        <div class="box-border">
+                            <ul>
+                                <li class="row">
+                                    <div class="col-sm-6">
+                                        <label class="required">Tên</label>
+                                        <input class="input form-control" id="txt_name_cod" onchange="$(" input #txt_name_cc").setAttribute('value', $("input #txt_name_cod").val());" type="text" asp-for="CheckoutModel.Name" value="@Model.Name">
+                                        <span asp-validation-for="CheckoutModel.Name" class="text-danger"></span>
+                                    </div>
+                                    <!--/ [col] -->
+                                </li>
+                                <!--/ .row -->
+
+                                <li class="row">
+                                    <div class="col-xs-12">
+                                        <label class="required">Địa chỉ</label>
+                                        <input class="input form-control" id="txt_address_cod" type="text" asp-for="CheckoutModel.Address" value="@Model.Address">
+                                        <span asp-validation-for="CheckoutModel.Address" class="text-danger"></span>
+                                    </div>
+                                    <!--/ [col] -->
+                                </li>
+                                <!--/ .row -->
+
+                                <li class="row">
+                                    <div class="col-sm-6">
+                                        <label class="required">Số điện thoại</label>
+                                        <input class="input form-control" id="txt_phoneNumber_cod" type="text" asp-for="CheckoutModel.PhoneNumber" value="@Model.PhoneNumber">
+                                        <span asp-validation-for="CheckoutModel.PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                    <!--/ [col] -->
+                                </li>
+                                <!--/ .row -->
+                            </ul>
+                        </div>
+                        <button class="button pull-right"><span>Đặt hàng</span></button>
+                    </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    button.button {
+        display: inline-block;
+        border: 0;
+        background: #444;
+        padding: 6px 16px;
+        font-size: 12px;
+        border: 1px solid #444;
+        font-weight: 500;
+        text-align: center;
+        white-space: nowrap;
+        color: #fff;
+        font-weight: normal;
+        transition: all 0.3s linear;
+        -moz-transition: all 0.3s linear;
+        -webkit-transition: all 0.3s linear;
+        border-radius: 3px;
+    }
+
+        button.button:hover {
+            background: #e83f33;
+            border: 1px solid #e83f33;
+            transition: all 0.3s linear;
+            -moz-transition: all 0.3s linear;
+            -webkit-transition: all 0.3s linear;
+            color: #fff
+        }
+
+    button span {
+        text-transform: uppercase;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    /******************************************
+            33. Checkout page
+            ******************************************/
+
+    .checkout-page {
+        margin-top: 12px;
+    }
+
+        .checkout-page ul {
+            padding: 0px;
+            margin: auto;
+        }
+
+        .checkout-page li {
+            list-style: none;
+        }
+
+        .checkout-page h4.checkout-sep {
+            text-transform: capitalize;
+            font-size: 15px;
+            border-bottom: 1px #e8e8e8 solid;
+            line-height: normal;
+            padding: 0 0 12px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+            .checkout-page h4.checkout-sep.last {
+                border: none;
+                padding-bottom: 0px;
+                margin-bottom: 0px;
+            }
+
+        .checkout-page .box-border {
+            margin-bottom: 15px;
+        }
+
+            .checkout-page .box-border h4 {
+                font-weight: 600;
+                font-size: 14px;
+            }
+
+            .checkout-page .box-border h5 {
+                font-weight: 600;
+            }
+
+            .checkout-page .box-border .button {
+                margin-top: 15px;
+            }
+
+            .checkout-page .box-border label {
+                margin-top: 5px;
+                font-size: 12px;
+                font-weight: 600;
+            }
+
+            .checkout-page .box-border p, .checkout-page .box-border h4 {
+                padding-bottom: 5px;
+                margin-top: 5px;
+            }
+
+            .checkout-page .box-border .fa {
+                line-height: inherit;
+            }
+
+            .checkout-page .box-border input[type="radio"] {
+                margin-right: 10px;
+            }
+
+    .availability.in-stock span {
+        color: #fff;
+        background-color: #5cb85c;
+        padding: 5px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 3px;
+    }
+
+    .availability.out-of-stock span {
+        color: #fff;
+        background-color: #d9534f;
+        padding: 5px 12px;
+        font-size: 12px;
+        font-weight: 600
+    }
+
+    .table-bordered {
+        border: 0px solid #ddd;
+    }
+
+        .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+            border: none;
+            border-bottom: 1px solid #e5e5e5;
+        }
+</style>
+</body>
+</html>
