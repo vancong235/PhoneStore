@@ -56,10 +56,11 @@ public class ProductController {
         List<Category> categories = categoryService.getAllCategory();
         List<Product> topProducts = productService.getData();
 
+
         model.addAttribute("top10Products", topProducts);
         model.addAttribute("listProducts", listProducts);
         model.addAttribute("categories", categories);
-        return "indexUser";
+        return "sale";
     }
 
     @GetMapping("/product")
