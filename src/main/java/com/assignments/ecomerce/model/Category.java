@@ -11,6 +11,23 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
     @ManyToOne
     @JoinColumn(name = "supplierId")
     private Supplier supplier;
