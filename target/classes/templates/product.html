@@ -10,11 +10,23 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
 
-                <!-- Messages Dropdown Menu -->
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fas fa-sign-out-alt"></i>&nbsp;Thoát
+                <!-- Nav Item - User Information -->
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="mr-2 d-none d-lg-inline" style="color: blue; font-size: 18px;">Admin</span>
+                        <img class="img-profile rounded-circle" style="width:30px; height:30px"
+                             src="/dist/img/user2-160x160.jpg">
                     </a>
+                    <!-- Dropdown - User Information -->
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                         aria-labelledby="userDropdown">
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" onclick="logout()">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Logout
+                        </a>
+                    </div>
                 </li>
             </ul>
         </nav>
@@ -173,7 +185,128 @@
             <!-- /.content -->
         </div>
     </div>
+    <!--Add Modal-->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="productForm" th:action="@{/add-product}" method="post" enctype="multipart/form-data"
+              th:object="${productNew}">
+            <div class="modal-dialog custom-modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sản Phẩm mới</h5>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="nameAdd" class="col-md-8 control-label">Tên sản phẩm:</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" th:field="*{name}" id="nameAdd" name="name"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-8 control-label" for="category"> Danh mục</label>
+                            <div class="col-md-8">
+                                <select id="category" th:field="*{category}" name="category" class="form-control">
+                                    <option th:each="category : ${categories}"
+                                            th:value="${category.id}"
+                                            th:text="${category.name}"
+                                    ></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-8 control-label" for="color">Color:</label>
+                            <div class="col-md-8">
+                                <input type="text" id="color" name="color" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12 control-label" for="product-quantity">Số lượng Màu</label>
+                            <div class="col-md-8">
+                                <input id="product-quantity" th:field="*{quantity}" name="quantity"
+                                       class="form-control input-md" type="number" value="1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-8 control-label" for="price">Giá</label>
+                            <div class="col-md-8">
+                                <input id="price" th:field="*{price}" name="price" class="form-control input-md"
+                                       type="text" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-8 control-label" for="description">Mô Tả </label>
+                            <div class="col-md-8">
+                                <input id="description" th:field="*{description}" name="description"
+                                       class="form-control input-md" required
+                                       type="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <!-- File Button -->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="photo_file">IMAGE</label>
+                                    <div class="col-md-4">
+                                        <img id="imagePreview" th:src="@{'/img/' + defaut_image.jpg}"alt="Image Preview" style="width: 100px; height: 100px;" />
+                                        <input id="photo_file" type="file" name="photo_file" accept="image/*" required/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" onclick="saveProduct(event)">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 <div th:replace="~{fragments::script}"></div>
 </body>
 
 </html>
+
+<script>
+    function logout() {
+        window.location.href = '/logout';
+    }
+
+
+    function previewImage() {
+  var input = document.getElementById('photo_file');
+  var preview = document.getElementById('imagePreview');
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    var file = input.files[0];
+    var fileSize = file.size; // Kích thước tệp tin (bytes)
+    var maxSize = 1048576; // Giới hạn kích thước tệp tin (bytes)
+
+    // Kiểm tra kích thước tệp tin
+    if (fileSize > maxSize) {
+      input.value = '';
+      alert('Tệp tin vượt quá kích thước cho phép.');
+      preview.setAttribute('src', 'defaut_image.jpg'); // Thay thế bằng hình ảnh mặc định
+      return;
+    }
+
+    reader.onload = function(e) {
+      preview.setAttribute('src', e.target.result);
+        }
+           reader.readAsDataURL(input.files[0]);
+           console.log(input.files[0])
+        }
+    }
+
+    document.getElementById('photo_file').addEventListener('change', previewImage);
+</script>

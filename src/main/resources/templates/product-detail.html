@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head th:replace="~{indexUser::header}">
+<head th:replace="~{fragments::header}">
+
 </head>
-<body>
+
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+
+<!-- Page Wrapper -->
+<div class="wrapper">
+    <!-- /.navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline" style="color: blue; font-size: 18px;">Admin</span>
+                    <img class="img-profile rounded-circle" style="width:30px; height:30px"
+                         src="/dist/img/user2-160x160.jpg">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown">
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" onclick="logout()">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{fragments::sidebar}"></aside>
+    <div class="content-wrapper" style="min-height: 388.4px;>
 
 
-<nav th:replace="~{indexUser::navigation}"></nav>
 
-<!-- BREADCRUMB -->
-<div id="breadcrumb" class="section">
-    <!-- container -->
-    <div class="container">
         <!-- row -->
         <div class="row">
             <div class="col-md-12">
@@ -21,15 +49,9 @@
             </div>
         </div>
         <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /BREADCRUMB -->
 
-<!-- SECTION -->
-<div class="section">
-    <!-- container -->
-    <div class="container">
+
+
         <!-- row -->
         <div class="row">
             <!-- Product main img -->
@@ -172,23 +194,30 @@
             </div>
 
         </div>
+
+
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+
+<!-- Main Footer -->
+<footer class="main-footer">
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 3.2.0
     </div>
+</footer>
 </div>
+</body>
+<div th:replace="~{fragments::script}"></div>
 
+</html>
 
-<footer th:replace="~{index::footer}"></footer>
-
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/slick.min.js"></script>
-<script src="/js/nouislider.min.js"></script>
-<script src="/js/jquery.zoom.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/site.js"></script>
-<script src="/js/cart.js"></script>
 <script>
     var siteController = new SiteController();
     siteController.initialize();
 </script>
-</body>
-</html>

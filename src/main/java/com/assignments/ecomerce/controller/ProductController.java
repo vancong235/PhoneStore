@@ -170,9 +170,14 @@ public class ProductController {
     }
 
     @PostMapping("/update-product/{id}")
-    public String processUpdateProduct(@PathVariable("id") Integer id, @ModelAttribute("newProduct")
-    Product product, @RequestParam("photo_file") MultipartFile photo_file, RedirectAttributes attributes) {
+    public String processUpdateProduct(@PathVariable("id") Integer id,
+                                       @ModelAttribute("newProduct") Product product,
+                                       @RequestParam("photo_file") MultipartFile photo_file,
+                                       RedirectAttributes attributes) {
         try {
+//            System.out.println(photo_file);
+//            System.out.println(photo_file.getName());
+//            System.out.println(photo_file.getSize());
             productService.update(photo_file, product);
             attributes.addFlashAttribute("success", "Update successfully");
         } catch (Exception e) {

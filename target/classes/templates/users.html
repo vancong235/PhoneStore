@@ -10,11 +10,23 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
 
-            <!-- Messages Dropdown Menu -->
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="fas fa-sign-out-alt"></i>&nbsp;Thoát
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline" style="color: blue; font-size: 18px;">Admin</span>
+                    <img class="img-profile rounded-circle" style="width:30px; height:30px"
+                         src="/dist/img/user2-160x160.jpg">
                 </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown">
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" onclick="logout()">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </a>
+                </div>
             </li>
         </ul>
     </nav>
@@ -98,33 +110,21 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Họ và Tên</th>
-                                            <th>Tài khoản</th>
+                                            <th>Email</th>
                                             <th>Mật khẩu</th>
                                             <th>Vai Trò</th>
-                                            <th>Khu vực quản lý</th>
                                         </tr>
 
                                         </thead>
                                         <tbody>
                                         <tr th:each="user : ${listUsers}">
                                             <td th:text="${user.id}"></td>
-                                            <td th:text="${user.fullName}"></td>
-                                            <td th:text="${user.userName}"></td>
-                                            <td th:text="${user.passWord}"></td>
-                                            <td>
-                                                <ul>
-                                                    <li th:each="role : ${user.roles}" th:text="${role.name}"></li>
-                                                </ul>
-                                            </td>
-                                            <td>
-                                                <div style="display: flex; flex-wrap: wrap;">
-                                                    <div th:each="rolePermissions : ${listRolePermissions}" class="permission-column">
-                                                        <input type="checkbox" th:name="'roles[' + ${user.id} + '].name'"
-                                                               th:value="${rolePermissions}" th:checked="${user.roles.contains(rolePermissions.role)}">
-                                                        <label th:text="${rolePermissions.permissions.getName()}"></label><br>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            <td th:text="${user.fullname}"></td>
+                                            <td th:text="${user.email}"></td>
+                                            <td th:text="${user.password}"></td>
+                                            <td th:text="${user.role}"></td>
+
+
                                         </tr>
                                         </tbody>
                                     </table>
@@ -160,3 +160,9 @@
 </body>
 
 </html>
+
+<script>
+    function logout() {
+        window.location.href = '/logout';
+    }
+</script>

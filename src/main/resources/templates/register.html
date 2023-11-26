@@ -1,96 +1,124 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Registration Form</title>-->
+<!--     <link rel="stylesheet" th:href="@{../css/style1.css}">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container">-->
+<!--        <div class="message" th:if="${message != null}">-->
+<!--           [[${message}]]-->
+<!--        </div>-->
+<!--        <h2>Registration Form</h2>-->
+<!--        <form -->
+<!--         th:action="@{/registration}"-->
+<!--         method="post"-->
+<!--         role="form"-->
+<!--         th:object="${user}"-->
+<!--        >-->
+<!--            <div class="form-group">-->
+<!--                <label for="fullname">Fullname:</label>-->
+<!--                <input th:field="*{fullname}" type="text" id="fullname" name="fullname" placeholder="Enter your fullname" required>-->
+<!--            </div>-->
+<!--            -->
+<!--            <div class="form-group">-->
+<!--                <label for="email">Email:</label>-->
+<!--                <input th:field="*{email}" type="email" id="email" name="email" placeholder="Enter your email" required>-->
+<!--            </div>-->
+<!--            -->
+<!--            <div class="form-group">-->
+<!--                <label for="password">Password:</label>-->
+<!--                <input th:field="*{password}" type="password" id="password" name="password" placeholder="Enter your password" required>-->
+<!--            </div>-->
+<!--            <input type="submit" value="Register">-->
+<!--        </form>-->
+<!--        -->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "https://www.thymeleaf.org/" >
-<head th:replace = "~{fragments::header}">
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::header}"></head>
+<body class="hold-transition register-page">
+<div class="register-box">
+    <div class="card card-outline card-primary">
 
-<body class="bg-gradient-primary">
+        <div class="card-header text-center">
+            <a href="../../index2.html" class="h1"><b>Register Form</b></a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">Register a new membership</p>
 
-    <div class="container">
-
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
-                            </div>
-                            <div th:if = "${emailError}">
-                                <p class = "alert alert-danger" th:text = "${emailError}"></p>
-                            </div>
-                            <div th:if = "${errors}">
-                                <p class = "alert alert-danger" th:text = "${errors}"></p>
-                            </div>
-                            <div th:if = "${success}">
-                                <p class = "alert alert-success" th:text = "${success}"></p>
-                            </div>
-                            <div th:if = "${passwordError}">
-                                <p class = "alert alert-danger" th:text = "${passwordError}"></p>
-                            </div>
-
-
-                            <form th:action = "@{/register-new}" th:object = "${userDTO}" method="POST">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" th:field = "*{fullName}" id="exampleFullName"
-                                               placeholder="Full Name">
-                                        <div class="alert alert-danger" th:if="${#fields.hasErrors('fullName')}"
-                                             th:errors = "*{fullName}"
-                                        ></div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="email" th:field = "*{userName}" class="form-control form-control-user" id="exampleInputEmail"
-                                           placeholder="Email Username">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" th:field = "*{passWord}" class="form-control form-control-user"
-                                               id="exampleInputPassword" placeholder="Password">
-
-                                        <div class="alert alert-danger" th:if = "${#fields.hasErrors('passWord')}"
-                                             th:errors = "*{passWord}"
-                                        ></div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" th:field = "*{repeatPassword}" class="form-control form-control-user"
-                                               id="exampleRepeatPassword" placeholder="Repeat Password">
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                    Register Account
-                                </button>
-                                <hr>
-                            </form>
-
-                            <hr>
-                            <div class="text-center">
-                                <a class="small" th:href = "@{/forgotPassword}">Forgot Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" th:href = "@{/login}">Already have an account? Login!</a>
-                            </div>
+            <div class="login-box-msg" style="color:red" th:if="${userexist != null}">
+                [[${userexist.getEmail()}]] đã tồn tại !
+            </div>
+            <form  th:action="@{/register}"
+                   method="post"
+                   role="form"
+                   th:object="${user}"
+                   onsubmit="return validatePassword()">
+                <div class="input-group mb-3">
+                    <input th:field="*{fullname}" type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter your fullname" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="input-group mb-3">
+                    <input th:field="*{email}" type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input th:field="*{password}" type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Retype your password" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+
+
+            <a href="login.html" class="text-center">I already have a membership</a>
         </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+</div>
+<div th:replace="~{fragments::script}"></div>
 
-    </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
+    function validatePassword () {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        if (password !== confirmPassword){
+            alert("Password do not match");
+            return false;
+        }
+        return true;
+    }
+</script>
 </body>
-
 </html>

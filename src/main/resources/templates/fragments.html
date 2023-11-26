@@ -4,7 +4,7 @@
 <head th:fragment="header">
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Admin</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -36,7 +36,7 @@
     <a href="index3.html" class="brand-link">
         <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Admin Page</span>
     </a>
 
     <!-- Sidebar -->
@@ -54,25 +54,28 @@
                     <!-- Sidebar user panel (optional) -->
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
-                            <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                            <img src="/img/Logo1.jpg" style="width:60px;height:60px" class="img-profile rounded-circle" alt="User Image">
                         </div>
-                        <div class="info">
-                            <a href="#" class="d-block">Alexander Pierce</a>
+                        <div class="info d-flex align-items-center">
+                            <a href="#" class="d-block" style="font-size: 20px;">J2EE TREE SHOP</a>
                         </div>
                     </div>
 
                     <!-- SidebarSearch Form -->
 
 
-                    <!-- Sidebar Menu -->
+                    <!-- Sidebar Menu ADMIN-->
+
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
-                            <li class="nav-item">
+
+                            <li  class="nav-item">
                                 <a class="nav-link"  th:href="@{/statistical}">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <span>Trang chủ</span></a>
                             </li>
+
 
                             <li class="nav-item">
                                 <a th:href="@{/product/0}" class="nav-link">
@@ -128,7 +131,10 @@
 
                         </ul>
                     </nav>
-                    <!-- /.sidebar-menu -->
+
+
+
+
                 </div>
             </div>
         </div>
@@ -185,7 +191,7 @@
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                  aria-labelledby="userDropdown">
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" onclick="logout()">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>
@@ -199,7 +205,7 @@
 <footer th:fragment="footer" class="sticky-footer bg-white">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>SMART PHONE STORE 2023</span>
+            <span>J2EE TREE SHOP</span>
         </div>
     </div>
 </footer>
@@ -235,10 +241,14 @@
     <script th:src="@{~/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
     <!-- AdminLTE App -->
     <script th:src="@{~/dist/js/adminlte.js}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script th:src="@{~/dist/js/demo.js}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script th:src="@{~/dist/js/pages/dashboard.js}"></script>
 </div>
 </body>
 </html>
+
+<script>
+    function logout() {
+        window.location.href = '/logout';
+    }
+</script>

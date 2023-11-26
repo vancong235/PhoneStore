@@ -1,41 +1,21 @@
 package com.assignments.ecomerce.service;
 
-import com.assignments.ecomerce.dto.UserDTO;
+import com.assignments.ecomerce.dto.UserDto;
 import com.assignments.ecomerce.model.Users;
-import com.assignments.ecomerce.repository.RoleRepository;
-import com.assignments.ecomerce.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
+
 @Service
-public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+public interface UserService {
+    Users save (UserDto userDto);
 
-    @Autowired
-    private RoleRepository roleRepository;
-    public List<Users> getAllUsers() {
-        return (List<Users>) userRepository.findAll();
-    }
+    Users save (Users users);
 
-    public Users save(UserDTO userDTO) {
-        Users users = new Users();
-        users.setFullName(userDTO.getFullName());
-        users.setUserName(userDTO.getPassWord());
-        users.setPassWord(userDTO.getPassWord());
-        users.setRoles(Arrays.asList(
-                roleRepository.findByName("ADMIN"),
-                roleRepository.findByName("SELLER"),
-                roleRepository.findByName("CUSTOMER")
-        ));
-        return userRepository.save(users);
-    }
+    Users findByFullname(String fullname);
 
-    public Users findByUsername(String userName){
-        return userRepository.findByUserName(userName);
-    }
+    Users findByEmail(String email);
 
+    List<Users> getAllUsers();
 }

@@ -10,76 +10,71 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String fullName;
-    private String userName;
-    private String passWord;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Roles> roles;
+    @Column(name = "fullName")
+    private String fullname;
+    private String email;
+    private String password;
+    private String role;
 
-    private  Integer status;
+    public Users() {
+    }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public Users( String email, String password, String role,String fullname) {
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.status = 1;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRoles(List<Roles> roles) {
-        this.roles = roles;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Users(Integer id, String userName, String passWord, List<Roles> roles) {
-        this.id = id;
-        this.userName = userName;
-        this.passWord = passWord;
-        this.roles = roles;
+    public String getPassword() {
+        return password;
     }
 
-    public Users(String userName, String passWord, List<Roles> roles) {
-        this.userName = userName;
-        this.passWord = passWord;
-        this.roles = roles;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Users(){}
-
-    public Integer getId() {
-        return id;
+    public String getRole() {
+        return role;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getPassWord() {
-        return passWord;
-    }
-
-    public List<Roles> getRoles() {
-        return roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Integer getStatus() {
         return status;
     }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    private  Integer status;
+
 }

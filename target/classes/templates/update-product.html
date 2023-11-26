@@ -4,148 +4,179 @@
 
 </head>
 
-<body id="page-top">
+<body class="sidebar-mini layout-fixed" style="height: auto;">
 
 <!-- Page Wrapper -->
-<div id="wrapper">
-    <!-- Sidebar -->
-    <ul th:replace="~{fragments::sidebar}">
-    </ul>
-    <!-- End of Sidebar -->
-    <!-- Content Wrapper -->
-    <div class="d-flex flex-column" id="content-wrapper">
-        <!-- Main Content -->
-        <div id="content">
+<div class="wrapper">
+    <!-- /.navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
 
-            <!-- Topbar -->
-            <nav th:replace="~{fragments::top-navbar}">
-            </nav>
-            <!-- End of Topbar -->
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline" style="color: blue; font-size: 18px;">Admin</span>
+                    <img class="img-profile rounded-circle" style="width:30px; height:30px"
+                         src="/dist/img/user2-160x160.jpg">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown">
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" onclick="logout()">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{fragments::sidebar}"></aside>
+    <div class="content-wrapper" style="min-height: 388.4px;display: flex;
+  justify-content: center;">
 
-            <!-- Begin Page Content -->
-            <div class="container-fluid">
-                <div class="input-group" style="width: 30%; margin-bottom: 20px;">
-                    <form method="get" th:action="@{/search-products/0}">
-                        <input aria-describedby="search-addon" aria-label="Search" class="form-control rounded"
-                               name="keyword"
-                               placeholder="Search"
-                               type="text"/>
-                        <button class="btn btn-outline-primary" type="submit">search</button>
-                    </form>
+
+
+
+
+        <div class="card card-primary">
+            <div style="display: flex; justify-content: center;" class="card-header " >
+                <h2 style="font-size: 24px; font-weight: bold;text-align: center;" class="card-title ">Update Product</h2>
+            </div>
+            <form id="productForm"  enctype="multipart/form-data" method="POST"
+                  th:action="@{/update-product/{id}(id = ${newProduct.id})}"
+                  th:object="${newProduct}">
+                <fieldset>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="product_name">Tên Cây Cảnh</label>
+                    <input type="text" th:field="*{name}" class="form-control " id="product_name" name="product_name" >
                 </div>
 
-                <form id="productForm" class="form-horizontal" enctype="multipart/form-data" method="POST"
-                      th:action="@{/update-product/{id}(id = ${newProduct.id})}"
-                      th:object="${newProduct}">
-                    <fieldset>
+                <div class="form-group">
+                    <label for="category">Loại Cây Cảnh</label>
+                    <select id="category" th:field="*{category}" name="category" class="form-control">
+                        <option th:each="category : ${categories}"
+                                th:value="${category.id}"
+                                th:text="${category.name}"
+                        ></option>
+                    </select>
+                </div>
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class=" control-label" for="description">DESCRIPTION </label>
+                    <div >
+                        <input id="description" th:field="*{description}" name="description"
+                               class="form-control input-md" required=""
+                               type="text">
+                    </div>
+                </div>
 
-                        <!-- Form Name -->
-                        <legend>UPDATE PRODUCTS</legend>
+                <div class="form-group">
+                    <label class=" control-label" for="quantity">color</label>
+                    <div class="">
+                        <input id="color" th:field="*{color}" name="color"
+                               class="form-control input-md" required=""
+                               type="text">
+                    </div>
+                </div>
 
-                        <!-- Text input-->
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class=" control-label" for="quantity">QUANTITY</label>
+                    <div class="">
+                        <input id="quantity" th:field="*{quantity}" name="quantity"
+                               class="form-control input-md" required=""
+                               type="text">
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class=" control-label" for="price">PRICE</label>
+                    <div class="">
+                        <input id="price" th:field="*{price}" name="price" class="form-control input-md"
+                               required="" type="text">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="">
+                        <!-- File Button -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="product_name">PRODUCT NAME</label>
+                            <label class="col-md-4 control-label" for="photo_file">IMAGE</label>
                             <div class="col-md-4">
-                                <input id="product_name" th:field="*{name}" name="product_name"
-                                       class="form-control input-md" required=""
-                                       type="text">
+                                <img id="product-image"  style="width: 200px; height: 200px;" th:field="*{image}" th:src="@{'/img/' + ${productImage}}" alt="Product Image">
+                                <input id="photo_file" name="photo_file" type="file" accept="image/png, image/jpeg"/>
                             </div>
                         </div>
-
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="category"> CATEGORY</label>
-                            <div class="col-md-4">
-                                <select id="category" th:field="*{category}" name="category" class="form-control">
-                                    <option th:each="category : ${categories}"
-                                            th:value="${category.id}"
-                                            th:text="${category.name}"
-                                    ></option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="description">DESCRIPTION </label>
-                            <div class="col-md-4">
-                                <input id="description" th:field="*{description}" name="description"
-                                       class="form-control input-md" required=""
-                                       type="text">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="quantity">color</label>
-                            <div class="col-md-4">
-                                <input id="color" th:field="*{color}" name="color"
-                                       class="form-control input-md" required=""
-                                       type="text">
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="quantity">QUANTITY</label>
-                            <div class="col-md-4">
-                                <input id="quantity" th:field="*{quantity}" name="quantity"
-                                       class="form-control input-md" required=""
-                                       type="text">
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="price">PRICE</label>
-                            <div class="col-md-4">
-                                <input id="price" th:field="*{price}" name="price" class="form-control input-md"
-                                       required="" type="text">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <!-- File Button -->
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="file">IMAGE</label>
-                                    <div class="col-md-4">
-                                        <img class="product-image" th:field="*{image}" th:src="@{'/img/' + ${productImage}}" alt="Product Image">
-                                        <input id="file" name="photo_file" type="file" accept="image/png, image/jpeg"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </fieldset>
-                </form>
-
+                    </div>
+                </div>
 
             </div>
-            <!-- /.container-fluid -->
+            <!-- /.card-body -->
 
-        </div>
-        <!-- End of Main Content -->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+                </fieldset>
+        </form>
+    </div>
+    <!-- /.card -->
 
-        <!-- Footer -->
-        <footer th:replace="~{fragments::footer}">
-        </footer>
-        <!-- End of Footer -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+
 
     </div>
-    <!-- End of Content Wrapper -->
-
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 3.2.0
+        </div>
+    </footer>
 </div>
-<!-- End of Page Wrapper -->
-
-<!-- Scroll to Top Button-->
-<a th:replace="~{fragments::scroll}">
-</a>
-
-
-<!-- Bootstrap core JavaScript-->
-<div th:replace="~{fragments::script}"></div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </body>
 
 </html>
+<script>
+    function logout() {
+        window.location.href = '/logout';
+    }
+
+
+    function previewImage() {
+  var input = document.getElementById('photo_file');
+  var preview = document.getElementById('product-image');
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    var file = input.files[0];
+    var fileSize = file.size; // Kích thước tệp tin (bytes)
+    var maxSize = 1048576; // Giới hạn kích thước tệp tin (bytes)
+
+    // Kiểm tra kích thước tệp tin
+    if (fileSize > maxSize) {
+      input.value = '';
+      alert('Tệp tin vượt quá kích thước cho phép.');
+      return;
+    }
+
+    reader.onload = function(e) {
+      preview.setAttribute('src', e.target.result);
+        }
+           reader.readAsDataURL(input.files[0]);
+           console.log(input.files[0])
+        }
+    }
+
+    document.getElementById('photo_file').addEventListener('change', previewImage);
+</script>

@@ -93,23 +93,22 @@ public class ProductService {
     }
 
     public Product update(MultipartFile photo, Product product) {
-        Product productUpdate = null;
+        Product productUpdate = productRepository.getById(product.getId());
         try {
             Path uploadPath = Paths.get("src", "main", "resources", "static", "img");
 
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
+//            System.out.println(photo.getSize());
+            if(photo.getSize() == 0){
+                productUpdate.setImage(productUpdate.getImage());
+            }
+            else {
+                String photoFileName = StringUtils.cleanPath(photo.getOriginalFilename() != null ? photo.getOriginalFilename() : "unknown_photo_file");
+                Path photoTargetPath = uploadPath.resolve(photoFileName);
+                Files.copy(photo.getInputStream(), photoTargetPath, StandardCopyOption.REPLACE_EXISTING);
 
-            String photoFileName = StringUtils.cleanPath(photo.getOriginalFilename() != null ? photo.getOriginalFilename() : "unknown_photo_file");
-            Path photoTargetPath = uploadPath.resolve(photoFileName);
-            Files.copy(photo.getInputStream(), photoTargetPath, StandardCopyOption.REPLACE_EXISTING);
-            productUpdate = productRepository.getById(product.getId());
-            String productImage = productUpdate.getImage();
-
-            if (photo == null || photo.isEmpty()) {
-                productUpdate.setImage(productImage);
-            } else {
                 productUpdate.setImage(photoFileName);
             }
 
