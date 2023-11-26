@@ -69,11 +69,32 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/index")
+    public String login1(){
+        List<Product> listProducts = productService.getAllProducts();
+        List<Category> categories = categoryService.getAllCategory();
+        List<Product> topProducts = productService.getData();
+        return "index";
+    }
+    @GetMapping("/")
+    public String login2(){
+        List<Product> listProducts = productService.getAllProducts();
+        List<Category> categories = categoryService.getAllCategory();
+        List<Product> topProducts = productService.getData();
+        return "index";
+    }
+
     @GetMapping("user-page")
     public String userPage (Model model, Principal principal, @RequestParam(value = "remember", required = false) boolean remember) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         model.addAttribute("user", userDetails);
         model.addAttribute("name", principal.getName());
+        List<Product> listProducts = productService.getAllProducts();
+        List<Category> categories = categoryService.getAllCategory();
+        List<Product> topProducts = productService.getData();
+        model.addAttribute("top10Products", topProducts);
+        model.addAttribute("listProducts", listProducts);
+        model.addAttribute("categories", categories);
         return "index";
     }
 
