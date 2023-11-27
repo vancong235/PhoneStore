@@ -6,8 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @EqualsAndHashCode
-@AllArgsConstructor
 @Entity
 @Table(name = "Customer")
 public class Customer {
@@ -19,6 +20,28 @@ public class Customer {
     private String address;
     private String email;
     private Integer statusCustomer;
+    private Boolean gender;
+    private Date birthday;
+
+    public void setStatusCustomer(Integer statusCustomer) {
+        this.statusCustomer = statusCustomer;
+    }
+
+    public Boolean getGender() {
+        return gender;
+    }
+
+    public void setGender(Boolean gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
     public void setStatus(Integer statusCustomer) {
         this.statusCustomer = statusCustomer;
@@ -43,15 +66,18 @@ public class Customer {
         this.email = email;
     }
 
+    public Customer() {
+    }
 
-    public Customer(String name, String phoneNumber, String address, String email){
+    public Customer( String name, String phoneNumber, String address, String email, Boolean gender, Date birthday) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.email = email;
+        this.statusCustomer = statusCustomer;
+        this.gender = gender;
+        this.birthday = birthday;
     }
-
-    public Customer(){}
 
     public Integer getId() {
         return id;

@@ -86,8 +86,10 @@ public class OrderService {
                     String phoneNumber = (String) result[1];
                     String address = (String) result[2];
                     String email = (String) result[3];
+                    Date birthday = (Date)  result[4];
+                    Boolean gender = (Boolean) result[5] ;
                     Long sumQuantity = (Long) result[4];
-                    Customer customer = new Customer(name, phoneNumber, address, email);
+                    Customer customer = new Customer(name, phoneNumber, address, email, gender, birthday);
                     customers.add(customer);
                 }
                 return new ArrayList<>(customers);

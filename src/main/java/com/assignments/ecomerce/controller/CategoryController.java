@@ -1,6 +1,7 @@
 package com.assignments.ecomerce.controller;
 
 import com.assignments.ecomerce.model.Category;
+import com.assignments.ecomerce.model.Product;
 import com.assignments.ecomerce.model.Supplier;
 import com.assignments.ecomerce.service.CategoryService;
 import com.assignments.ecomerce.service.SupplierService;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -26,9 +28,10 @@ public class CategoryController {
 
     @GetMapping("/category/{pageNo}")
     public String getAllCategory(@PathVariable("pageNo") int pageNo, Model model, Principal principal) {
+
         Page<Category> listCategory = categoryService.pageCategory(pageNo);
-        List<Supplier> suppliers = supplierService.getAllSuppliers();
-        model.addAttribute("suppliers", suppliers);
+        List<Supplier> listSuppliers =  supplierService.getAllSuppliers();
+        model.addAttribute("listSuppliers", listSuppliers);
         model.addAttribute("listCategory", listCategory);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", listCategory.getTotalPages());
@@ -61,6 +64,7 @@ public class CategoryController {
     @RequestMapping(value = "/findByIdCategory/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
     @ResponseBody
     public Category findById(@PathVariable("id") Integer id) {
+
         return categoryService.findById(id);
     }
 
@@ -79,8 +83,33 @@ public class CategoryController {
         return "redirect:/category/0";
     }
 
+//    @GetMapping("/update-category/{id}")
+//    public String updateCategory(@PathVariable("id") Integer id, Model model) {
+//        Category category = categoryService.findById(id);
+////        Supplier supplier = supplierService.findById(category.getSupplier().getId());
+//        List<Supplier> listSupplier = supplierService.getAllSuppliers();
+//        model.addAttribute("category", category);
+//        model.addAttribute("listSupplier", listSupplier);
+//        System.out.println("123");
+//        return "category";
+//    }
+//
+//    @PostMapping("/update-category/{id}")
+//    public String processUpdateCategory(@PathVariable("id") Integer id,
+//                                       @ModelAttribute("categoryNew") Category category,
+//                                       RedirectAttributes attributes) {
+//        categoryService.update(category);
+//        try {
+//            attributes.addFlashAttribute("success", "Update successfully");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            attributes.addFlashAttribute("error", "Failed to update");
+//        }
+//        return "redirect:/product/0";
+//    }
+
     @RequestMapping(value = "/status-category", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String enabledProduct(Integer id, RedirectAttributes redirectAttributes, Principal principal) {
+    public String enabledCategory(Integer id, RedirectAttributes redirectAttributes, Principal principal) {
         try {
             categoryService.enableById(id);
             redirectAttributes.addFlashAttribute("success", "Delete successfully!");
@@ -105,5 +134,7 @@ public class CategoryController {
         model.addAttribute("categoryNew", new Category());
         return "category";
     }
+
+
 
 }

@@ -91,7 +91,7 @@
                                                                         <button type="button" class="btn btn-info rounded"
                                                                                 data-toggle="modal" data-target="#addModal"
                                                                                 data-whatever="@mdo">
-                                                                                Thêm sản phẩm
+                                                                                Thêm Nhân Viên
                                                                         </button>
                                                                 </span>
                                                         </div>
@@ -109,11 +109,11 @@
                                         <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Name</th>
-                                            <th>PhoneNumber</th>
-                                            <th>Address</th>
+                                            <th>Họ Và Tên</th>
+                                            <th>SĐT</th>
+                                            <th>Địa Chỉ</th>
                                             <th>Email</th>
-                                            <th>Salary</th>
+                                            <th>Lương</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -124,7 +124,7 @@
                                             <td th:text="${employee.phoneNumber}"></td>
                                             <td th:text="${employee.address}"></td>
                                             <td th:text="${employee.email}"></td>
-                                            <td th:text="${employee.salary}"></td>
+                                            <td th:text="${#numbers.formatDecimal(employee.salary, 0, 'COMMA', 0, 'POINT')}"></td>
                                             <td>
                                                 <a id="editButton" th:href="@{/findByIdEmployee/{id}(id=${employee.Id})}" class="btn btn-primary">Update</a>
                                                 <a th:href="@{/status-employee(id = ${employee.id})}" class="btn btn-danger">Delete</a>

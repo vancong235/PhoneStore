@@ -104,7 +104,7 @@ public class LoginController {
 
         String username = userDetails.getUsername();
         String password = passwordEncoder.encode(userDetails.getPassword());
- 
+
 
         System.out.println(userDetails.getPassword());
 

@@ -102,7 +102,8 @@ public class CustomerController {
     public String searchCustomer(@PathVariable("pageNo") int pageNo,
                                  @RequestParam("keyword") String keyword,
                                  Model model, Principal principal) {
-        Page<Customer> listCustomer = customerService.searchCustomer(pageNo, keyword);
+        Page<Customer> listCustomer = customerService.searchCustomer(pageNo, keyword.trim());
+
         model.addAttribute("size", listCustomer.getSize());
         model.addAttribute("listCustomer", listCustomer);
         model.addAttribute("currentPage", pageNo);

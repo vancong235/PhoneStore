@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
 @Getter
 @Data
 @AllArgsConstructor
@@ -15,4 +18,6 @@ public class CustomerDTO {
     private String address;
     private String email;
     private Integer status;
+    private Boolean gender;
+    private Date birthday;
 }

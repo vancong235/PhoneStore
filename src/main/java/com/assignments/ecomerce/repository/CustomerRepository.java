@@ -1,5 +1,6 @@
 package com.assignments.ecomerce.repository;
 
+import com.assignments.ecomerce.model.Category;
 import com.assignments.ecomerce.model.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +17,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     @Query("SELECT p from Customer p where CONCAT(p.name,p.phoneNumber,p.address,p.email) like %?1%")
     List<Customer> searchCustomers(String keyword);
-
-    @Query("SELECT p from Customer p")
+    @Query(value = "select * from Customer where statusCustomer = 1", nativeQuery = true)
+    List<Customer> findByStatusActivated();
+    @Query(value = "select * from Customer where statusCustomer = 1", nativeQuery = true)
     Page<Customer> pageCustomer(Pageable pageable);
 
     @Query(value = "select c from Customer c where c.email like %?1%")

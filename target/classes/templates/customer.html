@@ -68,7 +68,7 @@
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <form th:action="@{/search-customer/0}" method="get">
-                                                            <div class="input-group input-group-sm">
+                                                            <div class="input-group input-group-sm" style="width:150px">
                                                                 <input type="text" class="form-control"
                                                                        placeholder="Bạn tìm gì?"
                                                                        name="keyword" aria-label="Search"
@@ -82,24 +82,7 @@
                                                 </div>
                                                 <!-- /input-group -->
                                             </div>
-                                            <!-- /.col-lg-6 -->
-                                            <div class="col-lg-6">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group input-group-sm">
-                                                                <span class="input-group-append">
-                                                                        <button type="button" class="btn btn-info rounded"
-                                                                                data-toggle="modal" data-target="#addModal"
-                                                                                data-whatever="@mdo">
-                                                                                Thêm sản phẩm
-                                                                        </button>
-                                                                </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- /input-group -->
-                                            </div>
-                                            <!-- /.col-lg-6 -->
+
                                         </div>
                                     </h3>
                                 </div>
@@ -109,10 +92,12 @@
                                         <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Name</th>
-                                            <th>phoneNumber</th>
-                                            <th>address</th>
-                                            <th>email</th>
+                                            <th>Họ Và Tên</th>
+                                            <th>SĐT</th>
+                                            <th>Địa Chỉ</th>
+                                            <th>Email</th>
+                                            <th>Ngày Sinh</th>
+                                            <th>Giới Tính</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -123,11 +108,17 @@
                                             <td th:text="${customer.PhoneNumber}"></td>
                                             <td th:text="${customer.Address}"></td>
                                             <td th:text="${customer.Email}"></td>
+                                            <td th:text="${customer.birthday}"></td>
+                                            <td th:text="${customer.gender == true ? 'Nam' : 'Nữ'}"></td>
+<!--                                            <td>-->
+<!--                                                <a th:if="${customer.statusCustomer} == 1" th:href="@{/block-customer(id = ${customer.id})}"-->
+<!--                                                   class="btn btn-primary">Khóa Người Dùng</a>-->
+<!--                                                <a th:if="${customer.statusCustomer} == 0" th:href="@{/unlock-customer(id = ${customer.id})}"-->
+<!--                                                   class=" btn btn-danger">Mở Khóa</a>-->
+<!--                                            </td>-->
                                             <td>
-                                                <a th:if="${customer.statusCustomer} == 1" th:href="@{/block-customer(id = ${customer.id})}"
-                                                   class="btn btn-primary">Block</a>
-                                                <a th:if="${customer.statusCustomer} == 0" th:href="@{/unlock-customer(id = ${customer.id})}"
-                                                   class=" btn btn-danger">UnLock</a>
+                                                <a  th:href="@{/block-customer(id = ${customer.id})}"
+                                                   class="btn btn-primary">Xóa</a>
                                             </td>
                                         </tr>
                                         </tbody>

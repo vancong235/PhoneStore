@@ -24,6 +24,12 @@ public class CustomerService {
         return customerList;
     }
 
+    public List<Customer> getAllCustomers1() {
+        List<Customer> customers = customerRepository.findByStatusActivated();
+        List<Customer> customerList = transfer(customers);
+        return customerList;
+    }
+
     public Page<Customer> pageCustomer(int pageNo) {
         Pageable pageable = PageRequest.of(pageNo, 5);
         return customerRepository.pageCustomer(pageable);
@@ -39,6 +45,8 @@ public class CustomerService {
         CustomerSave.setPhoneNumber(customer.getPhoneNumber());
         CustomerSave.setAddress(customer.getAddress());
         CustomerSave.setEmail(customer.getEmail());
+        CustomerSave.setBirthday(customer.getBirthday());
+        CustomerSave.setGender(customer.getGender());
         CustomerSave.setStatus(1);
         return customerRepository.save(CustomerSave);
     }
@@ -55,6 +63,8 @@ public class CustomerService {
             CustomerUpdate.setPhoneNumber(customer.getPhoneNumber());
             CustomerUpdate.setAddress(customer.getAddress());
             CustomerUpdate.setEmail(customer.getEmail());
+            CustomerUpdate.setBirthday(customer.getBirthday());
+            CustomerUpdate.setGender(customer.getGender());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,6 +110,9 @@ public class CustomerService {
             newCustomer.setPhoneNumber(customer.getPhoneNumber());
             newCustomer.setAddress(customer.getAddress());
             newCustomer.setEmail(customer.getEmail());
+            newCustomer.setBirthday(customer.getBirthday());
+            newCustomer.setGender(customer.getGender());
+            newCustomer.setStatusCustomer(customer.getStatusCustomer());
             productList.add(newCustomer);
         }
         return productList;
