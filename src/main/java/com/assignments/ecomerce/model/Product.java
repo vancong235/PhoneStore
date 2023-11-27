@@ -13,7 +13,31 @@ public class Product {
     private Integer quantity;
     private String image;
     private String description;
-    private String color;
+    private String size;
+
+    public Product(Integer id, String name, Double price, Integer quantity, String image, String description, String size, Integer discount, Category category, Integer status) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.image = image;
+        this.description = description;
+        this.size = size;
+        this.discount = discount;
+        this.category = category;
+        this.status = status;
+    }
+
+    private Integer discount;
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
     @ManyToOne
     @JoinColumn(name = "categoryId")
     private Category category;
@@ -56,9 +80,7 @@ public class Product {
         this.category = category;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
+
 
     public Integer getId() {
         return id;
@@ -84,9 +106,7 @@ public class Product {
         return description;
     }
 
-    public String getColor() {
-        return color;
-    }
+
 
     public Category getCategory() {
         return category;
@@ -100,30 +120,39 @@ public class Product {
 
     }
 
-    public Product(String name, Double price, Integer quantity, String image, String description, String color, Category category) {
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
+    }
+
+    public Product(String name, Double price, Integer quantity, String image, String description, String size, Category category) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.image = image;
         this.description = description;
-        this.color = color;
+        this.size = size;
         this.category = category;
     }
 
-    public Product(String name, Double price, Integer quantity, String description, String color) {
+    public Product(String name, Double price, Integer quantity, String description, String size,Integer discount ) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
-        this.color = color;
+        this.size = size;
+        this.discount = discount;
     }
 
-    public Product(String name, Double price, Integer quantity, String description, String color,String image) {
+    public Product(String name, Double price, Integer quantity, String description, String size,String image) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
-        this.color = color;
+        this.size = size;
         this.image = image;
     }
 }

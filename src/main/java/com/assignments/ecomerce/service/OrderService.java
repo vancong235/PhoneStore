@@ -70,91 +70,93 @@ public class OrderService {
             newOrder.setCouponId(order.getCouponId());
             newOrder.setPaymentMethod(order.getPaymentMethod());
             newOrder.setTotal(order.getTotal());
+            newOrder.setEmployeeId(order.getEmployeeId());
             orderList.add(newOrder);
         }
         return orderList;
     }
 
-    public List<Object> getData(Date dateFrom, Date dateTo, String chartType) {
-        switch (chartType) {
-            case "top5Customers":
-                List<Object[]> results = orderRepository.getTop5CustomersWithSumQuantity(dateFrom, dateTo);
-                List<Customer> customers = new ArrayList<>();
-
-                for (Object[] result : results) {
-                    String name = (String) result[0];
-                    String phoneNumber = (String) result[1];
-                    String address = (String) result[2];
-                    String email = (String) result[3];
-                    Date birthday = (Date)  result[4];
-                    Boolean gender = (Boolean) result[5] ;
-                    Long sumQuantity = (Long) result[4];
-                    Customer customer = new Customer(name, phoneNumber, address, email, gender, birthday);
-                    customers.add(customer);
-                }
-                return new ArrayList<>(customers);
-            case "top10Products":
-                List<Object[]> resultProduct = orderRepository.getTop10ProductsWithSumQuantity(dateFrom, dateTo);
-                List<Product> products = new ArrayList<>();
-
-                for (Object[] result : resultProduct) {
-                    String name = (String) result[0];
-                    Double price = (Double) result[1];
-                    Integer quantity = (Integer) result[3];
-                    String description = (String) result[2];
-                    String color = (String) result[4];
-
-                    Product product = new Product(name, price,quantity,description,color);
-                    products.add(product);
-                }
-                return new ArrayList<>(products);
-            case "top5Employees":
-                List<Object[]> resultEmployee = orderRepository.findTop5EmployeesByTotalQuantity(dateFrom, dateTo);
-                List<Employee> employees = new ArrayList<>();
-                for (Object[] result : resultEmployee) {
-                    String name = (String) result[0];
-                    String phoneNumber = (String) result[1];
-                    String address = (String) result[3];
-                    String email = (String) result[2];
-                    Double salary = (Double) result[4];
-                    Employee employee = new Employee(name,phoneNumber,address,email,salary);
-                    employees.add(employee);
-                }
-                return new ArrayList<>(employees);
-            case "monthlyRevenue":
-                List<Object[]> resultMonth = orderRepository.getMonthlyRevenue(dateFrom, dateTo);
-                List<MonthlyRevenue> monthlyRevenues = new ArrayList<>();
-
-                for (Object[] result : resultMonth) {
-                    Integer month = (Integer) result[0];
-                    Integer year = (Integer) result[1];
-                    Double sumTotal = (Double) result[2];
-
-                    MonthlyRevenue monthlyRevenue = new MonthlyRevenue(month, year, sumTotal);
-                    monthlyRevenues.add(monthlyRevenue);
-                }
-                return new ArrayList<>(monthlyRevenues);
-            case "weeklyRevenue":
-                List<Object[]> result = orderRepository.getWeeklyRevenue(dateFrom, dateTo);
-                List<WeeklyRevenue> weeklyRevenues = new ArrayList<>();
-
-                for (Object[] row : result) {
-                    String weekDate = (String) row[0];
-                    Double mondayTotal = (Double) row[1];
-                    Double tuesdayTotal = (Double) row[2];
-                    Double wednesdayTotal = (Double) row[3];
-                    Double thursdayTotal = (Double) row[4];
-                    Double fridayTotal = (Double) row[5];
-                    Double saturdayTotal = (Double) row[6];
-                    Double sundayTotal = (Double) row[7];
-
-                    WeeklyRevenue weeklyRevenue = new WeeklyRevenue(weekDate, mondayTotal, tuesdayTotal, wednesdayTotal,
-                            thursdayTotal, fridayTotal, saturdayTotal, sundayTotal);
-                    weeklyRevenues.add(weeklyRevenue);
-                }
-                return new ArrayList<>(weeklyRevenues);
-            default:
-                throw new IllegalArgumentException("Invalid chart type: " + chartType);
-        }
-    }
+//    public List<Object> getData(Date dateFrom, Date dateTo, String chartType) {
+//        switch (chartType) {
+//            case "top5Customers":
+//                List<Object[]> results = orderRepository.getTop5CustomersWithSumQuantity(dateFrom, dateTo);
+//                List<Customer> customers = new ArrayList<>();
+//
+//                for (Object[] result : results) {
+//                    String name = (String) result[0];
+//                    String phoneNumber = (String) result[1];
+//                    String address = (String) result[2];
+//                    String email = (String) result[3];
+//                    Date birthday = (Date)  result[4];
+//                    Boolean gender = (Boolean) result[5] ;
+//                    Long sumQuantity = (Long) result[4];
+//                    Customer customer = new Customer(name, phoneNumber, address, email, gender, birthday);
+//                    customers.add(customer);
+//                }
+//                return new ArrayList<>(customers);
+//            case "top10Products":
+//                List<Object[]> resultProduct = orderRepository.getTop10ProductsWithSumQuantity(dateFrom, dateTo);
+//                List<Product> products = new ArrayList<>();
+//
+//                for (Object[] result : resultProduct) {
+//                    String name = (String) result[0];
+//                    Double price = (Double) result[1];
+//                    Integer quantity = (Integer) result[3];
+//                    String description = (String) result[2];
+//                    String size = (String) result[4];
+//                    Integer discount = (Integer) result[5];
+//
+//                    Product product = new Product(name, price, quantity, description, size,discount );
+//                    products.add(product);
+//                }
+//                return new ArrayList<>(products);
+//            case "top5Employees":
+//                List<Object[]> resultEmployee = orderRepository.findTop5EmployeesByTotalQuantity(dateFrom, dateTo);
+//                List<Employee> employees = new ArrayList<>();
+//                for (Object[] result : resultEmployee) {
+//                    String name = (String) result[0];
+//                    String phoneNumber = (String) result[1];
+//                    String address = (String) result[3];
+//                    String email = (String) result[2];
+//                    Double salary = (Double) result[4];
+//                    Employee employee = new Employee(name,phoneNumber,address,email,salary);
+//                    employees.add(employee);
+//                }
+//                return new ArrayList<>(employees);
+//            case "monthlyRevenue":
+//                List<Object[]> resultMonth = orderRepository.getMonthlyRevenue(dateFrom, dateTo);
+//                List<MonthlyRevenue> monthlyRevenues = new ArrayList<>();
+//
+//                for (Object[] result : resultMonth) {
+//                    Integer month = (Integer) result[0];
+//                    Integer year = (Integer) result[1];
+//                    Double sumTotal = (Double) result[2];
+//
+//                    MonthlyRevenue monthlyRevenue = new MonthlyRevenue(month, year, sumTotal);
+//                    monthlyRevenues.add(monthlyRevenue);
+//                }
+//                return new ArrayList<>(monthlyRevenues);
+//            case "weeklyRevenue":
+//                List<Object[]> result = orderRepository.getWeeklyRevenue(dateFrom, dateTo);
+//                List<WeeklyRevenue> weeklyRevenues = new ArrayList<>();
+//
+//                for (Object[] row : result) {
+//                    String weekDate = (String) row[0];
+//                    Double mondayTotal = (Double) row[1];
+//                    Double tuesdayTotal = (Double) row[2];
+//                    Double wednesdayTotal = (Double) row[3];
+//                    Double thursdayTotal = (Double) row[4];
+//                    Double fridayTotal = (Double) row[5];
+//                    Double saturdayTotal = (Double) row[6];
+//                    Double sundayTotal = (Double) row[7];
+//
+//                    WeeklyRevenue weeklyRevenue = new WeeklyRevenue(weekDate, mondayTotal, tuesdayTotal, wednesdayTotal,
+//                            thursdayTotal, fridayTotal, saturdayTotal, sundayTotal);
+//                    weeklyRevenues.add(weeklyRevenue);
+//                }
+//                return new ArrayList<>(weeklyRevenues);
+//            default:
+//                throw new IllegalArgumentException("Invalid chart type: " + chartType);
+//        }
+//    }
 }

@@ -52,12 +52,12 @@
                 <fieldset>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="product_name">Tên Cây Cảnh</label>
+                    <label for="product_name">Tên Sản Phẩm</label>
                     <input type="text" th:field="*{name}" class="form-control " id="product_name" name="product_name" >
                 </div>
 
                 <div class="form-group">
-                    <label for="category">Loại Cây Cảnh</label>
+                    <label for="category">Loại Sản Phẩm</label>
                     <select id="category" th:field="*{category}" name="category" class="form-control">
                         <option th:each="category : ${categories}"
                                 th:value="${category.id}"
@@ -67,7 +67,7 @@
                 </div>
                 <!-- Text input-->
                 <div class="form-group">
-                    <label class=" control-label" for="description">DESCRIPTION </label>
+                    <label class=" control-label" for="description">Ghi Chú </label>
                     <div >
                         <input id="description" th:field="*{description}" name="description"
                                class="form-control input-md" required=""
@@ -76,9 +76,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label class=" control-label" for="quantity">color</label>
+                    <label class=" control-label" for="quantity">Size</label>
                     <div class="">
-                        <input id="color" th:field="*{color}" name="color"
+                        <input id="size" th:field="*{size}" name="size"
                                class="form-control input-md" required=""
                                type="text">
                     </div>
@@ -86,7 +86,7 @@
 
                 <!-- Text input-->
                 <div class="form-group">
-                    <label class=" control-label" for="quantity">QUANTITY</label>
+                    <label class=" control-label" for="quantity">Số Lượng</label>
                     <div class="">
                         <input id="quantity" th:field="*{quantity}" name="quantity"
                                class="form-control input-md" required=""
@@ -96,9 +96,18 @@
 
                 <!-- Text input-->
                 <div class="form-group">
-                    <label class=" control-label" for="price">PRICE</label>
+                    <label class=" control-label" for="price">Gía</label>
                     <div class="">
                         <input id="price" th:field="*{price}" name="price" class="form-control input-md"
+                               required="" type="text">
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class=" control-label" for="discount">Giảm Giá</label>
+                    <div class="">
+                        <input id="discount" th:field="*{discount}" name="discount" class="form-control input-md"
                                required="" type="text">
                     </div>
                 </div>
@@ -107,7 +116,7 @@
                     <div class="">
                         <!-- File Button -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="photo_file">IMAGE</label>
+                            <label class="col-md-4 control-label" for="photo_file">Hình Ảnh</label>
                             <div class="col-md-4">
                                 <img id="product-image"  style="width: 200px; height: 200px;" th:field="*{image}" th:src="@{'/img/' + ${productImage}}" alt="Product Image">
                                 <input id="photo_file" name="photo_file" type="file" accept="image/png, image/jpeg"/>

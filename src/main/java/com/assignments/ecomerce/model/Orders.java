@@ -18,11 +18,28 @@ public class Orders {
     private Date orderDate;
     private String status;
     private Integer couponId;
+
+    private Integer employeeId;
+
+    private Boolean isComment;
+
+    public Boolean getComment() {
+        return isComment;
+    }
+
+    public void setComment(Boolean comment) {
+        isComment = comment;
+    }
+
+
+
     private String paymentMethod;
     private Double total;
     private String ShipName;
     private String ShipAddress;
     private String ShipPhoneNumber;
+
+
 
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
@@ -71,17 +88,20 @@ public class Orders {
         this.orderDetails = orderDetails;
     }
 
-    public Orders(Integer id, Customer customer, Date orderDate, String status, Integer couponId, String paymentMethod, Double total, String shipName, String shipAddress, String shipPhone) {
+    public Orders(Integer id, Customer customer, Date orderDate, String status, Integer couponId, Integer employeeId, String paymentMethod, Double total, String shipName, String shipAddress, String shipPhoneNumber, List<OrderDetail> orderDetails, Boolean isComment) {
         this.id = id;
         this.customer = customer;
         this.orderDate = orderDate;
         this.status = status;
         this.couponId = couponId;
+        this.employeeId = employeeId;
+        this.isComment = isComment;
         this.paymentMethod = paymentMethod;
         this.total = total;
         ShipName = shipName;
         ShipAddress = shipAddress;
-        ShipPhoneNumber = shipPhone;
+        ShipPhoneNumber = shipPhoneNumber;
+        this.orderDetails = orderDetails;
     }
 
     public Orders(){}
@@ -116,6 +136,14 @@ public class Orders {
 
     public String getShipName() {
         return ShipName;
+    }
+
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public Integer getEmployeeId() {
+        return employeeId;
     }
 
     public String getShipAddress() {

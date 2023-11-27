@@ -16,6 +16,16 @@ public class ProductDTO {
     private int quantity;
     private String image;
 
+    private String size;
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
     @ManyToOne
     @JoinColumn(name = "categoryId")
     private Category category;
@@ -77,6 +87,16 @@ public class ProductDTO {
     }
 
     public ProductDTO() {
+    }
+
+    public ProductDTO(String name, String description, Double price, int quantity, String image, String size, Category category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.image = image;
+        this.size = size;
+        this.category = category;
     }
 
     public ProductDTO(Integer id, String name, String description, Double price, int quantity, String image, Category category) {

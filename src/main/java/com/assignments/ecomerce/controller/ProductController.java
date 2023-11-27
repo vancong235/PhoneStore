@@ -69,7 +69,7 @@ public class ProductController {
     @GetMapping("/product/{pageNo}")
     public String pageProduct(@PathVariable("pageNo") int pageNo, Model model, Principal principal) {
         List<Category> categories = categoryService.getAllCategory();
-        Page<Product> listProducts = productService.pageProducts(pageNo);
+        Page<Product> listProducts = productService.pageProducts(pageNo, 9);
 
         model.addAttribute("categories", categories);
         model.addAttribute("size", listProducts.getSize());
@@ -85,7 +85,7 @@ public class ProductController {
                                 @RequestParam("keyword") String keyword,
                                 Model model, Principal principal,HttpSession session) {
 
-        Page<Product> listProducts = productService.searchProducts(pageNo, keyword);
+        Page<Product> listProducts = productService.searchProducts(pageNo, keyword, 9);
 
         List<Category> categories = categoryService.getAllCategory();
         session.setAttribute("keyword", keyword);

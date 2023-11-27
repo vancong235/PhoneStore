@@ -63,7 +63,7 @@ public class ProductService {
             newProduct.setPrice(product.getPrice());
             newProduct.setDescription(product.getDescription());
             newProduct.setCategory(product.getCategory());
-            newProduct.setColor(product.getColor());
+            newProduct.setSize(product.getSize());
             newProduct.setQuantity(product.getQuantity());
             newProduct.setStatus(1);
             productRepository.save(newProduct);
@@ -118,7 +118,7 @@ public class ProductService {
             productUpdate.setDescription(product.getDescription());
             productUpdate.setCategory(product.getCategory());
             productUpdate.setQuantity(product.getQuantity());
-            productUpdate.setColor(product.getColor());
+            productUpdate.setSize(product.getSize());
             productRepository.save(productUpdate);
             return productUpdate;
         } catch (Exception e) {
@@ -190,6 +190,8 @@ public class ProductService {
             newProduct.setPrice(product.getPrice());
             newProduct.setQuantity(product.getQuantity());
             newProduct.setImage(product.getImage());
+            newProduct.setSize(product.getSize());
+             newProduct.setDiscount(product.getDiscount());
             productList.add(newProduct);
         }
         return productList;

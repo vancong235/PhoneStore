@@ -30,18 +30,18 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
 
     @Query("SELECT p FROM Product p JOIN p.category c " +
             "WHERE p.status = 1 AND c.status = 1 " +
-            "AND CONCAT(p.name, p.price, p.quantity, p.description, p.color) LIKE %:keyword%")
+            "AND CONCAT(p.name, p.price, p.quantity, p.description, p.size) LIKE %:keyword%")
     List<Product> searchByKeyword(@Param("keyword") String keyword);
 
     @Query("select p from Product p inner join Category c ON c.id = p.category.id" +
             " where p.category.name = ?1")
     List<Product> findAllByCategory(String category);
 
-    @Query("SELECT p.name, p.price, p.description, p.quantity, p.color,p.image, SUM(od.quantity) AS sumQuantity " +
+    @Query("SELECT p.name, p.price, p.description, p.quantity, p.size,p.image, SUM(od.quantity) AS sumQuantity " +
             "FROM OrderDetail od " +
             "JOIN od.product p " +
             "JOIN od.order o " +
-            "GROUP BY p.name, p.price, p.description, p.quantity, p.color " +
+            "GROUP BY p.name, p.price, p.description, p.quantity, p.size " +
             "ORDER BY sumQuantity DESC")
     List<Object[]> getTop10ProductsWithSumQuantity();
 
