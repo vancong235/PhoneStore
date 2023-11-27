@@ -50,19 +50,6 @@ public class ProductController {
         return "subcategory";
     }
 
-    @GetMapping("/indexCustomer")
-    public String pageIndexCustomer(Model model) {
-        List<Product> listProducts = productService.getAllProducts();
-        List<Category> categories = categoryService.getAllCategory();
-        List<Product> topProducts = productService.getData();
-
-
-        model.addAttribute("top10Products", topProducts);
-        model.addAttribute("listProducts", listProducts);
-        model.addAttribute("categories", categories);
-        return "sale";
-    }
-
     @GetMapping("/product")
     public String getAllProducts(Model model) {
         List<Category> categories = categoryService.getAllCategory();
@@ -198,5 +185,39 @@ public class ProductController {
             redirectAttributes.addFlashAttribute("error", "Deleted failed!");
         }
         return "redirect:/product/0";
+    }
+
+//    function for user
+    @GetMapping("/")
+    public String login(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "pageNo", required = false) Integer pageNo,
+            Model model,
+            Principal principal,
+            HttpSession session
+    ) {
+        int defaultPageNo = 0;
+        String defaultKeyWord = "";
+
+        if (pageNo == null) {
+            pageNo = defaultPageNo;
+        }
+        if (keyword == null) {
+            keyword = defaultKeyWord;
+        } else {
+            session.setAttribute("keyword", keyword);
+            model.addAttribute("keyword", keyword);
+        }
+
+        List<Category> categories = categoryService.getAllCategory();
+        Page<Product> listProducts = productService.searchProducts(pageNo, keyword, 6);
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("size", listProducts.getSize());
+        model.addAttribute("listProducts", listProducts);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", listProducts.getTotalPages());
+
+        return "index";
     }
 }

@@ -32,12 +32,6 @@ public class CartController {
 
     @PostMapping("/cart/add-to-cart")
     public String pageAddToCart(Model model, HttpSession session, Principal principal) {
-      /*  if (principal == null) {
-            return "redirect:/login";
-        }*/
-         //Customer customer = customerService.findByUsername(principal.getName());
-        //ShoppingCart cart = customer.getCart();
-        //session.setAttribute("totalItems", cart.getTotalItems());
         return "cart";
     }
 }

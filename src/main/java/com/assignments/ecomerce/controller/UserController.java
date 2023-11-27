@@ -35,10 +35,6 @@ public class UserController {
     private PermissionsService permissionsService;
 
 
-
-
-
-
     @GetMapping("/users")
     public String getAllUsers(Model model) {
         List<Users> listUsers = userService.getAllUsers();

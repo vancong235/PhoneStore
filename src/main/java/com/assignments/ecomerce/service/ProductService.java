@@ -136,17 +136,33 @@ public class ProductService {
     }
 
     public Page<Product> pageProducts(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 3);
+        Pageable pageable = PageRequest.of(pageNo, 5);
+        System.out.println(productRepository.pageProduct(pageable));
         return productRepository.pageProduct(pageable);
     }
 
+    public Page<Product> pageProducts(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return productRepository.pageProduct(pageable);
+    }
     public Page<Product> pageProductByCategory(int pageNo,Integer categoryId) {
-        Pageable pageable = PageRequest.of(pageNo, 4);
+        Pageable pageable = PageRequest.of(pageNo, 9);
+        return productRepository.pageProductByCategory(pageable,categoryId);
+    }
+
+    public Page<Product> pageProductByCategory(int pageNo,Integer categoryId, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
         return productRepository.pageProductByCategory(pageable,categoryId);
     }
 
     public Page<Product> searchProducts(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, 4);
+        Pageable pageable = PageRequest.of(pageNo, 9);
+        List<Product> products = transfer(productRepository.searchByKeyword(keyword));
+        Page<Product> productPages = toPage(products, pageable);
+        return productPages;
+    }
+    public Page<Product> searchProducts(int pageNo, String keyword, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
         List<Product> products = transfer(productRepository.searchByKeyword(keyword));
         Page<Product> productPages = toPage(products, pageable);
         return productPages;

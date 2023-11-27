@@ -44,4 +44,10 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
             "GROUP BY p.name, p.price, p.description, p.quantity, p.color " +
             "ORDER BY sumQuantity DESC")
     List<Object[]> getTop10ProductsWithSumQuantity();
+
+
+    //    Query for user
+
+
+
 }

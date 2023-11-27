@@ -14,6 +14,16 @@ import java.util.List;
 
 @Service
 public class CategoryService {
+    private int pageSize = 1;
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -27,7 +37,7 @@ public class CategoryService {
     }
 
     public Page<Category> pageCategory(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
+        Pageable pageable = PageRequest.of(pageNo, this.getPageSize());
         return categoryRepository.pageCategory(pageable);
     }
 
@@ -68,7 +78,7 @@ public class CategoryService {
     }
 
     public Page<Category> searchCategory(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
+        Pageable pageable = PageRequest.of(pageNo, this.getPageSize());
         List<Category> categorys = transfer(categoryRepository.searchCategory(keyword));
         Page<Category> categoryPages = toPage(categorys, pageable);
         return categoryPages;
