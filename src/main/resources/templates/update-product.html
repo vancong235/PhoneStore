@@ -78,9 +78,9 @@
                 <div class="form-group">
                     <label class=" control-label" for="quantity">Size</label>
                     <div class="">
-                        <input id="size" th:field="*{size}" name="size"
-                               class="form-control input-md" required=""
-                               type="text">
+                        <select id="size" th:field="*{size}" name="size" class="form-control input-md" required>
+                            <option th:each="number : ${#numbers.sequence(27, 32)}" th:value="${number}" th:text="${number}"></option>
+                        </select>
                     </div>
                 </div>
 
@@ -89,8 +89,7 @@
                     <label class=" control-label" for="quantity">Số Lượng</label>
                     <div class="">
                         <input id="quantity" th:field="*{quantity}" name="quantity"
-                               class="form-control input-md" required=""
-                               type="text">
+                               class="form-control input-md" type="number" value="1" min="1" max="100" required>
                     </div>
                 </div>
 

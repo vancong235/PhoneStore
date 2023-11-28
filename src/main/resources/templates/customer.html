@@ -108,7 +108,7 @@
                                             <td th:text="${customer.PhoneNumber}"></td>
                                             <td th:text="${customer.Address}"></td>
                                             <td th:text="${customer.Email}"></td>
-                                            <td th:text="${customer.birthday}"></td>
+                                            <td th:text="${#strings.substring(customer.birthday, 0, 10)}"></td>
                                             <td th:text="${customer.gender == true ? 'Nam' : 'Nữ'}"></td>
 <!--                                            <td>-->
 <!--                                                <a th:if="${customer.statusCustomer} == 1" th:href="@{/block-customer(id = ${customer.id})}"-->

@@ -222,7 +222,14 @@
                         <div class="form-group">
                             <label class="col-md-8 control-label" for="size">Size:</label>
                             <div class="col-md-8">
-                                <input type="text" id="size" name="size" class="form-control input-md" required>
+                                <select id="size"  name="size" class="form-control">
+                                    <option th:value="27" th:text="27"></option>
+                                    <option th:value="28" th:text="28"></option>
+                                    <option th:value="29" th:text="29"></option>
+                                    <option th:value="30" th:text="30"></option>
+                                    <option th:value="31" th:text="31"></option>
+                                    <option th:value="32" th:text="32"></option>
+                                </select>
                             </div>
                         </div>
 
@@ -230,7 +237,7 @@
                             <label class="col-md-12 control-label" for="product-quantity">Số lượng</label>
                             <div class="col-md-8">
                                 <input id="product-quantity" th:field="*{quantity}" name="quantity"
-                                       class="form-control input-md" type="number" value="1" required>
+                                       class="form-control input-md" type="number" value="1" min="1" max="100" required>
                             </div>
                         </div>
 

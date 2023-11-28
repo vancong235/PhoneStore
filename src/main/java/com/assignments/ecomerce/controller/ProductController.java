@@ -121,8 +121,12 @@ public class ProductController {
     public String DetailProducts(@PathVariable("id") Integer id, Model model) {
         Product newProduct = productService.getById(id);
         List<Category> categories = categoryService.getAllCategory();
+        List<String> listSizeProduct = productService.getAllSizeProduct(newProduct.getName().trim());
+        Integer getSoldShoeCount = productService.getSoldShoeCount(id);
         model.addAttribute("categories", categories);
         model.addAttribute("listProducts", newProduct);
+        model.addAttribute("listSizeProduct", listSizeProduct);
+        model.addAttribute("getSoldShoeCount", getSoldShoeCount);
         return "detail";
     }
 
