@@ -112,7 +112,7 @@
                                                 <th>Giá</th>
                                                 <th style="width:200px;height:90px">Ảnh</th>
                                                 <th>Mô tả</th>
-                                                <th>Thương hiệu</th>
+                                                <th>Loại</th>
                                                 <th>Size</th>
                                                 <th>Số lượng</th>
                                                 <th>Giảm giá</th>
@@ -124,7 +124,7 @@
                                                 <td scope="row" style="max-width: 200px; white-space: pre-wrap; text-align: center; vertical-align: middle;">
                                                     <span th:text="${product.Name}"></span>
                                                 </td>
-                                                <td style="text-align: center; vertical-align: middle;" th:text="${product.price}"></td>
+                                                <td style="text-align: center; vertical-align: middle;" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}"></td>
                                                 <td style="text-align: center; vertical-align: middle; width: 200px; height: 200px;">
                                                     <img class="product-image" style="width: 100%; height: 100%;" th:src="@{'/img/' + ${product.image}}" alt="Product Image">
                                                 </td>
@@ -132,7 +132,9 @@
                                                 <td style="text-align: center; vertical-align: middle;" th:text="${product.category.name}"></td>
                                                 <td style="text-align: center; vertical-align: middle;" th:text="${product.size}"></td>
                                                 <td style="text-align: center; vertical-align: middle;" th:text="${product.quantity}"></td>
-                                                <td style="text-align: center; vertical-align: middle;" th:text="${product.discount}"></td>
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    <span style="color: red;">[[${product.discount}]] %</span>
+                                                </td>
                                                 <td style="text-align: center; vertical-align: middle;">
                                                     <a id="editButton" th:href="@{/update-product/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
                                                     <a th:href="@{/status-product(id=${product.id})}" class="btn btn-danger">Delete</a>
@@ -236,6 +238,14 @@
                             <label class="col-md-8 control-label" for="price">Giá</label>
                             <div class="col-md-8">
                                 <input id="price" th:field="*{price}" name="price" class="form-control input-md"
+                                       type="text" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-8 control-label" for="discount">Giảm Giá</label>
+                            <div class="col-md-8">
+                                <input id="discount" th:field="*{discount}" name="discount" class="form-control input-md"
                                        type="text" required>
                             </div>
                         </div>

@@ -65,6 +65,7 @@ public class ProductService {
             newProduct.setCategory(product.getCategory());
             newProduct.setSize(product.getSize());
             newProduct.setQuantity(product.getQuantity());
+            newProduct.setDiscount(product.getDiscount());
             newProduct.setStatus(1);
             productRepository.save(newProduct);
             return newProduct;
@@ -119,6 +120,7 @@ public class ProductService {
             productUpdate.setCategory(product.getCategory());
             productUpdate.setQuantity(product.getQuantity());
             productUpdate.setSize(product.getSize());
+            productUpdate.setDiscount(product.getDiscount());
             productRepository.save(productUpdate);
             return productUpdate;
         } catch (Exception e) {
@@ -157,7 +159,7 @@ public class ProductService {
 
     public Page<Product> searchProducts(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 9);
-        List<Product> products = transfer(productRepository.searchByKeyword(keyword));
+        List<Product> products = transfer(productRepository.searchByKeyword(keyword.trim()));
         Page<Product> productPages = toPage(products, pageable);
         return productPages;
     }
@@ -225,4 +227,18 @@ public class ProductService {
         }
         return products;
     }
+
+    public List<String> getAllSizeProduct(String nameProduct){
+        return productRepository.getAllSizeProduct(nameProduct);
+    }
+
+//    public Integer getSoldShoeCount(Product product){
+//        System.out.println(productRepository.getSoldShoeCount(product));
+//        return productRepository.getSoldShoeCount(product);
+//    }
+       public Integer getSoldShoeCount(Integer productId){
+
+        return productRepository.getSoldShoeCount(productId);
+   }
+
 }

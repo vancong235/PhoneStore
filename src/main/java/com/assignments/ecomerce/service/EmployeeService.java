@@ -64,7 +64,7 @@ public class EmployeeService {
 
     public Page<Employee> searchEmployees(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 5);
-        List<Employee> employee = transfer(employeeRepository.searchEmployees(keyword));
+        List<Employee> employee = transfer(employeeRepository.searchEmployees(keyword.trim()));
         Page<Employee> employeePages = toPage(employee, pageable);
         return employeePages;
     }

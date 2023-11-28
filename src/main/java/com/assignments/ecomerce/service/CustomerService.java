@@ -85,7 +85,7 @@ public class CustomerService {
 
     public Page<Customer> searchCustomer(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 5);
-        List<Customer> customer = transfer(customerRepository.searchCustomers(keyword));
+        List<Customer> customer = transfer(customerRepository.searchCustomers(keyword.trim()));
         Page<Customer> customerPages = toPage(customer, pageable);
         return customerPages;
     }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
 <head th:replace="~{fragments::header}">
 
@@ -50,25 +50,42 @@
                     </tr>
                     <tr th:each="product : ${listProducts}">
                         <th>Price:</th>
-                        <td th:text="${product.price}"></td>
+                        <td th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + '&nbsp;VND'}"></td>
+                    </tr>
+
+                    <tr th:each="product : ${listProducts}">
+                        <th>Description:</th>
+                        <td th:text="${product.description}"></td>
+                    </tr>
+                    <tr th:each="product : ${listProducts}">
+                        <th>Loại Giày:</th>
+                        <td th:text="${product.category.getName()}"></td>
+                    </tr>
+                    <tr th:each="product : ${listProducts}">
+                        <th>Số Lượng:</th>
+                        <td th:text="${product.quantity}"></td>
+                    </tr>
+                    <tr th:each="product : ${listProducts}">
+                        <th>Nhà Cung Cấp:</th>
+                        <td th:text="${product.category.supplier.getName()}"></td>
+                    </tr>
+                    <tr>
+                        <th>Các Size hiện có:</th>
+                        <td>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <span th:each="size : ${listSizeProduct}" style="margin-right: 10px;" th:text="${size}"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr >
+                        <th>Đã Bán:</th>
+                        <td th:text="${getSoldShoeCount}"></td>
                     </tr>
                     <tr th:each="product : ${listProducts}">
                         <th>Image:</th>
                         <td>
                             <img class="product-image" th:src="@{'/img/' + ${product.image}}" alt="Product Image">
                         </td>
-                    </tr>
-                    <tr th:each="product : ${listProducts}">
-                        <th>Description:</th>
-                        <td th:text="${product.description}"></td>
-                    </tr>
-                    <tr th:each="product : ${listProducts}">
-                        <th>Category ID:</th>
-                        <td th:text="${product.category.getId()}"></td>
-                    </tr>
-                    <tr th:each="product : ${listProducts}">
-                        <th>Quantity:</th>
-                        <td th:text="${product.quantity}"></td>
                     </tr>
                 </table>
 

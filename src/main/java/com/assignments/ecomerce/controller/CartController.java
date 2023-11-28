@@ -25,8 +25,9 @@ public class CartController {
         return "cart";
     }
 
-    @GetMapping("/cart/checkout")
+    @GetMapping("/checkout")
     public String pageCheckOut(Model model) {
+
         return "checkout";
     }
 

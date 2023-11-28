@@ -120,9 +120,13 @@ public class ProductController {
     @GetMapping("/detail-product/{id}")
     public String DetailProducts(@PathVariable("id") Integer id, Model model) {
         Product newProduct = productService.getById(id);
+        List<String> listSizeProduct = productService.getAllSizeProduct(newProduct.getName());
         List<Category> categories = categoryService.getAllCategory();
+        Integer  getSoldShoeCount = productService.getSoldShoeCount(id);
         model.addAttribute("categories", categories);
         model.addAttribute("listProducts", newProduct);
+        model.addAttribute("listSizeProduct", listSizeProduct);
+        model.addAttribute("getSoldShoeCount", getSoldShoeCount);
         return "detail";
     }
 
@@ -163,9 +167,6 @@ public class ProductController {
                                        @RequestParam("photo_file") MultipartFile photo_file,
                                        RedirectAttributes attributes) {
         try {
-//            System.out.println(photo_file);
-//            System.out.println(photo_file.getName());
-//            System.out.println(photo_file.getSize());
             productService.update(photo_file, product);
             attributes.addFlashAttribute("success", "Update successfully");
         } catch (Exception e) {
@@ -208,10 +209,13 @@ public class ProductController {
             session.setAttribute("keyword", keyword);
             model.addAttribute("keyword", keyword);
         }
-
+        if (principal != null) {
+            model.addAttribute("name", principal.getName());
+        } else {
+            model.addAttribute("name", "");
+        }
         List<Category> categories = categoryService.getAllCategory();
-        Page<Product> listProducts = productService.searchProducts(pageNo, keyword, 6);
-
+        Page<Product> listProducts = productService.searchProducts(pageNo, keyword, 9);
         model.addAttribute("categories", categories);
         model.addAttribute("size", listProducts.getSize());
         model.addAttribute("listProducts", listProducts);
@@ -219,5 +223,15 @@ public class ProductController {
         model.addAttribute("totalPages", listProducts.getTotalPages());
 
         return "index";
+    }
+    @GetMapping("/userProductDetail/{id}")
+    public String userProductDetail(@PathVariable("id") Integer id, Model model) {
+        Product product = productService.findById(id);
+        List<Product> productDtoList = productService.findAllByCategory(product.getCategory().getName());
+        List<Category> categories = categoryService.getAllCategory();
+        model.addAttribute("products", productDtoList);
+        model.addAttribute("productDetail", product);
+        model.addAttribute("categories", categories);
+        return "userProductDetail";
     }
 }

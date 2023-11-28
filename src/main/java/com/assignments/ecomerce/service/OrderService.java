@@ -43,7 +43,7 @@ public class OrderService {
 
     public Page<Orders> searchOrders(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 5);
-        List<Orders> order = transfer(orderRepository.searchOrders(keyword));
+        List<Orders> order = transfer(orderRepository.searchOrders(keyword.trim()));
         Page<Orders> orderPages = toPage(order, pageable);
         return orderPages;
     }

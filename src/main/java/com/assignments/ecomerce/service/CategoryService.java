@@ -37,7 +37,7 @@ public class CategoryService {
     }
 
     public Page<Category> pageCategory(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, this.getPageSize());
+        Pageable pageable = PageRequest.of(pageNo, 5);
         return categoryRepository.pageCategory(pageable);
     }
 
@@ -79,7 +79,7 @@ public class CategoryService {
     }
 
     public Page<Category> searchCategory(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, this.getPageSize());
+        Pageable pageable = PageRequest.of(pageNo, 5);
         List<Category> categorys = transfer(categoryRepository.searchCategory(keyword));
         Page<Category> categoryPages = toPage(categorys, pageable);
         return categoryPages;

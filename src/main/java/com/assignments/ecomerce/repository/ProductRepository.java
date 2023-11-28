@@ -16,6 +16,18 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     @Query("SELECT od.product FROM OrderDetail od GROUP BY od.product.id ORDER BY SUM(od.quantity) DESC")
     List<Product> findTop10ByQuantitySold();
 
+    @Query("SELECT DISTINCT size FROM Product WHERE name = :nameProduct")
+    List<String> getAllSizeProduct(@Param("nameProduct") String nameProduct);
+
+
+//    @Query("SELECT COUNT(*) FROM OrderDetail od WHERE od.product = :productId")
+//    int getSoldShoeCount(@Param("productId") Product product);
+
+
+    @Query("SELECT COUNT(*) FROM OrderDetail od WHERE od.product.id = :productId")
+    int getSoldShoeCount(@Param("productId") Integer productId);
+
+
     @Query(value = "SELECT COUNT(*) FROM product", nativeQuery = true)
     int countProducts();
 

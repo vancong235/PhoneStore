@@ -133,26 +133,29 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                                 <!-- /.card-body -->
                                 <div class="card-footer clearfix">
-                                    <nav aria-label="...">
-                                        <ul class="pagination pagination-sm m-0 float-right">
-                                            <li th:if="${currentPage != 0}" class="page-item">
-                                                <a th:href="@{(${keyword != null && keyword != ''}) ? '/category/' + ${currentPage - 1} + '?keyword=' + ${keyword} : '/category/' + ${currentPage - 1}}" class="page-link">Previous</a>
-                                            </li>
-                                            <li th:each="i : ${#numbers.sequence(1, totalPages)}"
-                                                th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                                                <a th:href="@{(${keyword != null && keyword != ''}) ? '/category/' + ${i - 1} + '?keyword=' + ${keyword} : '/category/' + ${i - 1}}" class="page-link">
-                                                    <span th:text="${i}"></span>
+                                    <ul class="pagination">
+                                        <li th:if="${currentPage != 0}" class="page-item ">
+                                            <a th:href="@{/search-category/{pageNo}(pageNo=${currentPage - 1}, keyword=${keyword})}" class="page-link">Previous</a>
+                                        </li>
+
+                                        <th:block th:if="${totalPages > 1}">
+                                            <li th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                                                th:classappend="${currentPage == i ? 'active' : ''}" class="page-item">
+                                                <a th:href="@{/search-category/{pageNo}(pageNo=${i}, keyword=${keyword})}" class="page-link">
+                                                    <span th:text="${i + 1}"></span>
                                                 </a>
                                             </li>
-                                            <li th:if="${currentPage + 1 != totalPages}" class="page-item">
-                                                <a th:href="@{(${keyword != null && keyword != ''}) ? '/category/' + ${currentPage + 1} + '?keyword=' + ${keyword} : '/category/' + ${currentPage + 1}}" class="page-link">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                        </th:block>
+
+                                        <li th:if="${currentPage + 1 != totalPages}" class="page-item">
+                                            <a th:href="@{/search-category/{pageNo}(pageNo=${currentPage + 1},
+                                 keyword=${keyword})}" class="page-link">Next</a>
+                                        </li>
+                                    </ul>
                                 </div>
+
 
 
                             </div>
@@ -162,7 +165,6 @@
                     </div>
                     <!-- /.container-fluid -->
 
-                </div><!-- Small boxes (Stat box) -->
 
                 <!-- /.row -->
                 <!-- Main row -->

@@ -61,7 +61,7 @@ public class SupplierService {
 
     public Page<Supplier> searchSuppliers(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 5);
-        List<Supplier> supplier = transfer(supplierRepository.searchSupplier(keyword));
+        List<Supplier> supplier = transfer(supplierRepository.searchSupplier(keyword.trim()));
         Page<Supplier> supplierPages = toPage(supplier, pageable);
         return supplierPages;
     }
