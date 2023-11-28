@@ -120,13 +120,9 @@ public class ProductController {
     @GetMapping("/detail-product/{id}")
     public String DetailProducts(@PathVariable("id") Integer id, Model model) {
         Product newProduct = productService.getById(id);
-        List<String> listSizeProduct = productService.getAllSizeProduct(newProduct.getName());
         List<Category> categories = categoryService.getAllCategory();
-        Integer  getSoldShoeCount = productService.getSoldShoeCount(id);
         model.addAttribute("categories", categories);
         model.addAttribute("listProducts", newProduct);
-        model.addAttribute("listSizeProduct", listSizeProduct);
-        model.addAttribute("getSoldShoeCount", getSoldShoeCount);
         return "detail";
     }
 
@@ -188,7 +184,7 @@ public class ProductController {
         return "redirect:/product/0";
     }
 
-//    function for user
+    //    function for user
     @GetMapping("/")
     public String login(
             @RequestParam(value = "keyword", required = false) String keyword,

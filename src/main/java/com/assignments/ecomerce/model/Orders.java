@@ -21,15 +21,7 @@ public class Orders {
 
     private Integer employeeId;
 
-    private Boolean isComment;
 
-    public Boolean getComment() {
-        return isComment;
-    }
-
-    public void setComment(Boolean comment) {
-        isComment = comment;
-    }
 
 
 
@@ -88,14 +80,13 @@ public class Orders {
         this.orderDetails = orderDetails;
     }
 
-    public Orders(Integer id, Customer customer, Date orderDate, String status, Integer couponId, Integer employeeId, String paymentMethod, Double total, String shipName, String shipAddress, String shipPhoneNumber, List<OrderDetail> orderDetails, Boolean isComment) {
+    public Orders(Integer id, Customer customer, Date orderDate, String status, Integer couponId, Integer employeeId, String paymentMethod, Double total, String shipName, String shipAddress, String shipPhoneNumber, List<OrderDetail> orderDetails) {
         this.id = id;
         this.customer = customer;
         this.orderDate = orderDate;
         this.status = status;
         this.couponId = couponId;
         this.employeeId = employeeId;
-        this.isComment = isComment;
         this.paymentMethod = paymentMethod;
         this.total = total;
         ShipName = shipName;

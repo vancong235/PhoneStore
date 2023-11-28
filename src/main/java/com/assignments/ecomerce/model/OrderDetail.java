@@ -18,6 +18,15 @@ public class OrderDetail {
     @JoinColumn(name = "productId")
     private Product product;
 
+    private Boolean isComment;
+
+    public Boolean getComment() {
+        return isComment;
+    }
+
+    public void setComment(Boolean comment) {
+        isComment = comment;
+    }
 
     private Integer quantity;
     private Double unitPrice;
@@ -59,7 +68,15 @@ public class OrderDetail {
     }
 
 
-    public OrderDetail( Orders order, Product product, Integer quantity, Double unitPrice) {
+    public OrderDetail(Orders order, Product product, Boolean isComment, Integer quantity, Double unitPrice) {
+        this.order = order;
+        this.product = product;
+        this.isComment = isComment;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+    }
+
+    public OrderDetail(Orders order, Product product, Integer quantity, Double unitPrice) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
