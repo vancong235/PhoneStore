@@ -1,272 +1,427 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace = "~{indexUser::header}">
-<body>
-<!-- BREADCRUMB -->
-<div id="breadcrumb" class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="breadcrumb-tree">
-                    <li><a href="/index">Trang chủ</a></li>
-                    <li class="active">Thanh toán</li>
-                </ul>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Meta Tag -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='copyright' content=''>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title Tag  -->
+    <title>Eshop - eCommerce HTML5 Template.</title>
+    <!-- Favicon -->
+    <!-- Web Font -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+    <!-- StyleSheet -->
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/bootstrap.css}">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/magnific-popup.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/font-awesome.css}">
+    <!-- Fancybox -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/jquery.fancybox.min.css}">
+    <!-- Themify Icons -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/themify-icons.css}">
+    <!-- Jquery Ui -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/jquery-ui.css}">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/niceselect.css}">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/animate.css}">
+    <!-- Flex Slider CSS -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/flex-slider.min.css}">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/owl-carousel.css}">
+    <!-- Slicknav -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/slicknav.min.css}">
+
+    <!-- Eshop StyleSheet -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/reset.css}">
+    <link rel="stylesheet" th:href="@{~/eshop/style.css}">
+    <link rel="stylesheet" th:href="@{~/eshop/css/responsive.css}">
+
+    <style>
+        .shopping-list {
+            max-height: 400px; /* Đặt chiều cao tối đa cho danh sách */
+            overflow-y: auto; /* Thêm thanh cuộn khi nội dung vượt quá chiều cao */
+            }
+        a {
+          text-decoration: none !important;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+
+<body class="js">
+
+<!-- Preloader -->
+<div class="preloader">
+    <div class="preloader-inner">
+        <div class="preloader-icon">
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- End Preloader -->
+
+<!-- Header -->
+<header class="header shop">
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12">
+                    <!-- Top Left -->
+                    <div class="top-left">
+                        <ul class="list-main">
+                            <li><i class="ti-headphone-alt"></i> +060 (800) 801-582</li>
+                        </ul>
+                    </div>
+                    <!--/ End Top Left -->
+                </div>
+                <div class="col-lg-8 col-md-12 col-12">
+                    <!-- Top Right -->
+                    <div class="right-content">
+                        <ul class="list-main">
+                            <li><i class="ti-location-pin"></i> Store location</li>
+                            <!--                            <li><i class="ti-user"></i> <a href="#"><span th:text="${name}">Name</span></a></li>-->
+                            <li><i class="ti-power-off"></i><a href="login.html#">Login</a></li>
+                        </ul>
+                    </div>
+                    <!-- End Top Right -->
+                </div>
             </div>
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
-</div>
-<!-- /BREADCRUMB -->
-
-<section class="main-container col2-right-layout">
-    <div class="main container">
-        <div class="row">
-            <div class="col-main col-sm-12 col-xs-12">
-                <div class="page-title">
-                    <h2>Thanh toán</h2>
+    <!-- End Topbar -->
+    <div class="middle-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-12">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <a href="index.html"><img th:src="@{~/eshop/images/logo.png}" alt="logo"></a>
+                    </div>
+                    <!--/ End Logo -->
+                    <!-- Search Form -->
+                    <div class="search-top">
+                        <div class="search-top">
+                            <form class="search-form" th:action="@{/search-productByKeyword/0}" method="get">
+                                <input type="text" name="keyword" placeholder="Tìm kiếm ở đây"
+                                       style="border-radius: 20px 0px 0px 20px ;"  th:value="${keyword}"/>
+                                <button type="submit" class="ti-search">Tìm</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!--/ End Search Form -->
+                    <div class="mobile-nav"></div>
                 </div>
-                <div class="page-content checkout-page">
-                    <h4 class="checkout-sep">1. Tóm tắt đơn hàng</h4>
-                    <div class="box-border">
-                        <div class="table-responsive">
-                            <table class="table table-bordered cart_summary" id="tbl_cart">
-                                <thead>
-                                <tr>
-                                    <th class="cart_product">Hình ảnh</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th class="text-center">Tình trạng </th>
-                                    <th>Giá</th>
-                                    <th>Số lượng</th>
-                                    <th>Tổng tiền</th>
-                                    <th class="action text-center"><i class="fa fa-trash"></i></th>
-                                </tr>
-                                </thead>
-                                <tbody id="cart_body">
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td colspan="4"><strong>Tổng giá đơn hàng</strong></td>
-                                    <td colspan="2"><strong><span id="lbl_total"></span> <span>&#8363;</span> </strong></td>
-                                </tr>
-                                <tr id="discount_amount_row">
-                                    <td colspan="2"></td>
-                                    <td colspan="4"><strong>Số tiền giảm</strong></td>
-                                    <td colspan="2"><strong><span id="lbl_discount_amount"></span> <span>&#8363;</span> </strong></td>
-                                </tr>
-                                <tr id="total_discounted_row">
-                                    <td colspan="2"></td>
-                                    <td colspan="4"><strong>Tổng giá đơn hàng đã giảm</strong></td>
-                                    <td colspan="2"><strong><span id="lbl_total_discounted"></span> <span>&#8363;</span> </strong></td>
-                                </tr>
-                                </tfoot>
-                            </table>
+                <div class="col-lg-8 col-md-7 col-12">
+                    <div class="search-bar-top">
+                        <div class="search-bar">
+                            <select>
+                                <option selected="selected">All Category</option>
+                                <option>watch</option>
+                                <option>mobile</option>
+                                <option>kid’s item</option>
+                            </select>
+                            <form>
+                                <input name="search" placeholder="Search Products Here....." type="search">
+                                <button class="btnn"><i class="ti-search"></i></button>
+                            </form>
                         </div>
                     </div>
-
-                    <h4 class="checkout-sep">2. Phương thức thanh toán</h4>
-                    <div class="box-border">
-                        <div style="margin: 10px 0px;font-weight:500">
-                            Thanh toán khi nhận hàng
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header Inner -->
+    <div class="header-inner">
+        <div class="container">
+            <div class="cat-nav-head">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="menu-area">
+                            <!-- Main Menu -->
+                            <nav class="navbar navbar-expand-lg">
+                                <div class="navbar-collapse">
+                                    <div class="nav-inner">
+                                        <ul class="nav main-menu menu navbar-nav">
+                                            <li><a href="#">Home</a></li>
+                                            <li><a href="#">Product</a></li>
+                                            <li><a href="#">Service</a></li>
+                                            <li><a href="contact.html">Contact Us</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                            <!--/ End Main Menu -->
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ End Header Inner -->
+</header>
+
+
+<!-- Start content -->
+<div class="container">
+    <main>
+        <div class="row g-4 py-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Giỏ hàng</span>
+                    <span class="badge bg-primary rounded-pill">3</span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
                         <div>
-                            Hoặc
+                            <h6 class="my-0">Product name</h6>
+                            <small class="text-body-secondary">Brief description</small>
                         </div>
-                        <form asp-action="Processing" asp-controller="Cart" method="POST">
-                            <input type="hidden" asp-for="CheckoutModel.PaymentMethod" value="@PaymentMethod.CreditCard" />
-                            <input type="hidden" id="txt_name_cc" asp-for="CheckoutModel.Name" value="@Model.Name">
-                            <input type="hidden" id="txt_address_cc" asp-for="CheckoutModel.Address" value="@Model.Address">
-                            <input type="hidden" id="txt_phoneNumber_cc" asp-for="CheckoutModel.PhoneNumber" value="@Model.PhoneNumber">
-                            <div style="margin: 10px 0px">
-                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                        data-key="@Stripe.Value.PublishableKey"
-                                        data-amount="@ViewBag.Total"
-                                        data-name="[Deveducate]"
-                                        data-description="Flower payments"
-                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                        data-locale="en"
-                                        data-zip-code="true">
-                                </script>
+                        <span class="text-body-secondary">$12</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">Second product</h6>
+                            <small class="text-body-secondary">Brief description</small>
+                        </div>
+                        <span class="text-body-secondary">$8</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">Third item</h6>
+                            <small class="text-body-secondary">Brief description</small>
+                        </div>
+                        <span class="text-body-secondary">$5</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+                        <div class="text-success">
+                            <h6 class="my-0">Promo code</h6>
+                            <small>EXAMPLECODE</small>
+                        </div>
+                        <span class="text-success">−$5</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (USD)</span>
+                        <strong>$20</strong>
+                    </li>
+                </ul>
+
+                <form class="card p-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Mã khuyến mãi">
+                        <button type="submit" class="btn btn-secondary">Nhập mã</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Thông tin hóa đơn</h4>
+                <form class="needs-validation" novalidate="">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="firstName" class="form-label">Họ và tên đầy đủ</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required=""  style="padding: 8px; padding-left:16px">
+                            <div class="invalid-feedback">
+                                Valid first name is required.
                             </div>
-                        </form>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="username" class="form-label">Username</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text"  style="padding: 8px; padding-left:15px">@</span>
+                                <input type="text" class="form-control" id="username" placeholder="" required=""  style="padding: 8px; padding-left:16px">
+                                <div class="invalid-feedback">
+                                    Your username is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder=""  style="padding: 8px; padding-left:16px">
+                            <div class="invalid-feedback">
+                                Please enter a valid email address for shipping updates.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="address" class="form-label">Địa chỉ nhận hàng</label>
+                            <input type="text" class="form-control" id="address" placeholder="" required="" style="padding: 8px; padding-left:16px">
+                            <div class="invalid-feedback">
+                                Please enter your shipping address.
+                            </div>
+                        </div>
                     </div>
 
-                    <form asp-action="Checkout" asp-controller="Cart" method="POST">
-                        <input type="hidden" asp-for="CheckoutModel.PaymentMethod" value="@PaymentMethod.COD" />
-                        <h4 class="checkout-sep">3. Thông tin giao hàng</h4>
-                        <div class="box-border">
+
+                    <hr class="my-4">
+
+                    <h4 class="mb-3">Phương thức thanh toán</h4>
+
+                    <div class="my-3">
+                        <div class="form-check">
+                            <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+                            <label class="form-check-label" for="credit">Credit card</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
+                            <label class="form-check-label" for="debit">Debit card</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
+                            <label class="form-check-label" for="paypal">PayPal</label>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Xác nhận thanh toán</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+<!-- End content -->
+
+<!-- Start Footer Area -->
+<footer class="footer">
+    <!-- Footer Top -->
+    <div class="footer-top section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-6 col-12">
+                    <!-- Single Widget -->
+                    <div class="single-footer about">
+                        <div class="logo">
+                            <a href="index.html"><img src="/eshop/images/logo2.png" alt="#"></a>
+                        </div>
+                        <p class="text">Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue,  magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
+                        <p class="call">Got Question? Call us 24/7<span><a href="tel:123456789">+0123 456 789</a></span></p>
+                    </div>
+                    <!-- End Single Widget -->
+                </div>
+                <div class="col-lg-2 col-md-6 col-12">
+                    <!-- Single Widget -->
+                    <div class="single-footer links">
+                        <h4>Information</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Faq</a></li>
+                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Help</a></li>
+                        </ul>
+                    </div>
+                    <!-- End Single Widget -->
+                </div>
+                <div class="col-lg-2 col-md-6 col-12">
+                    <!-- Single Widget -->
+                    <div class="single-footer links">
+                        <h4>Customer Service</h4>
+                        <ul>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Money-back</a></li>
+                            <li><a href="#">Returns</a></li>
+                            <li><a href="#">Shipping</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <!-- End Single Widget -->
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Single Widget -->
+                    <div class="single-footer social">
+                        <h4>Get In Tuch</h4>
+                        <!-- Single Widget -->
+                        <div class="contact">
                             <ul>
-                                <li class="row">
-                                    <div class="col-sm-6">
-                                        <label class="required">Tên</label>
-                                        <input class="input form-control" id="txt_name_cod" onchange="$(" input #txt_name_cc").setAttribute('value', $("input #txt_name_cod").val());" type="text" asp-for="CheckoutModel.Name" value="@Model.Name">
-                                        <span asp-validation-for="CheckoutModel.Name" class="text-danger"></span>
-                                    </div>
-                                    <!--/ [col] -->
-                                </li>
-                                <!--/ .row -->
-
-                                <li class="row">
-                                    <div class="col-xs-12">
-                                        <label class="required">Địa chỉ</label>
-                                        <input class="input form-control" id="txt_address_cod" type="text" asp-for="CheckoutModel.Address" value="@Model.Address">
-                                        <span asp-validation-for="CheckoutModel.Address" class="text-danger"></span>
-                                    </div>
-                                    <!--/ [col] -->
-                                </li>
-                                <!--/ .row -->
-
-                                <li class="row">
-                                    <div class="col-sm-6">
-                                        <label class="required">Số điện thoại</label>
-                                        <input class="input form-control" id="txt_phoneNumber_cod" type="text" asp-for="CheckoutModel.PhoneNumber" value="@Model.PhoneNumber">
-                                        <span asp-validation-for="CheckoutModel.PhoneNumber" class="text-danger"></span>
-                                    </div>
-                                    <!--/ [col] -->
-                                </li>
-                                <!--/ .row -->
+                                <li>NO. 342 - London Oxford Street.</li>
+                                <li>012 United Kingdom.</li>
+                                <li>info@eshop.com</li>
+                                <li>+032 3456 7890</li>
                             </ul>
                         </div>
-                        <button class="button pull-right"><span>Đặt hàng</span></button>
-                    </form>
-                    }
+                        <!-- End Single Widget -->
+                        <ul>
+                            <li><a href="#"><i class="ti-facebook"></i></a></li>
+                            <li><a href="#"><i class="ti-twitter"></i></a></li>
+                            <li><a href="#"><i class="ti-flickr"></i></a></li>
+                            <li><a href="#"><i class="ti-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- End Single Widget -->
                 </div>
             </div>
         </div>
     </div>
-</section>
+    <!-- End Footer Top -->
+    <div class="copyright">
+        <div class="container">
+            <div class="inner">
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <div class="left">
+                            <p>Copyright © 2020 <a href="http://www.wpthemesgrid.com" target="_blank">Wpthemesgrid</a>  -  All Rights Reserved.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <div class="right">
 
-<style>
-    button.button {
-        display: inline-block;
-        border: 0;
-        background: #444;
-        padding: 6px 16px;
-        font-size: 12px;
-        border: 1px solid #444;
-        font-weight: 500;
-        text-align: center;
-        white-space: nowrap;
-        color: #fff;
-        font-weight: normal;
-        transition: all 0.3s linear;
-        -moz-transition: all 0.3s linear;
-        -webkit-transition: all 0.3s linear;
-        border-radius: 3px;
-    }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- /End Footer Area -->
 
-        button.button:hover {
-            background: #e83f33;
-            border: 1px solid #e83f33;
-            transition: all 0.3s linear;
-            -moz-transition: all 0.3s linear;
-            -webkit-transition: all 0.3s linear;
-            color: #fff
-        }
 
-    button span {
-        text-transform: uppercase;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-    }
-
-    /******************************************
-            33. Checkout page
-            ******************************************/
-
-    .checkout-page {
-        margin-top: 12px;
-    }
-
-        .checkout-page ul {
-            padding: 0px;
-            margin: auto;
-        }
-
-        .checkout-page li {
-            list-style: none;
-        }
-
-        .checkout-page h4.checkout-sep {
-            text-transform: capitalize;
-            font-size: 15px;
-            border-bottom: 1px #e8e8e8 solid;
-            line-height: normal;
-            padding: 0 0 12px;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-            .checkout-page h4.checkout-sep.last {
-                border: none;
-                padding-bottom: 0px;
-                margin-bottom: 0px;
-            }
-
-        .checkout-page .box-border {
-            margin-bottom: 15px;
-        }
-
-            .checkout-page .box-border h4 {
-                font-weight: 600;
-                font-size: 14px;
-            }
-
-            .checkout-page .box-border h5 {
-                font-weight: 600;
-            }
-
-            .checkout-page .box-border .button {
-                margin-top: 15px;
-            }
-
-            .checkout-page .box-border label {
-                margin-top: 5px;
-                font-size: 12px;
-                font-weight: 600;
-            }
-
-            .checkout-page .box-border p, .checkout-page .box-border h4 {
-                padding-bottom: 5px;
-                margin-top: 5px;
-            }
-
-            .checkout-page .box-border .fa {
-                line-height: inherit;
-            }
-
-            .checkout-page .box-border input[type="radio"] {
-                margin-right: 10px;
-            }
-
-    .availability.in-stock span {
-        color: #fff;
-        background-color: #5cb85c;
-        padding: 5px 12px;
-        font-size: 12px;
-        font-weight: 600;
-        border-radius: 3px;
-    }
-
-    .availability.out-of-stock span {
-        color: #fff;
-        background-color: #d9534f;
-        padding: 5px 12px;
-        font-size: 12px;
-        font-weight: 600
-    }
-
-    .table-bordered {
-        border: 0px solid #ddd;
-    }
-
-        .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
-            border: none;
-            border-bottom: 1px solid #e5e5e5;
-        }
-</style>
+<!-- Jquery -->
+<script th:src="@{~/eshop/js/jquery.min.js}"></script>
+<script th:src="@{~/eshop/js/jquery-migrate-3.0.0.js}"></script>
+<script th:src="@{~/eshop/js/jquery-ui.min.js}"></script>
+<!-- Popper JS -->
+<script th:src="@{~/eshop/js/popper.min.js}"></script>
+<!-- Bootstrap JS -->
+<script th:src="@{~/eshop/js/bootstrap.min.js}"></script>
+<!-- Color JS -->
+<!--    <script th:src="@{~/eshop/js/colors.js}"></script>-->
+<!-- Slicknav JS -->
+<script th:src="@{~/eshop/js/slicknav.min.js}"></script>
+<!-- Owl Carousel JS -->
+<script th:src="@{~/eshop/js/owl-carousel.js}"></script>
+<!-- Magnific Popup JS -->
+<script th:src="@{~/eshop/js/magnific-popup.js}"></script>
+<!-- Fancybox JS -->
+<script th:src="@{~/eshop/js/facnybox.min.js}"></script>
+<!-- Waypoints JS -->
+<script th:src="@{~/eshop/js/waypoints.min.js}"></script>
+<!-- Countdown JS -->
+<script th:src="@{~/eshop/js/finalcountdown.min.js}"></script>
+<!-- Nice Select JS -->
+<script th:src="@{~/eshop/js/nicesellect.js}"></script>
+<!-- Ytplayer JS -->
+<script th:src="@{~/eshop/js/ytplayer.min.js}"></script>
+<!-- Flex Slider JS -->
+<script th:src="@{~/eshop/js/flex-slider.js}"></script>
+<!-- ScrollUp JS -->
+<script th:src="@{~/eshop/js/scrollup.js}"></script>
+<!-- Onepage Nav JS -->
+<script th:src="@{~/eshop/js/onepage-nav.min.js}"></script>
+<!-- Easing JS -->
+<script th:src="@{~/eshop/js/easing.js}"></script>
+<!-- Active JS -->
+<script th:src="@{~/eshop/js/active.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

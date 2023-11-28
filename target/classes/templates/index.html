@@ -85,7 +85,7 @@
                         <ul class="list-main">
                             <li><i class="ti-location-pin"></i> Store location</li>
                             <li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li>
-                            <li><i class="ti-user"></i> <a href="#">My account</a></li>
+<!--                            <li><i class="ti-user"></i> <a href="#"><span th:text="${name}">Name</span></a></li>-->
                             <li><i class="ti-power-off"></i><a href="login.html#">Login</a></li>
                         </ul>
                     </div>
@@ -140,9 +140,10 @@
                             <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                         </div>
                         <div class="sinlge-bar shopping">
-                            <a href="/login" class="single-icon"><i class="ti-bag" data-toggle="modal" data-target="#shoppingCartModal"></i> <span class="total-count">2</span></a>
-                        </div>
+                            <a th:if="${name == ''}" href="/login" class="single-icon"><i class="ti-bag" data-toggle="modal" data-target="#shoppingCartModal"></i> <span class="total-count">2</span></a>
+                            <p th:if="${name != ''}" class="single-icon pointerCart" style="cursor: pointer"><i class="ti-bag" data-toggle="modal" data-target="#shoppingCartModal"></i> <span class="total-count">2</span></p>
 
+                        </div>
 
                         <div class="modal fade" id="shoppingCartModal" tabindex="-1" role="dialog" aria-labelledby="shoppingCartModalLabel" aria-hidden="true" style="margin-top: -9%;">
                             <div class="modal-dialog modal-dialog-centered modal-sm pt-3" role="document">
@@ -196,7 +197,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                        <button type="button" class="btn btn-primary">Thanh toán</button>
+                                        <button type="button" class="btn btn-primary" onclick="window.location.href='/checkout'">Thanh toán</button>
                                     </div>
                                 </div>
                             </div>
@@ -405,9 +406,9 @@
                     <div class="col-lg-4 col-md-6 col-12" th:each="product : ${listProducts}">
                         <div class="single-product">
                             <div class="product-img">
-                                <a th:href="@{/product-details/{id}(id=${product.id})}">
-                                    <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
-                                    <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
+                                <a th:href="@{/userProductDetail/{id}(id=${product.id})}">
+                                    <img style="height:300px" class="default-img" th:src="@{'/img/' + ${product.image}}" alt="#">
+                                    <img style="height:300px" class="hover-img" th:src="@{'/img/' + ${product.image}}" alt="#">
                                 </a>
                                 <div class="button-head">
                                     <div class="product-action">
