@@ -405,17 +405,13 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-12" th:each="product : ${listProducts}">
                         <div class="single-product">
-<<<<<<< HEAD
-                            <div class="product-img" >
-                                <a th:href="@{/product-details/{id}(id=${product.id})}">
-                                    <img class="default-img" th:src="@{'/img/' + ${product.image}}" alt="#">
-                                    <img class="hover-img" th:src="@{'/img/' + ${product.image}}" alt="#">
-=======
+
+
                             <div class="product-img">
                                 <a th:href="@{/userProductDetail/{id}(id=${product.id})}">
                                     <img style="height:300px" class="default-img" th:src="@{'/img/' + ${product.image}}" alt="#">
                                     <img style="height:300px" class="hover-img" th:src="@{'/img/' + ${product.image}}" alt="#">
->>>>>>> 30e7af542ea411b5b649cb01f78ad474f82df16a
+
                                 </a>
                                 <div class="button-head">
                                     <div class="product-action">
