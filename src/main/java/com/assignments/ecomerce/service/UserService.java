@@ -18,4 +18,8 @@ public interface UserService {
     Users findByEmail(String email);
 
     List<Users> getAllUsers();
+
+     Users unlockUser(Integer id);
+
+    Users lockUser(Integer id);
 }

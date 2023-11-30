@@ -89,7 +89,7 @@
                                                         <div class="input-group input-group-sm">
                                                                 <span class="input-group-append">
                                                                         <button type="button" class="btn btn-info rounded"
-                                                                                data-toggle="modal" data-target="#addModal"
+                                                                                data-toggle="modal" data-target="#exampleModal"
                                                                                 data-whatever="@mdo">
                                                                                 Thêm Nhân Viên
                                                                         </button>
@@ -126,7 +126,11 @@
                                             <td th:text="${employee.email}"></td>
                                             <td th:text="${#numbers.formatDecimal(employee.salary, 0, 'COMMA', 0, 'POINT')}"></td>
                                             <td>
-                                                <a id="editButton" th:href="@{/findByIdEmployee/{id}(id=${employee.Id})}" class="btn btn-primary">Update</a>
+                                                <a id="editButton" th:href="@{/findByIdEmployee/{id}(id=${employee.id})}"
+                                                   class="btn btn-info rounded"
+                                                   data-toggle="modal" data-target="#editModal"
+                                                   data-whatever="@mdo">
+                                                    Update</a>
                                                 <a th:href="@{/status-employee(id = ${employee.id})}" class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>
@@ -172,6 +176,98 @@
         <!-- /.content -->
     </div>
 </div>
+<!--Add Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form id="employeeForm" th:action="@{/add-employee}" method="post" enctype="multipart/form-data" th:object="${employeeNew}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleAddEmployeeModalLabel">New Employee</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Tên Nhân Viên:</label>
+                        <input type="text" class="form-control" th:field="*{name}" id="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber" class="col-form-label">SĐT:</label>
+                        <input type="text" class="form-control" th:field="*{phoneNumber}" id="phoneNumber" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address" class="col-form-label">Địa Chỉ:</label>
+                        <textarea class="form-control" th:field="*{address}" id="address" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                    <label for="email" class="col-form-label">Email</label>
+                    <input type="email" class="form-control" th:field="*{email}" id="email" required>
+                </div>
+
+                    <div class="form-group">
+                        <label for="salary" class="col-form-label">Lương Nhân Viên</label>
+                        <input type="text" class="form-control" th:field="*{salary}" id="salary" required>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" onclick="saveEmployee(event)">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!--Edit Modal-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Employee</h5>
+            </div>
+            <div class="modal-body">
+                <form id="employeeFormEdit" th:action="@{/update-employee}" method="put" enctype="multipart/form-data" >
+                    <div class="form-group">
+                        <label for="idEdit" class="col-form-label">ID</label>
+                        <input type="text"  class="form-control" id="idEdit" name="id" readonly required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nameEdit" class="col-form-label">Loại</label>
+                        <input type="text" class="form-control" id="nameEdit" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumberEdit" class="col-form-label">SĐT:</label>
+                        <input type="text" class="form-control"  id="phoneNumberEdit" name="phoneNumber" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addressEdit" class="col-form-label">Địa Chỉ:</label>
+                        <textarea class="form-control"  id="addressEdit" name="address" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailEdit" class="col-form-label">Email</label>
+                        <input type="email" class="form-control"  id="emailEdit" name="email" readonly required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="salaryEdit" class="col-form-label">Lương Nhân Viên</label>
+                        <input type="text" class="form-control"  id="salaryEdit" name="salary" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" onclick="saveEmployeeEdit(event)">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div th:replace="~{fragments::script}"></div>
 </body>
 
@@ -181,4 +277,47 @@
     function logout() {
         window.location.href = '/logout';
     }
+
+    $('document').ready(function (){
+        $('table #editButton').on('click', function (event){
+        event.preventDefault();
+        var href = $(this).attr('href');
+        $.ajax({
+            url: href,
+            type: 'GET',
+            success: function (employee, status) {
+                $('#idEdit').val(employee.id);
+                $('#nameEdit').val(employee.name);
+                $('#phoneNumberEdit').val(employee.phoneNumber);
+                $('#addressEdit').val(employee.address);
+                $('#emailEdit').val(employee.email);
+                $('#salaryEdit').val(employee.salary);
+                $('#editModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+function saveEmployee(event) {
+  event.preventDefault();
+  var name = document.getElementById("name").value;
+  if (name === "") {
+    alert("Tên nhân viên không được để trống");
+    return;
+  }
+   document.getElementById("employeeForm").submit();
+}
+
+function saveEmployeeEdit(event) {
+  event.preventDefault();
+  var name = document.getElementById("nameEdit").value;
+  if (name === "") {
+    alert("Tên nhân viên không được để trống");
+    return;
+  }
+   document.getElementById("employeeFormEdit").submit();
+}
 </script>

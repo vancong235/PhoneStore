@@ -67,7 +67,7 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <form th:action="@{/search-employee/0}" method="get">
+                                                        <form th:action="@{/search-user/0}" method="get">
                                                             <div class="input-group input-group-sm">
                                                                 <input type="text" class="form-control"
                                                                        placeholder="Bạn tìm gì?"
@@ -89,9 +89,9 @@
                                                         <div class="input-group input-group-sm">
                                                                 <span class="input-group-append">
                                                                         <button type="button" class="btn btn-info rounded"
-                                                                                data-toggle="modal" data-target="#addModal"
+                                                                                data-toggle="modal" data-target="#exampleModal"
                                                                                 data-whatever="@mdo">
-                                                                                Thêm sản phẩm
+                                                                                Thêm Tài Khoản
                                                                         </button>
                                                                 </span>
                                                         </div>
@@ -111,8 +111,8 @@
                                             <th>ID</th>
                                             <th>Họ và Tên</th>
                                             <th>Email</th>
-                                            <th>Mật khẩu</th>
                                             <th>Vai Trò</th>
+                                            <th>Action</th>
                                         </tr>
 
                                         </thead>
@@ -121,9 +121,13 @@
                                             <td th:text="${user.id}"></td>
                                             <td th:text="${user.fullname}"></td>
                                             <td th:text="${user.email}"></td>
-                                            <td th:text="${user.password}"></td>
                                             <td th:text="${user.role}"></td>
-
+                                            <td>
+                                                <a th:if="${user.status} == 1" th:href="@{/block-account(id = ${user.id})}"
+                                                   class="btn btn-danger">Khóa Tài Khoản</a>
+                                                <a th:if="${user.status} == 0" th:href="@{/unlock-account(id = ${user.id})}"
+                                                    class=" btn btn-primary">Mở Khóa</a>
+                                            </td>
 
                                         </tr>
                                         </tbody>
@@ -133,11 +137,8 @@
                                 <!-- /.card-body -->
                                 <div class="card-footer clearfix">
                                     <nav aria-label="...">
-
                                     </nav>
                                 </div>
-
-
                             </div>
                             <!-- /.card -->
                         </div>
@@ -147,14 +148,61 @@
 
                 </div><!-- Small boxes (Stat box) -->
 
-                <!-- /.row -->
-                <!-- Main row -->
 
-                <!-- /.row (main row) -->
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
     </div>
+</div>
+<!--Add Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form id="userForm" th:action="@{/add-user-admin}" method="post" enctype="multipart/form-data" th:object="${userNew}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleAddUserModalLabel">New Account ( Admin Or Manager )</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="fullname" class="col-form-label">Họ Và Tên:</label>
+                        <input type="text" class="form-control" th:field="*{fullname}" id="fullname" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="role">Vai Trò:</label>
+                        <div class="col-md-8">
+                            <select id="role"  name="role" class="form-control">
+                                <option th:value="ADMIN" th:text="ADMIN"></option>
+                                <option th:value="MANAGER" th:text="MANAGER"></option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Email</label>
+                        <input type="email" class="form-control" th:field="*{email}" id="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Mật Khẩu:</label>
+                        <input type="password" class="form-control" th:field="*{password}" id="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="col-form-label"> Xác Nhận Mật Khẩu:</label>
+                         <input type="password" class="form-control"  id="confirmPassword" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" onclick="saveUser(event)">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <div th:replace="~{fragments::script}"></div>
 </body>
@@ -165,4 +213,28 @@
     function logout() {
         window.location.href = '/logout';
     }
+
+    function saveUser(event) {
+    event.preventDefault();
+    var name = document.getElementById("fullname").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (name === "" || email ==="" || password ==="" || confirmPassword ==="") {
+        alert("Vui lòng điền đầy đủ thông tin !");
+        return;
+    }
+
+
+    if (password !== confirmPassword){
+       alert("Password do not match");
+         return ;
+     }
+
+    document.getElementById("userForm").submit();
+
+     }
+
+
 </script>

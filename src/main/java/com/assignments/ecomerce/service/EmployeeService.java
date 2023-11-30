@@ -45,6 +45,7 @@ public class EmployeeService {
             employeeUpdate.setPhoneNumber(employee.getPhoneNumber());
             employeeUpdate.setAddress(employee.getAddress());
             employeeUpdate.setEmail(employee.getEmail());
+            employeeUpdate.setSalary(employee.getSalary());
         } catch (Exception e) {
             e.printStackTrace();
         }

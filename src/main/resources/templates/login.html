@@ -12,8 +12,12 @@
         <div class="card-body">
             <p class="login-box-msg" style="font-size: 19px; font-weight: bold;">Sign in to start your session</p>
             <div class="login-box-msg" style="color:red" th:if="${param.error}">
-                Invalid Email or Password !
+                Lỗi Đăng Nhập !!!
+                </br>
+                Sai thông tin đăng nhập hoặc tài khoản đã bị khóa !
+
             </div>
+
             <div class="login-box-msg" th:if="${param.logout}">
                 Logout Successfully !
             </div>

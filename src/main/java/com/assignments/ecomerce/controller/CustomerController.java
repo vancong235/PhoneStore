@@ -90,7 +90,7 @@ public class CustomerController {
     public String enabledProduct(Integer id, RedirectAttributes redirectAttributes, Principal principal) {
         try {
             customerService.enableById(id);
-            redirectAttributes.addFlashAttribute("success", "Block successfully!");
+            redirectAttributes.addFlashAttribute("success", "Delete successfully!");
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Enabled failed!");

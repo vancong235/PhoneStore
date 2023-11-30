@@ -48,7 +48,7 @@ public class ForgotPasswordController {
     public String savePasswordRequest(@RequestParam("username") String username, Model model) {
         Users user = userService.findByEmail(username);
         if (user == null) {
-            model.addAttribute("error", "This Email is not registered");
+            model.addAttribute("error", "Email này chưa được khởi tạo hoặc đã bị khóa !!!");
             return "password-request";
         }
 
@@ -87,14 +87,17 @@ public class ForgotPasswordController {
     @PostMapping("/reset-password")
     public String saveResetPassword(HttpServletRequest request, HttpSession session, Model model) {
         String password = request.getParameter("password");
-        String token = (String)session.getAttribute("token");
-
-        ForgotPasswordToken forgotPasswordToken = forgotPasswordRepository.findByToken(token);
-        Users user = forgotPasswordToken.getUser();
-        user.setPassword(passwordEncoder.encode(password));
-        forgotPasswordToken.setIsuUsed(true);
-        userService.save(user);
-        forgotPasswordRepository.save(forgotPasswordToken);
+        try {
+            String token = (String)session.getAttribute("token");
+            ForgotPasswordToken forgotPasswordToken = forgotPasswordRepository.findByToken(token);
+            Users user = forgotPasswordToken.getUser();
+            user.setPassword(passwordEncoder.encode(password));
+            forgotPasswordToken.setIsuUsed(true);
+            userService.save(user);
+            forgotPasswordRepository.save(forgotPasswordToken);
+        }catch (Exception e){
+                System.out.println(e);
+        }
 
         model.addAttribute("message", "You have successfuly reset your password");
 

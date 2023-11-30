@@ -84,6 +84,7 @@ public class EmployeeController {
         model.addAttribute("listEmployee", listEmployee);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", listEmployee.getTotalPages());
+        model.addAttribute("employeeNew", new Employee());
         return "employee";
     }
 }

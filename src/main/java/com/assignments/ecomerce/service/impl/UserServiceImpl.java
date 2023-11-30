@@ -1,6 +1,7 @@
 package com.assignments.ecomerce.service.impl;
 
 import com.assignments.ecomerce.dto.UserDto;
+import com.assignments.ecomerce.model.Category;
 import com.assignments.ecomerce.model.Users;
 import com.assignments.ecomerce.repository.RoleRepository;
 import com.assignments.ecomerce.repository.UserRepository;
@@ -27,7 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users save(Users user) {
-        return userRepository.save(user);
+        Users u = new Users(user.getEmail(),passwordEncoder.encode(user.getPassword()),user.getRole(),user.getFullname());
+        return userRepository.save(u);
     }
 
 
@@ -37,10 +39,34 @@ public class UserServiceImpl implements UserService {
 
 
     public Users findByFullname(String fullname){
-        return userRepository.findByFullname(fullname);
+        return userRepository.findByFullname(fullname.trim());
     }
 
     public Users findByEmail(String email){
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email.trim());
+    }
+
+    public Users unlockUser(Integer id) {
+
+        Users userUpdate = null;
+        try {
+            userUpdate = userRepository.findById(id).get();
+            userUpdate.setStatus(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userRepository.save(userUpdate);
+    }
+
+    public Users lockUser(Integer id) {
+
+        Users userUpdate = null;
+        try {
+            userUpdate = userRepository.findById(id).get();
+            userUpdate.setStatus(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userRepository.save(userUpdate);
     }
 }

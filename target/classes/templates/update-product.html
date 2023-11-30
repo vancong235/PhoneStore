@@ -46,7 +46,7 @@
             <div style="display: flex; justify-content: center;" class="card-header " >
                 <h2 style="font-size: 24px; font-weight: bold;text-align: center;" class="card-title ">Update Product</h2>
             </div>
-            <form id="productForm"  enctype="multipart/form-data" method="POST"
+            <form id="productForm"  enctype="multipart/form-data" method="POST "
                   th:action="@{/update-product/{id}(id = ${newProduct.id})}"
                   th:object="${newProduct}">
                 <fieldset>
