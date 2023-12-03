@@ -19,11 +19,6 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     @Query("SELECT DISTINCT size FROM Product WHERE name = :nameProduct")
     List<String> getAllSizeProduct(@Param("nameProduct") String nameProduct);
 
-
-//    @Query("SELECT COUNT(*) FROM OrderDetail od WHERE od.product = :productId")
-//    int getSoldShoeCount(@Param("productId") Product product);
-
-
     @Query("SELECT COUNT(*) FROM OrderDetail od WHERE od.product.id = :productId")
     int getSoldShoeCount(@Param("productId") Integer productId);
 
@@ -56,10 +51,5 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
             "GROUP BY p.name, p.price, p.description, p.quantity, p.size " +
             "ORDER BY sumQuantity DESC")
     List<Object[]> getTop10ProductsWithSumQuantity();
-
-
-    //    Query for user
-
-
 
 }

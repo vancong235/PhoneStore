@@ -1,5 +1,6 @@
 com\assignments\ecomerce\repository\RoleRepository.class
 com\assignments\ecomerce\controller\CustomerController.class
+com\assignments\ecomerce\controller\CartDetailController.class
 com\assignments\ecomerce\PhoneStoreApplication.class
 com\assignments\ecomerce\model\Users.class
 com\assignments\ecomerce\repository\ProductRepository.class
@@ -53,4 +54,3 @@ com\assignments\ecomerce\controller\OrderController.class
 com\assignments\ecomerce\model\OrderDetail.class
 com\assignments\ecomerce\dto\ProductDTO.class
 com\assignments\ecomerce\repository\CustomerRepository.class
-com\assignments\ecomerce\controller\CartController.class

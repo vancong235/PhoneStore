@@ -226,12 +226,10 @@ public class ProductController {
     }
     @GetMapping("/userProductDetail/{id}")
     public String userProductDetail(@PathVariable("id") Integer id, Model model) {
-        Product product = productService.findById(id);
-        List<Product> productDtoList = productService.findAllByCategory(product.getCategory().getName());
+        Product newProduct = productService.getById(id);
         List<Category> categories = categoryService.getAllCategory();
-        model.addAttribute("products", productDtoList);
-        model.addAttribute("productDetail", product);
         model.addAttribute("categories", categories);
+        model.addAttribute("product", newProduct);
         return "userProductDetail";
     }
 }

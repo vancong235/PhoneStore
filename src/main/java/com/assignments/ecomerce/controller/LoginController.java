@@ -46,6 +46,7 @@ public class LoginController {
     @Autowired
     UserDetailsService userDetailsService;
 
+
     @GetMapping("/register")
     public String register(Model model, UserDto userDto) {
         model.addAttribute("user", userDto);
@@ -74,9 +75,11 @@ public class LoginController {
     public String userPage(Model model, Principal principal, @RequestParam(value = "remember", required = false) boolean remember) {
         if (principal != null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+
+            Users user = userService.findByEmail(principal.getName());
+            model.addAttribute("userId", user.getId());
             model.addAttribute("user", userDetails);
             model.addAttribute("name", principal.getName());
-            System.out.println(principal.getName());
 
             List<Category> categories = categoryService.getAllCategory();
             Page<Product> listProducts = productService.searchProducts(0, "", 9);

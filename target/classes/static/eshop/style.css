@@ -272,7 +272,7 @@ Version:1.0
 	opacity: 0;
 	visibility: hidden;
 	padding: 10px;
-	left: 0;
+	right: 0;
 	margin: 0;
 }
 .header .nav li:hover .dropdown{
@@ -941,7 +941,7 @@ Version:1.0
 	display: block;
 }
 .header.shop.v2 .nav li a{
-	color:#333;
+	color:white;
 }
 .header.shop .nav li a {
 	color: #fff;
@@ -1158,7 +1158,7 @@ Version:1.0
 	visibility:visible;
 }
 .header.sticky .header-inner .nav li a {
-	color: #333;
+	color: white;
 }
 .header.sticky.v3 .header-inner .nav li a {
 	color: #fff;
