@@ -9,12 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-<<<<<<< Updated upstream
+
 public interface CartDetailRepository extends JpaRepository<CartDetail, Integer> {
     CartDetail findByUserIdAndProductId(Integer userId, Integer productId);
 
     List<CartDetail> findByUserId(Integer userId);
-=======
-public interface CartDetailRepository extends JpaRepository<CartDetail,Integer> {
->>>>>>> Stashed changes
+
 }

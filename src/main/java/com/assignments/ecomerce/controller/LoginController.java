@@ -80,10 +80,7 @@ public class LoginController {
             model.addAttribute("userId", user.getId());
             model.addAttribute("user", userDetails);
             model.addAttribute("name", principal.getName());
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 
             List<Category> categories = categoryService.getAllCategory();
             Page<Product> listProducts = productService.searchProducts(0, "", 9);
