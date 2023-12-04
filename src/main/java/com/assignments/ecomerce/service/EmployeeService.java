@@ -33,6 +33,10 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    public  Employee findByEmail(String email){
+        return employeeRepository.findByEmail(email);
+    }
+
     public Employee findById(Integer id) {
         return employeeRepository.findById(id).get();
     }

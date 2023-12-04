@@ -14,6 +14,9 @@ public interface CouponRepository extends JpaRepository<Coupon,Integer> {
     @Query("SELECT p from Coupon p where status = 1")
     Page<Coupon> pageCoupon(Pageable pageable);
 
-    @Query("SELECT p from Coupon p where CONCAT(p.code,p.promotion,p.description) like %?1%")
+    @Query("SELECT p from Coupon p where status = 1 and CONCAT(p.code,p.promotion,p.description,p.count) like %?1%")
     List<Coupon> searchCoupon(String keyword);
+
+    @Query(value = "SELECT p.code from Coupon p where p.code = :code and status = 1",nativeQuery = true)
+    String findByCode(String code);
 }

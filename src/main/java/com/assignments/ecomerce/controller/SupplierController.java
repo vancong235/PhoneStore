@@ -37,12 +37,12 @@ public class SupplierController {
             attributes.addFlashAttribute("success", "Added successfully");
         } catch (DataIntegrityViolationException e1) {
             e1.printStackTrace();
-            attributes.addFlashAttribute("failed", "Duplicate name of category, please check again!");
+            attributes.addFlashAttribute("error", "Duplicate name of category, please check again!");
         } catch (Exception e2) {
             e2.printStackTrace();
-            attributes.addFlashAttribute("failed", "Error Server");
+            attributes.addFlashAttribute("error", "Error Server");
         }
-        return "redirect:/supplier";
+        return "redirect:/supplier/0";
     }
 
     @RequestMapping(value = "/findByIdSupplier/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
@@ -58,10 +58,10 @@ public class SupplierController {
             attributes.addFlashAttribute("success", "Updated successfully");
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
-            attributes.addFlashAttribute("failed", "Failed to update because duplicate name");
+            attributes.addFlashAttribute("error", "Failed to update because duplicate name");
         } catch (Exception e) {
             e.printStackTrace();
-            attributes.addFlashAttribute("failed", "Error server");
+            attributes.addFlashAttribute("error", "Error server");
         }
         return "redirect:/supplier/0";
     }

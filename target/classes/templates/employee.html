@@ -194,6 +194,7 @@
                     <div class="form-group">
                         <label for="phoneNumber" class="col-form-label">SĐT:</label>
                         <input type="text" class="form-control" th:field="*{phoneNumber}" id="phoneNumber" required>
+                        <div id="phoneNumberError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
@@ -245,6 +246,7 @@
                     <div class="form-group">
                         <label for="phoneNumberEdit" class="col-form-label">SĐT:</label>
                         <input type="text" class="form-control"  id="phoneNumberEdit" name="phoneNumber" required>
+
                     </div>
 
                     <div class="form-group">
@@ -304,11 +306,25 @@
 function saveEmployee(event) {
   event.preventDefault();
   var name = document.getElementById("name").value;
+  var phone = document.getElementById("phoneNumber").value;
   if (name === "") {
     alert("Tên nhân viên không được để trống");
     return;
   }
+  if (phone === "") {
+   document.getElementById('phoneNumberError').innerHTML = 'Vui lòng nhập SĐT';
+    return;
+  }
+   if(!validatePhoneNumber(phoneNumber.value)){
+        document.getElementById('phoneNumberError').innerHTML = 'Vui lòng nhập đúng định dạng SĐT';
+        return;
+    }
    document.getElementById("employeeForm").submit();
+}
+
+function validatePhoneNumber(phone) {
+    const regexPhoneNumber = /(0[3|5|7|8|9])+([0-9]{8})\b/g;
+    return phone.match(regexPhoneNumber) ? true : false;
 }
 
 function saveEmployeeEdit(event) {

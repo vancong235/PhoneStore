@@ -15,7 +15,7 @@ public interface SupplierRepository extends JpaRepository<Supplier,Integer> {
     @Query("SELECT p from Supplier p where status = 1")
     Page<Supplier> pageSupplier(Pageable pageable);
 
-    @Query("SELECT p from Supplier p where CONCAT(p.name) like %?1%")
+    @Query("SELECT p from Supplier p where status = 1 and CONCAT(p.name) like %?1%")
     List<Supplier> searchSupplier(String keyword);
 }
 

@@ -20,7 +20,12 @@ public class CustomUserDetail implements UserDetails {
 
         return List.of(()->user.getRole());
     }
+<<<<<<< Updated upstream
     public Integer getId() {
+=======
+
+    public Integer getId(){
+>>>>>>> Stashed changes
         return user.getId();
     }
     public String getFullname(){

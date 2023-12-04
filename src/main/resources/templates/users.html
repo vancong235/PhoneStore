@@ -136,8 +136,25 @@
 
                                 <!-- /.card-body -->
                                 <div class="card-footer clearfix">
-                                    <nav aria-label="...">
-                                    </nav>
+                                    <ul class="pagination">
+                                        <li th:if="${currentPage != 0}" class="page-item ">
+                                            <a th:href="@{/search-user/{pageNo}(pageNo=${currentPage - 1}, keyword=${keyword})}" class="page-link">Previous</a>
+                                        </li>
+
+                                        <th:block th:if="${totalPages > 1}">
+                                            <li th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                                                th:classappend="${currentPage == i ? 'active' : ''}" class="page-item">
+                                                <a th:href="@{/search-user/{pageNo}(pageNo=${i}, keyword=${keyword})}" class="page-link">
+                                                    <span th:text="${i + 1}"></span>
+                                                </a>
+                                            </li>
+                                        </th:block>
+
+                                        <li th:if="${currentPage + 1 != totalPages}" class="page-item">
+                                            <a th:href="@{/search-user/{pageNo}(pageNo=${currentPage + 1},
+                                 keyword=${keyword})}" class="page-link">Next</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             <!-- /.card -->

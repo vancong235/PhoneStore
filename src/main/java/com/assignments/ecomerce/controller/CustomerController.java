@@ -81,7 +81,7 @@ public class CustomerController {
             attributes.addFlashAttribute("success", "UnLock successfully");
         } catch (Exception e) {
             e.printStackTrace();
-            attributes.addFlashAttribute("failed", "Failed to deleted");
+            attributes.addFlashAttribute("error", "Failed to deleted");
         }
         return "redirect:/customer/0";
     }

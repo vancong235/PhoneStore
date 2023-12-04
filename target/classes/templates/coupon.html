@@ -67,7 +67,7 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <form th:action="@{/search-employee/0}" method="get">
+                                                        <form th:action="@{/search-coupon/0}" method="get">
                                                             <div class="input-group input-group-sm">
                                                                 <input type="text" class="form-control"
                                                                        placeholder="Bạn tìm gì?"
@@ -89,9 +89,9 @@
                                                         <div class="input-group input-group-sm">
                                                                 <span class="input-group-append">
                                                                         <button type="button" class="btn btn-info rounded"
-                                                                                data-toggle="modal" data-target="#addModal"
+                                                                                data-toggle="modal" data-target="#exampleModal"
                                                                                 data-whatever="@mdo">
-                                                                                Thêm sản phẩm
+                                                                                Thêm khuyến mãi
                                                                         </button>
                                                                 </span>
                                                         </div>
@@ -109,10 +109,12 @@
                                         <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Code</th>
-                                            <th>Count</th>
-                                            <th>promotion</th>
-                                            <th>describe</th>
+                                            <th>Mã Code</th>
+                                            <th>Tên Khuyến Mãi</th>
+                                            <th>Số Lượng</th>
+                                            <th>Phần Trăm</th>
+                                            <th>Ngày Bắt Đầu</th>
+                                            <th>Ngày Kết Thúc</th>
                                             <th>Action</th>
                                         </tr>
 
@@ -121,12 +123,21 @@
                                         <tr th:each="coupon : ${listCoupon}">
                                             <td th:text="${coupon.Id}"></td>
                                             <td th:text="${coupon.Code}"></td>
-                                            <td th:text="${coupon.Count}"></td>
-                                            <td th:text="${coupon.promotion}"></td>
                                             <td th:text="${coupon.description}"></td>
+                                            <td th:text="${coupon.Count}"></td>
+                                            <td >
+                                                <span style="color: red;">[[${coupon.promotion}]] %</span>
+                                            </td>
+
+                                            <td th:text="${#strings.substring(coupon.startDay, 0, 10)}"></td>
+                                            <td th:text="${#strings.substring(coupon.endDay, 0, 10)}"></td>
                                             <td>
-                                                <a id="editButton" th:href="@{/findByIdCoupon/{id}(id=${coupon.Id})}"
-                                                   class="btn btn-primary">Update</a>
+                                                <a id="editButton" th:href="@{/findByIdCoupon/{id}(id=${coupon.id})}"
+                                                   class="btn btn-info rounded"
+                                                   data-toggle="modal" data-target="#editModal"
+                                                   data-whatever="@mdo">
+                                                    Update</a>
+                                                <a th:href="@{/delete-coupon(id = ${coupon.id})}" class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -177,6 +188,113 @@
         <!-- /.content -->
     </div>
 </div>
+<!--Add Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form id="couponForm" th:action="@{/add-coupon}" method="post" th:object="${couponNew}" enctype="multipart/form-data">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleAddCouponModalLabel">New Coupon</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Tên Khuyến Mãi:</label>
+                        <input type="text" class="form-control" th:field="*{description}" id="recipient-name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="code" class="col-form-label">Mã Code:</label>
+                        <input type="text" class="form-control" th:field="*{code}" id="code" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="count" class="col-form-label">Số lượng:</label>
+                        <input id="count" th:field="*{count}" name="count"
+                               class="form-control input-md" type="number" value="1" min="1" max="1000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promotion" class="col-form-label">Phần trăm khuyến mãi (%):</label>
+                        <input id="promotion" th:field="*{promotion}" name="promotion"
+                               class="form-control input-md" type="number" value="1" min="1" max="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="startDay" class="col-form-label">Ngày bắt đầu:</label>
+                        <input id="startDay" th:field="*{startDay}" name="startDay" class="form-control input-md" type="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endDay" class="col-form-label">Ngày kết thúc:</label>
+                        <input id="endDay" th:field="*{endDay}" name="endDay" class="form-control input-md" type="date" required>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" onclick="saveCoupon(event)">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!--Edit Modal-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Coupon</h5>
+            </div>
+            <div class="modal-body">
+                <form id="couponFormEdit" th:action="@{/update-coupon}" method="put" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="idEdit" class="col-form-label">ID</label>
+                        <input type="text"  class="form-control" id="idEdit" name="id" readonly required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descriptionEdit" class="col-form-label">Tên Khuyến Mãi </label>
+                        <input type="text" class="form-control" id="descriptionEdit" name="description" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="codeEdit" class="col-form-label">Mã Code </label>
+                        <input type="text" class="form-control" id="codeEdit" name="code" readonly required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="countEdit" class="col-form-label">Số lượng:</label>
+                        <input id="countEdit"  name="count"
+                               class="form-control input-md" type="number" value="1" min="1" max="1000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promotionEdit" class="col-form-label">Phần trăm khuyến mãi (%):</label>
+                        <input id="promotionEdit"  name="promotion"
+                               class="form-control input-md" type="number" value="1" min="1" max="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="startDayEdit" class="col-form-label">Ngày bắt đầu:</label>
+                        <input id="startDayEdit"  name="startDay" class="form-control input-md" type="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endDayEdit" class="col-form-label">Ngày kết thúc:</label>
+                        <input id="endDayEdit"  name="endDay" class="form-control input-md" type="date" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" onclick="saveCouponEdit(event)">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div th:replace="~{fragments::script}"></div>
 </body>
 
@@ -186,4 +304,49 @@
     function logout() {
         window.location.href = '/logout';
     }
+     $('document').ready(function (){
+        $('table #editButton').on('click', function (event){
+        event.preventDefault();
+        var href = $(this).attr('href');
+        $.ajax({
+            url: href,
+            type: 'GET',
+            success: function (coupon, status) {
+                $('#idEdit').val(coupon.id);
+                $('#descriptionEdit').val(coupon.description);
+                $('#codeEdit').val(coupon.code);
+                $('#countEdit').val(coupon.count);
+                $('#promotionEdit').val(coupon.promotion);
+                $('#startDayEdit').val(coupon.startDay);
+                $('#endDayEdit').val(coupon.endDay);
+                $('#editModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+function saveCoupon(event) {
+  event.preventDefault();
+  var name = document.getElementById("recipient-name").value;
+  if (name === "") {
+    alert("Tên Danh Mục không được để trống");
+    return;
+  }
+   document.getElementById("couponForm").submit();
+}
+
+function saveCouponEdit(event) {
+  event.preventDefault();
+  var name = document.getElementById("descriptionEdit").value;
+  if (name === "") {
+    alert("Tên Danh Mục không được để trống");
+    return;
+  }
+   document.getElementById("couponFormEdit").submit();
+}
+
+
 </script>

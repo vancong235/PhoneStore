@@ -80,7 +80,7 @@ public class CategoryService {
 
     public Page<Category> searchCategory(int pageNo, String keyword) {
         Pageable pageable = PageRequest.of(pageNo, 5);
-        List<Category> categorys = transfer(categoryRepository.searchCategory(keyword));
+        List<Category> categorys = transfer(categoryRepository.searchCategory(keyword.trim()));
         Page<Category> categoryPages = toPage(categorys, pageable);
         return categoryPages;
     }

@@ -68,7 +68,7 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <form th:action="@{/search-employee/0}" method="get">
+                                                        <form th:action="@{/search-supplier/0}" method="get">
                                                             <div class="input-group input-group-sm">
                                                                 <input type="text" class="form-control"
                                                                        placeholder="Bạn tìm gì?"
@@ -92,7 +92,7 @@
                                                                         <button type="button" class="btn btn-info rounded"
                                                                                 data-toggle="modal" data-target="#addModal"
                                                                                 data-whatever="@mdo">
-                                                                                Thêm sản phẩm
+                                                                                Thêm nhà cung cấp
                                                                         </button>
                                                                 </span>
                                                         </div>
@@ -110,9 +110,9 @@
                                         <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Name</th>
-                                            <th>phoneNumber</th>
-                                            <th>address</th>
+                                            <th>Tên Nhà Cung Cấp</th>
+                                            <th>SĐT</th>
+                                            <th>Địa Chỉ</th>
                                             <th>Action</th>
                                         </tr>
 
@@ -124,7 +124,12 @@
                                             <td th:text="${supplier.PhoneNumber}"></td>
                                             <td th:text="${supplier.Address}"></td>
                                             <td>
-                                                <a id="editButton" th:href="@{/findByIdSupplier/{id}(id=${supplier.Id})}" class="btn btn-primary">Update</a>
+                                                <a id="editButton" th:href="@{/findByIdSupplier/{id}(id=${supplier.id})}"
+                                                   class="btn btn-info rounded"
+                                                   data-toggle="modal" data-target="#editModal"
+                                                   data-whatever="@mdo">
+                                                    Update</a>
+                                                <a th:href="@{/delete-supplier(id = ${supplier.id})}" class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -175,6 +180,105 @@
         <!-- /.content -->
     </div>
 </div>
+
+<!--Add Modal-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form id="supplierForm" th:action="@{/add-supplier}" method="post" enctype="multipart/form-data"
+          th:object="${supplierNew}">
+        <div class="modal-dialog custom-modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleAddModalLabel">New Supplier</h5>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="nameAdd" class="col-md-8 control-label">Tên Nhà Cung Cấp:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" th:field="*{name}" id="nameAdd" name="name"
+                                   required>
+                            <div id="nameError" style="color: red" class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber" class="col-md-8 control-label">Số Điện Thoại:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" th:field="*{phoneNumber}" id="phoneNumber" name="phoneNumber"
+                                   required>
+                            <div id="phoneNumberError" style="color: red"  class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address" class="col-md-8 control-label">Địa Chỉ:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" th:field="*{address}" id="address" name="address"
+                                   required>
+                            <div id="addressError" style="color: red"  class="error-message"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" onclick="saveSupplier(event)">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!--Edit Modal-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Supplier</h5>
+            </div>
+            <div class="modal-body">
+                <form id="supplierFormEdit" th:action="@{/update-supplier}" method="put" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="idEdit" class="col-form-label">ID</label>
+                        <input type="text"  class="form-control" id="idEdit" name="id" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameEdit" class="col-md-8 control-label">Tên Nhà Cung Cấp:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control"  id="nameEdit" name="name"
+                                   required>
+                            <div id="nameEditError" style="color: red" class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumberEdit" class="col-md-8 control-label">Số Điện Thoại:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control"  id="phoneNumberEdit" name="phoneNumber"
+                                   required>
+                            <div id="phoneEditNumberError" style="color: red"  class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addressEdit" class="col-md-8 control-label">Địa Chỉ:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control"  id="addressEdit" name="address"
+                                   required>
+                            <div id="addressEditError" style="color: red"  class="error-message"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" onclick="saveSupplierEdit(event)">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div th:replace="~{fragments::script}"></div>
 </body>
 
@@ -183,4 +287,96 @@
     function logout() {
         window.location.href = '/logout';
     }
+    $('document').ready(function (){
+        $('table #editButton').on('click', function (event){
+        event.preventDefault();
+        var href = $(this).attr('href');
+        $.ajax({
+            url: href,
+            type: 'GET',
+            success: function (supplier, status) {
+                $('#idEdit').val(supplier.id);
+                $('#nameEdit').val(supplier.name);
+                $('#phoneNumberEdit').val(supplier.phoneNumber);
+                $('#addressEdit').val(supplier.address);
+
+                $('#editModal').modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+function saveSupplier(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('nameAdd');
+    const phoneNumber = document.getElementById('phoneNumber');
+    const address = document.getElementById('address');
+
+    document.getElementById('nameError').innerHTML = '';
+    document.getElementById('phoneNumberError').innerHTML = '';
+    document.getElementById('addressError').innerHTML = '';
+
+    if (name.value === '') {
+        document.getElementById('nameError').innerHTML = 'Vui lòng nhập Tên Nhà Cung Cấp';
+        return;
+    }
+
+    if (phoneNumber.value === '') {
+        document.getElementById('phoneNumberError').innerHTML = 'Vui lòng nhập Số Điện Thoại';
+        return;
+    }
+    if(!validatePhoneNumber(phoneNumber.value)){
+        document.getElementById('phoneNumberError').innerHTML = 'Vui lòng nhập đúng định dạng SĐT';
+        return;
+    }
+
+    if (address.value === '') {
+        document.getElementById('addressError').innerHTML = 'Vui lòng nhập Địa Chỉ';
+        return;
+    }
+
+    document.getElementById('supplierForm').submit(); // Submit form nếu tất cả các trường đã được điền
+
+}
+
+function validatePhoneNumber(phone) {
+    const regexPhoneNumber = /(0[3|5|7|8|9])+([0-9]{8})\b/g;
+    return phone.match(regexPhoneNumber) ? true : false;
+}
+
+function saveSupplierEdit(event) {
+    event.preventDefault();
+    const name = document.getElementById('nameEdit');
+    const phoneNumber = document.getElementById('phoneNumberEdit');
+    const address = document.getElementById('addressEdit');
+
+    document.getElementById('nameEditError').innerHTML = '';
+    document.getElementById('phoneEditNumberError').innerHTML = '';
+    document.getElementById('addressEditError').innerHTML = '';
+
+    if (name.value === '') {
+        document.getElementById('nameEditError').innerHTML = 'Vui lòng nhập Tên Nhà Cung Cấp';
+        return;
+    }
+
+    if (phoneNumber.value === '') {
+        document.getElementById('phoneEditNumberError').innerHTML = 'Vui lòng nhập Số Điện Thoại';
+        return;
+    }
+    if (!validatePhoneNumber(phoneNumber.value)) {
+        document.getElementById('phoneEditNumberError').innerHTML = 'Vui lòng nhập đúng định dạng SĐT';
+        return;
+    }
+
+    if (address.value === '') {
+        document.getElementById('addressEditError').innerHTML = 'Vui lòng nhập Địa Chỉ';
+        return;
+    }
+
+    document.getElementById('supplierFormEdit').submit();
+}
 </script>

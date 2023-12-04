@@ -42,21 +42,17 @@ public class CategoryController {
     @PostMapping("/add-category")
     public String add(@ModelAttribute("categoryNew") Category category, Model model, RedirectAttributes attributes) {
         try {
-            String name = category.getName();
-            Category categ = categoryService.findByName(category.getName());
-            if (categ == null) {
-                categoryService.save(category);
-            } else {
-                categoryService.updateStatus(categ.getId());
-            }
+
+            categoryService.save(category);
+
             model.addAttribute("categoryNew", category);
             attributes.addFlashAttribute("success", "Added successfully");
         } catch (DataIntegrityViolationException e1) {
             e1.printStackTrace();
-            attributes.addFlashAttribute("failed", "Duplicate name of category, please check again!");
+            attributes.addFlashAttribute("error", "Duplicate name of category, please check again!");
         } catch (Exception e2) {
             e2.printStackTrace();
-            attributes.addFlashAttribute("failed", "Error Server");
+            attributes.addFlashAttribute("error", "Error Server");
         }
         return "redirect:/category/0";
     }
@@ -75,38 +71,15 @@ public class CategoryController {
             attributes.addFlashAttribute("success", "Updated successfully");
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
-            attributes.addFlashAttribute("failed", "Failed to update because duplicate name");
+            attributes.addFlashAttribute("error", "Failed to update because duplicate name");
         } catch (Exception e) {
             e.printStackTrace();
-            attributes.addFlashAttribute("failed", "Error server");
+            attributes.addFlashAttribute("error", "Error server");
         }
         return "redirect:/category/0";
     }
 
-//    @GetMapping("/update-category/{id}")
-//    public String updateCategory(@PathVariable("id") Integer id, Model model) {
-//        Category category = categoryService.findById(id);
-////        Supplier supplier = supplierService.findById(category.getSupplier().getId());
-//        List<Supplier> listSupplier = supplierService.getAllSuppliers();
-//        model.addAttribute("category", category);
-//        model.addAttribute("listSupplier", listSupplier);
-//        System.out.println("123");
-//        return "category";
-//    }
-//
-//    @PostMapping("/update-category/{id}")
-//    public String processUpdateCategory(@PathVariable("id") Integer id,
-//                                       @ModelAttribute("categoryNew") Category category,
-//                                       RedirectAttributes attributes) {
-//        categoryService.update(category);
-//        try {
-//            attributes.addFlashAttribute("success", "Update successfully");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            attributes.addFlashAttribute("error", "Failed to update");
-//        }
-//        return "redirect:/product/0";
-//    }
+
 
     @RequestMapping(value = "/status-category", method = {RequestMethod.PUT, RequestMethod.GET})
     public String enabledCategory(Integer id, RedirectAttributes redirectAttributes, Principal principal) {

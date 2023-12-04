@@ -80,6 +80,10 @@ public class LoginController {
             model.addAttribute("userId", user.getId());
             model.addAttribute("user", userDetails);
             model.addAttribute("name", principal.getName());
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
             List<Category> categories = categoryService.getAllCategory();
             Page<Product> listProducts = productService.searchProducts(0, "", 9);
@@ -141,6 +145,6 @@ public class LoginController {
         model.addAttribute("user", user);
         System.out.println(user.getRole());
 
-        return "product";
+        return "statistical";
     }
 }

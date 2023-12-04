@@ -184,7 +184,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Name:</label>
-                        <input type="text" class="form-control" th:field="*{name}" id="recipient-name" required>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" th:field="*{name}" id="recipient-name" name="name"
+                                   required>
+                            <div id="nameError" style="color: red" class="error-message"></div>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -228,6 +232,7 @@
                     <div class="form-group">
                         <label for="nameEdit" class="col-form-label">Loại </label>
                         <input type="text" class="form-control" id="nameEdit" name="name" required>
+                        <div id="nameEditError" style="color: red" class="error-message"></div>
                     </div>
 
                     <div class="form-group">
@@ -240,6 +245,7 @@
                                 ></option>
                             </select>
                         </div>
+                        <div id="supplierEditError" style="color: red" class="error-message"></div>
                     </div>
                     <button type="submit" class="btn btn-primary" onclick="saveCategoryEdit(event)">Save</button>
                 </form>
@@ -280,20 +286,28 @@
 function saveCategory(event) {
   event.preventDefault();
   var name = document.getElementById("recipient-name").value;
-  if (name === "") {
-    alert("Tên Danh Mục không được để trống");
-    return;
-  }
+
+  document.getElementById('nameError').innerHTML = '';
+  if (name === '') {
+        document.getElementById('nameError').innerHTML = 'Vui lòng nhập Danh Mục';
+        return;
+    }
    document.getElementById("categoryForm").submit();
 }
 
 function saveCategoryEdit(event) {
   event.preventDefault();
   var name = document.getElementById("nameEdit").value;
-  if (name === "") {
-    alert("Tên Danh Mục không được để trống");
-    return;
-  }
+  var supplier = document.getElementById("supplierEdit").value;
+  document.getElementById('nameEditError').innerHTML = '';
+  if (name === '') {
+        document.getElementById('nameEditError').innerHTML = 'Vui lòng nhập Danh Mục';
+        return;
+    }
+     if (supplier === '') {
+        document.getElementById('supplierEditError').innerHTML = 'Vui lòng chọn nhà cung cấp';
+        return;
+    }
    document.getElementById("categoryFormEdit").submit();
 }
 </script>

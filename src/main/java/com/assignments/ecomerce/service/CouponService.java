@@ -35,6 +35,9 @@ public class CouponService {
         return couponRepository.findById(id).get();
     }
 
+    public String findByCode(String code){
+        return couponRepository.findByCode(code);
+    }
     public Coupon update(Coupon coupon) {
         Coupon couponSave = null;
         try {
@@ -43,14 +46,18 @@ public class CouponService {
             couponSave.setCount(coupon.getCount());
             couponSave.setPromotion(coupon.getPromotion());
             couponSave.setDescription(coupon.getDescription());
+            couponSave.setStartDay(coupon.getStartDay());
+            couponSave.setEndDay(coupon.getEndDay());
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return couponRepository.save(couponSave);
     }
 
     public void deleteById(Integer id) {
         Coupon coupon = couponRepository.getById(id);
+        coupon.setStatus(0);
         couponRepository.save(coupon);
     }
 
@@ -60,7 +67,7 @@ public class CouponService {
     }
 
     public Page<Coupon> searchCoupon(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
+        Pageable pageable = PageRequest.of(pageNo, 4);
         List<Coupon> Coupons = transfer(couponRepository.searchCoupon(keyword.trim()));
         Page<Coupon> couponPages = toPage(Coupons, pageable);
         return couponPages;
@@ -86,6 +93,8 @@ public class CouponService {
             newCoupon.setCount(coupon.getCount());
             newCoupon.setPromotion(coupon.getPromotion());
             newCoupon.setDescription(coupon.getDescription());
+            newCoupon.setStartDay(coupon.getStartDay());
+            newCoupon.setEndDay(coupon.getEndDay());
             CouponList.add(newCoupon);
         }
         return CouponList;

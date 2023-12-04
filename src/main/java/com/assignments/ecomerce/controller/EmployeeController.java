@@ -1,7 +1,9 @@
 package com.assignments.ecomerce.controller;
 
 import com.assignments.ecomerce.model.Employee;
+import com.assignments.ecomerce.model.Users;
 import com.assignments.ecomerce.service.EmployeeService;
+import com.assignments.ecomerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,9 @@ import java.security.Principal;
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private UserService userService;
     @GetMapping("/employee/{pageNo}")
     public String getAllEmployee(@PathVariable("pageNo") int pageNo, Model model, Principal principal) {
         Page<Employee> listEmployee = employeeService.pageEmployee(pageNo);
@@ -29,15 +34,25 @@ public class EmployeeController {
     @PostMapping("/add-employee")
     public String add(@ModelAttribute("EmployeeNew") Employee employee, Model model, RedirectAttributes attributes) {
         try {
+            Employee e = employeeService.findByEmail(employee.getEmail());
+            if(e != null){
+                attributes.addFlashAttribute("error", "Failed to add new Employee, Email has been used !");
+                return "redirect:/employee/0";
+            }
             employeeService.save(employee);
+
+            //create new employee account
+            Users users = new Users(employee.getEmail(),"123456","MANAGER",employee.getName());
+            userService.save(users);
+
             model.addAttribute("employeeNew", employee);
             attributes.addFlashAttribute("success", "Added successfully");
         } catch (DataIntegrityViolationException e1) {
             e1.printStackTrace();
-            attributes.addFlashAttribute("failed", "Duplicate name of category, please check again!");
+            attributes.addFlashAttribute("error", "Failed, please check again!");
         } catch (Exception e2) {
             e2.printStackTrace();
-            attributes.addFlashAttribute("failed", "Error Server");
+            attributes.addFlashAttribute("error", "Error Server");
         }
         return "redirect:/employee/0";
     }
@@ -52,13 +67,13 @@ public class EmployeeController {
     public String update(Employee employee, RedirectAttributes attributes) {
         try {
             employeeService.update(employee);
-            attributes.addFlashAttribute("success", "Updated successfully");
+            attributes.addFlashAttribute("success", "Updated successfully !");
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
-            attributes.addFlashAttribute("failed", "Failed to update because duplicate name");
+            attributes.addFlashAttribute("error", "Failed to update, something was wrong !");
         } catch (Exception e) {
             e.printStackTrace();
-            attributes.addFlashAttribute("failed", "Error server");
+            attributes.addFlashAttribute("error", "Error server");
         }
         return "redirect:/employee/0";
     }
@@ -67,10 +82,10 @@ public class EmployeeController {
     public String enabledProduct(Integer id, RedirectAttributes redirectAttributes, Principal principal) {
         try {
             employeeService.setStatus(id);
-            redirectAttributes.addFlashAttribute("success", "Enabled successfully!");
+            redirectAttributes.addFlashAttribute("success", "Delete employee successfully!");
         } catch (Exception e) {
             e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", "Enabled failed!");
+            redirectAttributes.addFlashAttribute("error", "Delete employee failed!");
         }
         return "redirect:/employee/0";
     }

@@ -15,7 +15,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Query(value = "SELECT COUNT(*) FROM customer", nativeQuery = true)
     int countCustomers();
 
-    @Query("SELECT p from Customer p where CONCAT(p.name,p.phoneNumber,p.address,p.email) like %?1%")
+    @Query("SELECT p from Customer p where p.statusCustomer = 1 and CONCAT(p.name,p.phoneNumber,p.address,p.email) like %?1%")
     List<Customer> searchCustomers(String keyword);
     @Query(value = "select * from Customer where statusCustomer = 1", nativeQuery = true)
     List<Customer> findByStatusActivated();
