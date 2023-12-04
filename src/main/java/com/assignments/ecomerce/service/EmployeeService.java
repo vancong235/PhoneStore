@@ -30,6 +30,7 @@ public class EmployeeService {
 
     public Employee save(Employee employee) {
         employee.setStatus(1);
+        employee.setTotalAmount(0.0);
         return employeeRepository.save(employee);
     }
 
@@ -50,6 +51,8 @@ public class EmployeeService {
             employeeUpdate.setAddress(employee.getAddress());
             employeeUpdate.setEmail(employee.getEmail());
             employeeUpdate.setSalary(employee.getSalary());
+            //System.out.println(employee.getTotalAmount());
+            employeeUpdate.setTotalAmount(employee.getTotalAmount());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,6 +98,7 @@ public class EmployeeService {
             newEmployee.setAddress(employee.getAddress());
             newEmployee.setEmail(employee.getEmail());
             newEmployee.setSalary(employee.getSalary());
+            newEmployee.setTotalAmount(employee.getTotalAmount());
             productList.add(newEmployee);
         }
         return productList;

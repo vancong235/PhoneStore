@@ -21,6 +21,16 @@ public class Employee {
     private Double salary;
     private  Integer status;
 
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    private Double totalAmount;
+
     public void setStatus(Integer status) {
         this.status = status;
     }
@@ -49,12 +59,13 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Employee(String name, String phoneNumber, String address, String email, Double salary) {
+    public Employee(String name, String phoneNumber, String address, String email, Double salary, Double totalAmount) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.email = email;
         this.salary = salary;
+        this.totalAmount = totalAmount;
     }
 
     public Employee(){}

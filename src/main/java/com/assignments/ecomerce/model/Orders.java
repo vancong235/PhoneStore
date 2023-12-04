@@ -19,7 +19,17 @@ public class Orders {
     private String status;
     private Integer couponId;
 
-    private Integer employeeId;
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "employeeId")
+    private Employee employee;
 
 
 
@@ -80,13 +90,13 @@ public class Orders {
         this.orderDetails = orderDetails;
     }
 
-    public Orders(Integer id, Customer customer, Date orderDate, String status, Integer couponId, Integer employeeId, String paymentMethod, Double total, String shipName, String shipAddress, String shipPhoneNumber, List<OrderDetail> orderDetails) {
+    public Orders(Integer id, Customer customer, Date orderDate, String status, Integer couponId, Employee employee, String paymentMethod, Double total, String shipName, String shipAddress, String shipPhoneNumber, List<OrderDetail> orderDetails) {
         this.id = id;
         this.customer = customer;
         this.orderDate = orderDate;
         this.status = status;
         this.couponId = couponId;
-        this.employeeId = employeeId;
+        this.employee = employee;
         this.paymentMethod = paymentMethod;
         this.total = total;
         ShipName = shipName;
@@ -129,13 +139,7 @@ public class Orders {
         return ShipName;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
 
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
 
     public String getShipAddress() {
         return ShipAddress;

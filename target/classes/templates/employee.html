@@ -114,6 +114,7 @@
                                             <th>Địa Chỉ</th>
                                             <th>Email</th>
                                             <th>Lương</th>
+                                            <th>Tổng Tiền Đã Bán</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -125,6 +126,7 @@
                                             <td th:text="${employee.address}"></td>
                                             <td th:text="${employee.email}"></td>
                                             <td th:text="${#numbers.formatDecimal(employee.salary, 0, 'COMMA', 0, 'POINT')}"></td>
+                                            <td th:text="${#numbers.formatDecimal(employee.totalAmount, 0, 'COMMA', 0, 'POINT')}"></td>
                                             <td>
                                                 <a id="editButton" th:href="@{/findByIdEmployee/{id}(id=${employee.id})}"
                                                    class="btn btn-info rounded"
@@ -189,6 +191,7 @@
                     <div class="form-group">
                         <label for="name" class="col-form-label">Tên Nhân Viên:</label>
                         <input type="text" class="form-control" th:field="*{name}" id="name" required>
+                        <div id="nameError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
@@ -200,17 +203,22 @@
                     <div class="form-group">
                         <label for="address" class="col-form-label">Địa Chỉ:</label>
                         <textarea class="form-control" th:field="*{address}" id="address" required></textarea>
+                        <div id="addressError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
-                    <label for="email" class="col-form-label">Email</label>
-                    <input type="email" class="form-control" th:field="*{email}" id="email" required>
+                        <label for="email" class="col-form-label">Email</label>
+                        <input type="email" class="form-control" th:field="*{email}" id="email" required>
+                        <div id="emailError" style="color: red"  class="error-message"></div>
                 </div>
 
                     <div class="form-group">
                         <label for="salary" class="col-form-label">Lương Nhân Viên</label>
                         <input type="text" class="form-control" th:field="*{salary}" id="salary" required>
+                        <div id="salaryError" style="color: red"  class="error-message"></div>
                     </div>
+
+
 
 
                     <div class="modal-footer">
@@ -240,28 +248,37 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="nameEdit" class="col-form-label">Loại</label>
+                        <label for="nameEdit" class="col-form-label">Tên Nhân Viên</label>
                         <input type="text" class="form-control" id="nameEdit" name="name" required>
+                        <div id="nameEditError" style="color: red"  class="error-message"></div>
                     </div>
                     <div class="form-group">
                         <label for="phoneNumberEdit" class="col-form-label">SĐT:</label>
                         <input type="text" class="form-control"  id="phoneNumberEdit" name="phoneNumber" required>
-
+                        <div id="phoneNumberEditError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="addressEdit" class="col-form-label">Địa Chỉ:</label>
                         <textarea class="form-control"  id="addressEdit" name="address" required></textarea>
+                        <div id="addressEditError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="emailEdit" class="col-form-label">Email</label>
                         <input type="email" class="form-control"  id="emailEdit" name="email" readonly required>
+                        <div id="emailEditError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="salaryEdit" class="col-form-label">Lương Nhân Viên</label>
                         <input type="text" class="form-control"  id="salaryEdit" name="salary" required>
+                        <div id="salaryEditError" style="color: red"  class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="totalAmountEdit" class="col-form-label">Tổng Tiền Đã Bán</label>
+                        <input type="text" class="form-control"  id="totalAmountEdit" name="totalAmount" readonly required>
                     </div>
 
                     <button type="submit" class="btn btn-primary" onclick="saveEmployeeEdit(event)">Save</button>
@@ -294,6 +311,7 @@
                 $('#addressEdit').val(employee.address);
                 $('#emailEdit').val(employee.email);
                 $('#salaryEdit').val(employee.salary);
+                $('#totalAmountEdit').val(employee.totalAmount);
                 $('#editModal').modal('show');
             },
             error: function (xhr, status, error) {
@@ -307,18 +325,42 @@ function saveEmployee(event) {
   event.preventDefault();
   var name = document.getElementById("name").value;
   var phone = document.getElementById("phoneNumber").value;
+  var address = document.getElementById("address").value;
+  var email = document.getElementById("email").value;
+  var salary = document.getElementById("salary").value;
+
+  document.getElementById('nameError').innerHTML = '';
+  document.getElementById('phoneNumberError').innerHTML = '';
+  document.getElementById('addressError').innerHTML = '';
+  document.getElementById('salaryError').innerHTML = '';
+  document.getElementById('emailError').innerHTML = '';
   if (name === "") {
-    alert("Tên nhân viên không được để trống");
+    document.getElementById('nameError').innerHTML = 'Vui lòng nhập tên';
     return;
   }
   if (phone === "") {
    document.getElementById('phoneNumberError').innerHTML = 'Vui lòng nhập SĐT';
     return;
   }
-   if(!validatePhoneNumber(phoneNumber.value)){
+
+    if(!validatePhoneNumber(phoneNumber.value)){
         document.getElementById('phoneNumberError').innerHTML = 'Vui lòng nhập đúng định dạng SĐT';
         return;
     }
+   if (address === "") {
+    document.getElementById('addressError').innerHTML = 'Vui lòng nhập địa chỉ';
+    return;
+  }
+  if (email === "") {
+   document.getElementById('emailError').innerHTML = 'Vui lòng nhập Email';
+    return;
+  }
+
+   if (salary === "") {
+   document.getElementById('salaryError').innerHTML = 'Vui lòng nhập lương nhân viên';
+    return;
+  }
+
    document.getElementById("employeeForm").submit();
 }
 
@@ -330,8 +372,42 @@ function validatePhoneNumber(phone) {
 function saveEmployeeEdit(event) {
   event.preventDefault();
   var name = document.getElementById("nameEdit").value;
+  var phone = document.getElementById("phoneNumberEdit").value;
+  var address = document.getElementById("addressEdit").value;
+  var email = document.getElementById("emailEdit").value;
+  var salary = document.getElementById("salaryEdit").value;
+
+  document.getElementById('nameEditError').innerHTML = '';
+  document.getElementById('phoneNumberEditError').innerHTML = '';
+  document.getElementById('addressEditError').innerHTML = '';
+  document.getElementById('salaryEditError').innerHTML = '';
+  document.getElementById('emailEditError').innerHTML = '';
   if (name === "") {
-    alert("Tên nhân viên không được để trống");
+    document.getElementById('nameEditError').innerHTML = 'Vui lòng nhập tên';
+    return;
+  }
+  if (phone === "") {
+   document.getElementById('phoneNumberEditError').innerHTML = 'Vui lòng nhập SĐT';
+    return;
+  }
+
+    if(!validatePhoneNumber(phoneNumberEdit.value)){
+        document.getElementById('phoneNumberEditError').innerHTML = 'Vui lòng nhập đúng định dạng SĐT';
+        return;
+    }
+
+   if (address === "") {
+    document.getElementById('addressEditError').innerHTML = 'Vui lòng nhập địa chỉ';
+    return;
+  }
+
+  if (email === "") {
+   document.getElementById('emailEditError').innerHTML = 'Vui lòng nhập Email';
+    return;
+  }
+
+   if (salary === "") {
+   document.getElementById('salaryEditError').innerHTML = 'Vui lòng nhập lương nhân viên';
     return;
   }
    document.getElementById("employeeFormEdit").submit();

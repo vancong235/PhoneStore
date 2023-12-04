@@ -70,7 +70,7 @@ public class OrderService {
             newOrder.setCouponId(order.getCouponId());
             newOrder.setPaymentMethod(order.getPaymentMethod());
             newOrder.setTotal(order.getTotal());
-            newOrder.setEmployeeId(order.getEmployeeId());
+            newOrder.setEmployee(order.getEmployee());
             orderList.add(newOrder);
         }
         return orderList;

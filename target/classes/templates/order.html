@@ -68,7 +68,7 @@
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <form th:action="@{/search-products/0}" method="get">
-                                                            <div class="input-group input-group-sm">
+                                                            <div class="input-group input-group-sm" style="width:150px">
                                                                 <input type="text" class="form-control"
                                                                        placeholder="Bạn tìm gì?"
                                                                        name="keyword" aria-label="Search"
@@ -83,23 +83,17 @@
                                                 <!-- /input-group -->
                                             </div>
                                             <!-- /.col-lg-6 -->
-                                            <div class="col-lg-6">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group input-group-sm">
-                                                                <span class="input-group-append">
-                                                                        <button type="button" class="btn btn-info rounded"
-                                                                                data-toggle="modal" data-target="#addModal"
-                                                                                data-whatever="@mdo">
-                                                                                Thêm sản phẩm
-                                                                        </button>
-                                                                </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- /input-group -->
-                                            </div>
-                                            <!-- /.col-lg-6 -->
+<!--                                            <div class="col-lg-6">-->
+<!--                                                <div class="input-group">-->
+<!--                                                    <div class="input-group-prepend">-->
+<!--                                                        <div class="input-group input-group-sm">-->
+
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                &lt;!&ndash; /input-group &ndash;&gt;-->
+<!--                                            </div>-->
+<!--                                            &lt;!&ndash; /.col-lg-6 &ndash;&gt;-->
                                         </div>
                                     </h3>
                                 </div>
@@ -107,24 +101,36 @@
                                 <div class="card-body table-responsive p-0">
                                     <table class="table table-hover text-nowrap">
                                         <thead>
-                                        <tr>
+                                        <tr style="text-align: center; vertical-align: middle;">
                                             <th>ID</th>
-                                            <th>ID Customer</th>
-                                            <th>Order Date</th>
-                                            <th>Status</th>
-                                            <th>Total Order</th>
+                                            <th>Khách Hàng</th>
+                                            <th>Ngày Đặt Hàng</th>
+                                            <th>Trạng Thái Đơn Hàng</th>
+                                            <th>Tổng Tiền</th>
+                                            <th>Nhân Viên Xác Nhận</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="orders : ${listOrder}">
+                                        <tr style="text-align: center; vertical-align: middle;" th:each="orders : ${listOrder}">
                                             <td th:text="${orders.Id}"></td>
-                                            <td th:text="${orders.customer.getId()}"></td>
-                                            <td th:text="${orders.orderDate}"></td>
-                                            <td th:text="${orders.Status}"></td>
-                                            <td th:text="${orders.total}"></td>
-                                            <td>
-                                                <a th:if="${orders != null}" th:href="@{/orderdetail(orderId=${orders.Id})}">Xem Chi Tiết</a>
+                                            <td th:text="${orders.customer.getId() + ' _ ' + orders.customer.getName()}"></td>
+
+
+                                            <td th:text="${#strings.substring(orders.orderDate, 0, 10)}"></td>
+
+                                            <td th:text="${(orders.Status == '1' ? 'Chờ xác nhận' : (orders.Status == '2' ? 'Đã xác nhận' : 'Đã hủy đơn'))}"
+                                                th:style="${orders.Status == '0' ? 'color: red; font-weight: bold' : (orders.Status == '1' ? 'color: green; font-weight: bold' : 'font-weight: bold')}">
+                                            </td>
+
+                                            <td th:text="${#numbers.formatDecimal(orders.total, 0, 'COMMA', 0, 'POINT') + '&nbsp;VND'}"></td>
+
+                                            <td th:text="${orders.employee.getId() + ' _ ' + orders.employee.getName()}"></td>
+
+                                            <td style="text-align: center; vertical-align: middle;">
+                                                <a th:if="${orders.Status == '1'}" id="confirmButton"  class="btn btn-primary">Xác Nhận</a>
+                                                <a th:if="${orders.Status == '1' || orders.Status == '2'}" id="cancelButton" class="btn btn-danger">Hủy Đơn</a>
+                                                <a id="detailButton" th:href="@{/orderdetail(orderId=${orders.Id})}" class="btn btn-success">Detail</a>
                                             </td>
                                         </tr>
                                         </tbody>

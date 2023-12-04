@@ -201,11 +201,13 @@
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Tên Khuyến Mãi:</label>
                         <input type="text" class="form-control" th:field="*{description}" id="recipient-name" required>
+                        <div id="descriptionError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="code" class="col-form-label">Mã Code:</label>
                         <input type="text" class="form-control" th:field="*{code}" id="code" required>
+                        <div id="codeError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
@@ -218,16 +220,19 @@
                         <label for="promotion" class="col-form-label">Phần trăm khuyến mãi (%):</label>
                         <input id="promotion" th:field="*{promotion}" name="promotion"
                                class="form-control input-md" type="number" value="1" min="1" max="100" required>
+                        <div id="promotionError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="startDay" class="col-form-label">Ngày bắt đầu:</label>
                         <input id="startDay" th:field="*{startDay}" name="startDay" class="form-control input-md" type="date" required>
+                        <div id="startDayError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="endDay" class="col-form-label">Ngày kết thúc:</label>
                         <input id="endDay" th:field="*{endDay}" name="endDay" class="form-control input-md" type="date" required>
+                        <div id="endDayError" style="color: red"  class="error-message"></div>
                     </div>
 
 
@@ -260,6 +265,7 @@
                     <div class="form-group">
                         <label for="descriptionEdit" class="col-form-label">Tên Khuyến Mãi </label>
                         <input type="text" class="form-control" id="descriptionEdit" name="description" required>
+                        <div id="descriptionEditError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
@@ -271,22 +277,26 @@
                         <label for="countEdit" class="col-form-label">Số lượng:</label>
                         <input id="countEdit"  name="count"
                                class="form-control input-md" type="number" value="1" min="1" max="1000" required>
+                        <div id="countEditError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="promotionEdit" class="col-form-label">Phần trăm khuyến mãi (%):</label>
                         <input id="promotionEdit"  name="promotion"
                                class="form-control input-md" type="number" value="1" min="1" max="100" required>
+                        <div id="promotionEditError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="startDayEdit" class="col-form-label">Ngày bắt đầu:</label>
                         <input id="startDayEdit"  name="startDay" class="form-control input-md" type="date" required>
+                        <div id="startDayEditError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="endDayEdit" class="col-form-label">Ngày kết thúc:</label>
                         <input id="endDayEdit"  name="endDay" class="form-control input-md" type="date" required>
+                        <div id="endDayEditError" style="color: red"  class="error-message"></div>
                     </div>
 
                     <button type="submit" class="btn btn-primary" onclick="saveCouponEdit(event)">Save</button>
@@ -331,8 +341,41 @@
 function saveCoupon(event) {
   event.preventDefault();
   var name = document.getElementById("recipient-name").value;
+  var code = document.getElementById("code").value;
+  var promotion = document.getElementById("promotion").value;
+  var startDay = document.getElementById("startDay").value;
+  var endDay = document.getElementById("endDay").value;
+
+
+  document.getElementById('descriptionError').innerHTML = '';
+    document.getElementById('codeError').innerHTML = '';
+    document.getElementById('promotionError').innerHTML = '';
+    document.getElementById('startDayError').innerHTML = '';
+    document.getElementById('endDayError').innerHTML = '';
+
+
   if (name === "") {
-    alert("Tên Danh Mục không được để trống");
+    document.getElementById('descriptionError').innerHTML = 'Vui lòng nhập tên khuyến mãi';
+    return;
+  }
+
+  if (code === "") {
+    document.getElementById('codeError').innerHTML = 'Vui lòng nhập mã code';
+    return;
+  }
+
+   if (promotion === "") {
+    document.getElementById('promotionError').innerHTML = 'Vui lòng nhập phần trăm khuyến mãi';
+    return;
+  }
+
+   if (startDay === "") {
+    document.getElementById('startDayError').innerHTML = 'Vui lòng nhập ngày bắt đầu';
+    return;
+  }
+
+   if (endDay === "") {
+    document.getElementById('endDayError').innerHTML = 'Vui lòng nhập ngày kết thúc';
     return;
   }
    document.getElementById("couponForm").submit();
@@ -341,8 +384,39 @@ function saveCoupon(event) {
 function saveCouponEdit(event) {
   event.preventDefault();
   var name = document.getElementById("descriptionEdit").value;
+  var quantity = document.getElementById("countEdit").value;
+  var promotion = document.getElementById("promotionEdit").value;
+  var startDay = document.getElementById("startDayEdit").value;
+  var endDay = document.getElementById("endDayEdit").value;
+
+  document.getElementById('descriptionEditError').innerHTML = '';
+    document.getElementById('countEditError').innerHTML = '';
+    document.getElementById('promotionEditError').innerHTML = '';
+    document.getElementById('startDayEditError').innerHTML = '';
+    document.getElementById('endDayEditError').innerHTML = '';
+
   if (name === "") {
-    alert("Tên Danh Mục không được để trống");
+   document.getElementById('descriptionEditError').innerHTML = 'Vui lòng nhập tên khuyến mãi';
+    return;
+  }
+
+  if (quantity === "") {
+   document.getElementById('countEditError').innerHTML = 'Vui lòng nhập số lượng khuyến mãi';
+    return;
+  }
+
+  if (promotion === "") {
+   document.getElementById('promotionEditError').innerHTML = 'Vui lòng nhập phần trăm khuyến mãi';
+    return;
+  }
+
+  if (startDay === "") {
+   document.getElementById('startDayEditError').innerHTML = 'Vui lòng nhập ngày bắt đầu';
+    return;
+  }
+
+  if (endDay === "") {
+   document.getElementById('endDayEditError').innerHTML = 'Vui lòng nhập ngày kết thúc';
     return;
   }
    document.getElementById("couponFormEdit").submit();

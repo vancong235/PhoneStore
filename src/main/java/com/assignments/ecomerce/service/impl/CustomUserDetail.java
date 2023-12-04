@@ -20,7 +20,7 @@ public class CustomUserDetail implements UserDetails {
 
         return List.of(()->user.getRole());
     }
-    
+
 
     public Integer getId(){
 
