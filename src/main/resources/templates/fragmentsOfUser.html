@@ -320,12 +320,9 @@
     function updateModalContent(response) {
         // Clear the existing content in the modal body
         $(".modal-body .container").empty();
-
-        // Process each item in the API response
         response.forEach(function(item) {
             var product = JSON.parse(item.product);
             var quantity = item.quantity;
-            console.log(product);
 
             // Create the HTML structure for each item
             var itemHTML = `
@@ -346,11 +343,11 @@
 
             // Append the item HTML to the modal body
             $(".modal-body .container").append(itemHTML);
-            totalQuantity += quantity;
         });
-
+        var responseLength = response.length;
+        console.log(responseLength);
         var sumQuantity = document.querySelector(".sumQuantity");
-        sumQuantity.innerHTML = totalQuantity;
+        sumQuantity.innerHTML = responseLength;
 
         // Attach click event to delete buttons
         $(".delete-button").click(function() {
