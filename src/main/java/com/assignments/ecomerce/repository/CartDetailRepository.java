@@ -17,13 +17,11 @@ public interface CartDetailRepository extends JpaRepository<CartDetail, Integer>
 
     List<CartDetail> findByUserId(Integer userId);
 
-<<<<<<< Updated upstream
-=======
     @Query("SELECT cd FROM CartDetail cd JOIN FETCH cd.product p WHERE cd.userId = :userId")
     List<CartDetail> findHaveManyField(Integer userId);
 
     @Modifying
     @Query(value = "INSERT INTO cartdetail (userId, productId, quantity, unitPrice) VALUES (:userId, :productId, :quantity, :unitPrice)", nativeQuery = true)
     int saveCartDetail(@Param("userId") Integer userId, @Param("productId") Integer productId, @Param("quantity") Integer quantity, @Param("unitPrice") Double unitPrice);
->>>>>>> Stashed changes
+
 }
