@@ -56,7 +56,6 @@ public class CartDetailController {
                         listProduct.add(product);
                         JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("product", product.toString());
-//                System.out.println(product.toString());
                         jsonObject.addProperty("multi", multi);
                         jsonObject.addProperty("quantity", quantity);
                         jsonArray.add(jsonObject);

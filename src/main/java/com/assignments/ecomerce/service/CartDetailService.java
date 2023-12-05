@@ -14,11 +14,18 @@ public class CartDetailService {
     @Autowired
     private CartDetailRepository cartDetailRepository;
 
+    @Autowired
+    private ProductService productService;
+
     public List<CartDetail> findAll() {
         return cartDetailRepository.findAll();
     }
     public List<CartDetail> findByUserId(Integer userId) {
         return cartDetailRepository.findByUserId(userId);
+    }
+
+    public List<CartDetail> findHaveManyField(Integer userId) {
+        return cartDetailRepository.findHaveManyField(userId);
     }
 
     public CartDetail findByUserIdAndProductId(Integer userId, Integer productId) {
@@ -28,6 +35,7 @@ public class CartDetailService {
     @Transactional
     public boolean saveCart(Integer userId, Integer productId, Integer quantity, Double unitPrice) {
         try {
+            int a = 0;
             // Kiểm tra sự tồn tại của bản ghi với userId và productId
             CartDetail existingCartDetail = cartDetailRepository.findByUserIdAndProductId(userId, productId);
             if (existingCartDetail != null) {
@@ -41,11 +49,14 @@ public class CartDetailService {
                 cartDetail.setProductId(productId);
                 cartDetail.setQuantity(quantity);
                 cartDetail.setUnitPrice(unitPrice);
-                cartDetailRepository.save(cartDetail);
+                a = cartDetailRepository.saveCartDetail(cartDetail.getUserId(), cartDetail.getProductId(), cartDetail.getQuantity(), cartDetail.getUnitPrice());
             }
-
-            return true;
+            if (a==1) {
+                return true;
+            }
+            return false;
         } catch (Exception e) {
+            System.out.println("Lỗi ở đây " + e.toString());
             return false;
         }
     }

@@ -17,9 +17,19 @@ public class CartDetail {
 
     @Column(name = "quantity")
     private Integer quantity;
-
     @Column(name = "unitPrice")
     private Double unitPrice;
+
+    @OneToOne
+    @JoinColumn(name = "productId")
+    private Product product;
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -51,6 +61,14 @@ public class CartDetail {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public CartDetail(Integer userId, Integer productId, Integer quantity, Double unitPrice, Product product) {
+        this.userId = userId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.product = product;
     }
 
     public CartDetail() {

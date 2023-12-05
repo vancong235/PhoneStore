@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:fragment="head">
+    <!-- Meta Tag -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='copyright' content=''>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title Tag  -->
+    <title>Eshop - eCommerce HTML5 Template.</title>
+    <!-- Favicon -->
+    <!-- Web Font -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
+          rel="stylesheet">
+    <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"-->
+    <!--          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">-->
+    <!-- StyleSheet -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/bootstrap.css}">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/magnific-popup.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/font-awesome.css}">
+    <!-- Fancybox -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/jquery.fancybox.min.css}">
+    <!-- Themify Icons -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/themify-icons.css}">
+    <!-- Jquery Ui -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/jquery-ui.css}">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/niceselect.css}">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/animate.css}">
+    <!-- Flex Slider CSS -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/flex-slider.min.css}">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/owl-carousel.css}">
+    <!-- Slicknav -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/slicknav.min.css}">
+
+    <!-- Eshop StyleSheet -->
+    <link rel="stylesheet" th:href="@{~/eshop/css/reset.css}">
+    <link rel="stylesheet" th:href="@{~/eshop/style.css}">
+    <link rel="stylesheet" th:href="@{~/eshop/css/responsive.css}">
+
+    <style>
+        .shopping-list {
+            max-height: 400px; /* Đặt chiều cao tối đa cho danh sách */
+            overflow-y: auto; /* Thêm thanh cuộn khi nội dung vượt quá chiều cao */
+        }
+        .no-scroll {
+          overflow-y: hidden !important;
+        }
+    .customeBtn {
+        border-color: #f7941d;
+        color: orange;
+        background-color: white;
+        transition: color 0.3s, background-color 0.3s;
+    }
+    .customeBtn:hover {
+        color: orange !important;
+        background-color: #e5e5e5 !important;
+    }
+
+    .modal-dialog {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      left: 0;
+      top: -5%;
+      right: 0;
+      bottom: 0;
+    }
+
+    .modal-content {
+      transform: translate(0%, 0%);
+    }
+    </style>
+
+</head>
+<body>
+    <header th:fragment="navbarNoCart" class="header shop">
+        <!-- End Topbar -->
+        <div class="middle-inner" style="background: white; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <!-- Logo -->
+                <div class="logo">
+                    <a href="index.html" class="d-flex justify-content-center"><img th:src="@{~/eshop/images/logo.png}"
+                                                                                    alt="logo"></a>
+                </div>
+            </div>
+        </div>
+        <!-- Header Inner -->
+        <div class="header-inner" style="background: #dd7f04; color: white; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
+            <div class="container">
+                <div class="cat-nav-head">
+                    <div class="row">
+                        <div class="menu-area">
+                            <!-- Main Menu -->
+                            <nav class="navbar navbar-expand-lg">
+                                <div class="navbar-collapse">
+                                    <div class="d-flex justify-content-between bd-highlight">
+                                        <div class="bd-highlight">
+                                            <ul class="nav col-12">
+                                                <li class="active"><a href="#">Home</a></li>
+                                                <li><a href="#">Product</a></li>
+                                                <li><a href="contact.html">Contact Us</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bd-highlight d-flex align-items-center justify-content-center">
+                                            <form method="get">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Nhập thứ cần tìm..."
+                                                           style="padding: 5px; padding-left: 10px; font-size: 14px; border-color:#f7941d">
+                                                    <button type="submit" class="customeBtn border-dark-5 p-3"
+                                                            style="font-size: 14; font-weight: bold;"><i
+                                                            class="fa fa-search" aria-hidden="true"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="bd-highlight">
+                                            <ul class="nav">
+                                                <li th:if="${name == ''}">
+                                                    <a href="/login">Đăng nhập</a>
+                                                </li>
+                                                <li th:if="${name == ''}">
+                                                    <a href="/login">Đăng ký</a>
+                                                </li>
+                                                <li th:if="${name != ''}">
+                                                    <a href="#">
+                                                        <span class="userId" th:data-uid="${userId}" th:text="${name}"></span>
+                                                        <span class="total-count">
+                                                                <i class="fa fa-chevron-down" aria-hidden="true"
+                                                                   style="font-size: 14px !important; vertical-align: middle; margin-left: -1px !important;"></i>
+                                                            </span>
+                                                    </a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="blog-single-sidebar.html">Thông tin tài khoản</a></li>
+                                                        <li><a href="blog-single-sidebar.html">Đánh giá sản phẩm</a></li>
+                                                        <li><a href="blog-single-sidebar.html">Lịch sử đơn hàng</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                            <!--/ End Main Menu -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ End Header Inner -->
+    </header>
+    <header th:fragment="navbar" class="header shop">
+        <!-- End Topbar -->
+        <div class="middle-inner" style="background: white; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <!-- Logo -->
+                <div class="logo">
+                    <a href="index.html" class="d-flex justify-content-center"><img th:src="@{~/eshop/images/logo.png}"
+                                                                                    alt="logo"></a>
+                </div>
+            </div>
+        </div>
+        <!-- Header Inner -->
+        <div class="header-inner" style="background: #dd7f04; color: white; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
+            <div class="container">
+                <div class="cat-nav-head">
+                    <div class="row">
+                        <div class="menu-area">
+                            <!-- Main Menu -->
+                            <nav class="navbar navbar-expand-lg">
+                                <div class="navbar-collapse">
+                                    <div class="d-flex justify-content-between bd-highlight">
+                                        <div class="bd-highlight">
+                                            <ul class="nav col-12">
+                                                <li class="active"><a href="#">Home</a></li>
+                                                <li><a href="#">Product</a></li>
+                                                <li><a href="contact.html">Contact Us</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bd-highlight d-flex align-items-center justify-content-center">
+                                            <form method="get">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="Nhập thứ cần tìm..."
+                                                           style="padding: 5px; padding-left: 10px; font-size: 14px; border-color:#f7941d">
+                                                    <button type="submit" class="customeBtn border-dark-5 p-3"
+                                                            style="font-size: 14; font-weight: bold;"><i
+                                                            class="fa fa-search" aria-hidden="true"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="bd-highlight">
+                                            <ul class="nav">
+                                                <li>
+                                                    <div class="sinlge-bar shopping">
+                                                        <a th:if="${name == ''}" href="/login" class="single-icon">
+                                                            <i class="fa fa-shopping-cart" data-toggle="modal"
+                                                               data-target="#shoppingCartModal"
+                                                               style="font-size: 20px !important; margin-left: -2px !important;"></i>
+                                                            <sup class="total-count"
+                                                                 style="font-size: 14px !important;"></sup>
+                                                        </a>
+                                                        <a th:if="${name != ''}" class="single-icon" style="cursor:pointer"
+                                                           data-toggle="modal" data-target="#myModal">
+                                                            <span>Giỏ hàng&nbsp;</span>
+                                                            <i class="fa fa-shopping-cart"
+                                                               style="font-size: 20px !important; margin-left: -2px !important;"></i>
+                                                            <sup class="total-count sumQuantity"
+                                                                 style="font-size: 14px !important; color: black; font-weight: bold"></sup>
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                                <li th:if="${name == ''}">
+                                                    <a href="/login">Đăng nhập</a>
+                                                </li>
+                                                <li th:if="${name == ''}">
+                                                    <a href="/login">Đăng ký</a>
+                                                </li>
+                                                <li th:if="${name != ''}">
+                                                    <a href="#">
+                                                        <span class="userId" th:data-uid="${userId}" th:text="${name}"></span>
+                                                        <span class="total-count">
+                                                                <i class="fa fa-chevron-down" aria-hidden="true"
+                                                                   style="font-size: 14px !important; vertical-align: middle; margin-left: -1px !important;"></i>
+                                                            </span>
+                                                    </a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="blog-single-sidebar.html">Thông tin tài khoản</a></li>
+                                                        <li><a href="blog-single-sidebar.html">Đánh giá sản phẩm</a></li>
+                                                        <li><a href="blog-single-sidebar.html">Lịch sử đơn hàng</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                            <!--/ End Main Menu -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ End Header Inner -->
+    </header>
+</body>
+<div th:fragment="script">
+    <script>
+        function showToast(message) {
+            const toastBody = document.querySelector('.toast-body');
+            toastBody.innerText = message;
+
+            const toast = new bootstrap.Toast(document.getElementById('liveToast'));
+            document.querySelector('.toast-header').classList.add('bg-success');
+            toast.show();
+
+            setTimeout(() => {
+                toast.hide();
+            }, 3500);
+        }
+        var span = document.querySelector(".userId");
+        var uid = span.dataset.uid;
+
+        var totalQuantity = 0;
+        fetchDataOnModalShow();
+
+        $(document).ready(function() {
+            $('#myModal').on('show.bs.modal', function() {
+                fetchDataOnModalShow();
+            });
+
+            $(".delete-button").click(function() {
+                var productId = $(this).data("product-id");
+                deleteItem(uid, productId);
+            });
+        });
+
+        function deleteItem(userId, productId) {
+            $.ajax({
+                url: "/api/delete",
+                type: "POST",
+                data: {
+                    productId: productId,
+                    userId: userId
+                },
+                success: function(response) {
+                    showToast(response);
+                    fetchDataOnModalShow(); // Update modal content after successful deletion
+                },
+                error: function(error) {
+                    fetchDataOnModalShow();
+                    console.log("Error deleting item:", error);
+                }
+            });
+        }
+
+        function fetchDataOnModalShow() {
+            $.ajax({
+                url: "/api/index",
+                type: "GET",
+                data: {
+                    userId: uid
+                },
+            }).done(function(response) {
+                totalQuantity = 0;
+                updateModalContent(response);
+            }).fail(function(error) {
+                console.error(error);
+            });
+        }
+
+    function updateModalContent(response) {
+        // Clear the existing content in the modal body
+        $(".modal-body .container").empty();
+
+        // Process each item in the API response
+        response.forEach(function(item) {
+            var product = JSON.parse(item.product);
+            var quantity = item.quantity;
+            console.log(product);
+
+            // Create the HTML structure for each item
+            var itemHTML = `
+            <div class="col-12 mt-3">
+              <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 col-12" aria-current="true">
+                <img src="/img/${product.image}" alt="${product.name}" width="64" height="64" class="rounded-circle flex-shrink-0">
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 my-auto">${product.name}</h6>
+                    <p class="mb-0 opacity-75 mt-2 my-auto" style="text-align: justify;">Số lượng: ${quantity}</p>
+                  </div>
+                  <button class="small opacity-50 text-nowrap d-flex justify-content-center align-items-center delete-button" data-user-id="1" data-product-id="${product.id}" style="width: 10%;">
+                    <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </a>
+            </div>`;
+
+            // Append the item HTML to the modal body
+            $(".modal-body .container").append(itemHTML);
+            totalQuantity += quantity;
+        });
+
+        var sumQuantity = document.querySelector(".sumQuantity");
+        sumQuantity.innerHTML = totalQuantity;
+
+        // Attach click event to delete buttons
+        $(".delete-button").click(function() {
+            var userId = uid;
+            var productId = $(this).data("product-id");
+            deleteItem(uid, productId);
+        });
+    }
+    $(document).ready(function() {
+        $('.add-to-cart-link').click(function(event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+            var productId = $(this).data('product-id');
+            addProduct(uid, productId);
+        });
+    });
+
+    function addProduct(userId, productId) {
+        console.log(userId);
+        console.log(productId);
+        $.ajax({
+            url: "/api/add",
+            type: "POST",
+            data: {
+                userId: userId,
+                productId: productId
+            },
+            success: function(response) {
+                showToast(response);
+                fetchDataOnModalShow();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+    </script>
+</div>
+</html>

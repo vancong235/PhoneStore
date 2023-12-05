@@ -28,7 +28,10 @@
     <!-- summernote -->
     <link rel="stylesheet" th:href="@{~/plugins/summernote/summernote-bs4.min.css}"/>
 </head>
+
+
 <body>
+
 <!-- Sidebar -->
 <div th:fragment="sidebar">
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -215,6 +218,8 @@
 <a th:fragment="scroll" class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+
+
 <div th:fragment="script">
     <script th:src="@{~/plugins/jquery/jquery.min.js}"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -252,3 +257,4 @@
         window.location.href = '/logout';
     }
 </script>
+
