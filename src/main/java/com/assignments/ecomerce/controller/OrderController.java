@@ -1,14 +1,14 @@
 package com.assignments.ecomerce.controller;
 
 import com.assignments.ecomerce.model.*;
-<<<<<<< Updated upstream
+
 import com.assignments.ecomerce.service.CartDetailService;
 import com.assignments.ecomerce.service.OrderService;
 import com.assignments.ecomerce.service.ProductService;
 import com.assignments.ecomerce.service.UserService;
-=======
+
 import com.assignments.ecomerce.service.*;
->>>>>>> Stashed changes
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-<<<<<<< Updated upstream
+
 import java.text.DecimalFormat;
-=======
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
->>>>>>> Stashed changes
+
 import java.util.List;
 
 @Controller
@@ -52,8 +52,7 @@ public class OrderController {
     @Autowired
     private CouponService couponService;
 
-    @Autowired
-    private UserService userService;
+
     @GetMapping("/sale")
     public String getAllOrder1() {
         return "sale";
@@ -105,7 +104,7 @@ public class OrderController {
     public String orderProduct(Model model, Principal principal) {
         if (principal != null) {
 
-<<<<<<< Updated upstream
+
             Users user = userService.findByEmail(principal.getName());
             List<CartDetail> list = cartDetailService.findByUserId(user.getId());
             Double sum = 0.0d;
@@ -130,7 +129,7 @@ public class OrderController {
             return "redirect:/login";
         }
     }
-=======
+
     @RequestMapping(value = "/cancelOrder", method = {RequestMethod.PUT, RequestMethod.GET})
     public String deletedProduct(Integer id, RedirectAttributes redirectAttributes, Principal principal) {
         try {
@@ -165,5 +164,4 @@ public class OrderController {
         return "detailOrder";
     }
 
->>>>>>> Stashed changes
 }
