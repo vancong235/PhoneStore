@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+<head th:replace="~{fragments::header}">
+
+</head>
+
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper">
+
+    <!-- /.navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline" style="color: blue; font-size: 18px;">Admin</span>
+                    <img class="img-profile rounded-circle" style="width:30px; height:30px"
+                         src="/dist/img/user2-160x160.jpg">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown">
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" onclick="logout()">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{fragments::sidebar}"></aside>
+    <div class="content-wrapper" style="min-height: 388.4px;">
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <a th:href="@{/order/0}">Quay lại</a>
+            <table class="table table-bordered styled-table" >
+                <tr >
+                    <th>Mã đơn hàng:</th>
+                    <td th:text="${order.Id}"></td>
+                </tr>
+                <tr >
+                    <th>Ngày đặt hàng:</th>
+                    <td th:text="${#strings.substring(order.orderDate, 0, 10)}"></td>
+                </tr>
+                <tr >
+                    <th>Trạng thái đơn hàng:</th>
+                    <td th:text="${(order.Status == 1 ? 'Chờ xác nhận' : (order.Status == 2 ? 'Đã xác nhận' : 'Đã hủy đơn'))}"
+                        th:style="${order.Status == 0 ? 'color: red; font-weight: bold' : (order.Status == 1 ? 'color: blue; font-weight: bold' : 'font-weight: bold')}">
+                    </td>
+                </tr>
+
+                <tr >
+                    <th>Phương thức thanh toán:</th>
+                    <td th:text="${order.paymentMethod}"></td>
+                </tr>
+
+                <tr >
+                    <th>Khuyến mãi:</th>
+                    <td th:text="${coupon.code}"></td>
+                </tr>
+                <tr >
+                    <th>Tổng tiền:</th>
+                    <td th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT') + '&nbsp;VND'}"></td>
+                </tr>
+                <tr >
+                    <th>Địa chỉ giao hàng:</th>
+                    <td th:text="${order.shipAddress}"></td>
+                </tr>
+                <tr >
+                    <th>Ngày giao hàng dự kiến:</th>
+                    <td th:text="${'Từ ngày '+startDeliveryDate}+ ' đến ngày ' +${endDeliveryDate}"></td>
+                </tr>
+                <tr style="text-align: center;">
+                    <th colspan="2" style="background-color: gray; padding: 5px;">Thông tin khách hàng</th>
+                </tr>
+                <tr >
+                    <td >Tên khách hàng:</td>
+                    <td th:text="${order.Customer.name}"></td>
+                </tr>
+                <tr>
+                    <td >SĐT:</td>
+                    <td th:text="${order.Customer.phoneNumber}"></td>
+                </tr>
+                <tr>
+                    <td >Email:</td>
+                    <td th:text="${order.Customer.email}"></td>
+                </tr>
+                <tr style="text-align: center;">
+                    <th colspan="2" style="background-color: gray; padding: 5px;">Nhân viên xác nhận đơn hàng</th>
+                </tr>
+                <tr >
+                    <td>Mã nhân viên</td>
+                    <td th:text="${order.Employee.id}"></td>
+                </tr>
+                <tr >
+                    <td>Tên nhân viên</td>
+                    <td th:text="${order.Employee.name}"></td>
+                </tr>
+                <tr style="text-align: center;">
+                    <th colspan="2" style="background-color: gray; padding: 5px;">Thông tin Shipper:</th>
+                </tr>
+                <tr >
+                    <td>Tên nhân viên giao hàng:</td>
+                    <td th:text="${order.shipName}"></td>
+
+                </tr>
+                <tr >
+                    <td>Số điện thoại:</td>
+                    <td th:text="${order.ShipPhoneNumber}"></td>
+                </tr>
+                <tr style="text-align: center;">
+                    <th colspan="2"  style="background-color: gray; padding: 5px;">Danh Sách Sản Phẩm:</th>
+                </tr>
+
+            </table>
+
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <table class="table table-bordered styled-table" style="margin-left: auto; margin-right: auto;">
+                    <tr>
+                        <th style="text-align: center; vertical-align: middle;">ID</th>
+
+                        <th style="text-align: center; vertical-align: middle;">Tên Sản Phẩm</th>
+                        <th style="text-align: center; vertical-align: middle;">Ảnh Sản Phẩm</th>
+                        <th style="text-align: center; vertical-align: middle;">Loại Sản Phẩm</th>
+                        <th style="text-align: center; vertical-align: middle;">Size</th>
+                        <th style="text-align: center; vertical-align: middle;">Số lượng mua</th>
+                        <th style="text-align: center; vertical-align: middle;">Giá bán</th>
+                    </tr>
+
+                    <tr th:each="orderdetail,index : ${orderDetailList}">
+                        <td th:text="${orderdetail.order.id}" style="text-align: center; vertical-align: middle;"></td>
+
+                        <td th:text="${orderdetail.product.getName()}" style="text-align: center; vertical-align: middle;"></td>
+                        <td style="text-align: center; vertical-align: middle;">
+                            <img class="product-image" style="height: 150px; width: 150px;"
+                                 th:src="@{'/img/' + ${orderdetail.product.getImage()}}" alt="Product Image">
+                        </td>
+                        <td th:text="${orderdetail.product.category.getName()}" style="text-align: center; vertical-align: middle;"></td>
+                        <td th:text="${orderdetail.product.size}" style="text-align: center; vertical-align: middle;"></td>
+                        <td th:text="${orderdetail.quantity}" style="text-align: center; vertical-align: middle;"></td>
+                        <td th:text="${#numbers.formatDecimal(orderdetail.unitPrice, 0, 'COMMA', 0, 'POINT') + ' VNĐ'}" style="text-align: center; vertical-align: middle;"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+
+        <!-- Main Footer -->
+
+    </div>
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 3.2.0
+        </div>
+    </footer>
+</div>
+</body>
+<div th:replace="~{fragments::script}"></div>
+
+</html>

@@ -1,22 +1,32 @@
 package com.assignments.ecomerce.controller;
 
 import com.assignments.ecomerce.model.*;
+<<<<<<< Updated upstream
 import com.assignments.ecomerce.service.CartDetailService;
 import com.assignments.ecomerce.service.OrderService;
 import com.assignments.ecomerce.service.ProductService;
 import com.assignments.ecomerce.service.UserService;
+=======
+import com.assignments.ecomerce.service.*;
+>>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+<<<<<<< Updated upstream
 import java.text.DecimalFormat;
+=======
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+>>>>>>> Stashed changes
 import java.util.List;
 
 @Controller
@@ -33,6 +43,17 @@ public class OrderController {
     @Autowired
     UserDetailsService userDetailsService;
 
+    @Autowired
+    private OrderDetailService orderDetailService;
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    @Autowired
+    private CouponService couponService;
+
+    @Autowired
+    private UserService userService;
     @GetMapping("/sale")
     public String getAllOrder1() {
         return "sale";
@@ -40,17 +61,40 @@ public class OrderController {
     @GetMapping("/order/{pageNo}")
     public String getAllOrder(@PathVariable("pageNo") int pageNo, Model model, Principal principal) {
         Page<Orders> listOrder = orderService.pageOrders(pageNo);
+        Users user = userService.findByEmail(principal.getName());
+        Employee employee = employeeService.findByEmail(principal.getName());
+        //System.out.println(employee.getName());
+        model.addAttribute("employee", employee);
+        model.addAttribute("user", user);
         model.addAttribute("listOrder", listOrder);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", listOrder.getTotalPages());
         return "order";
     }
 
+
+    @GetMapping("/update-orders")
+    public String update(Orders orders, RedirectAttributes attributes) {
+        try {
+            orderService.update(orders);
+            attributes.addFlashAttribute("success", "Order confirm successfully !");
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            attributes.addFlashAttribute("error", "Failed to confirm, something was wrong !");
+        } catch (Exception e) {
+            e.printStackTrace();
+            attributes.addFlashAttribute("error", "Error server");
+        }
+        return "redirect:/order/0";
+    }
     @GetMapping("/search-order/{pageNo}")
     public String searchOrder(@PathVariable("pageNo") int pageNo,
                                  @RequestParam("keyword") String keyword,
                                  Model model, Principal principal) {
         Page<Orders> listOrder = orderService.searchOrders(pageNo, keyword);
+        Users user = userService.findByEmail(principal.getName());
+
+        model.addAttribute("user", user);
         model.addAttribute("size", listOrder.getSize());
         model.addAttribute("listOrder", listOrder);
         model.addAttribute("currentPage", pageNo);
@@ -61,6 +105,7 @@ public class OrderController {
     public String orderProduct(Model model, Principal principal) {
         if (principal != null) {
 
+<<<<<<< Updated upstream
             Users user = userService.findByEmail(principal.getName());
             List<CartDetail> list = cartDetailService.findByUserId(user.getId());
             Double sum = 0.0d;
@@ -85,4 +130,40 @@ public class OrderController {
             return "redirect:/login";
         }
     }
+=======
+    @RequestMapping(value = "/cancelOrder", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String deletedProduct(Integer id, RedirectAttributes redirectAttributes, Principal principal) {
+        try {
+
+            orderService.cancelOrder(id);
+            redirectAttributes.addFlashAttribute("success", "Cancel Order successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Cancel failed!");
+        }
+        return "redirect:/order/0";
+    }
+
+    @GetMapping("/detail-order/{id}")
+    public String DetailOrder(@PathVariable("id") Integer id, Model model) {
+        Orders order = orderService.findById(id);
+        Coupon coupon = couponService.findById(order.getCouponId());
+
+        //convert date to localDate
+        LocalDate localOrderDate = order.getOrderDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate startDeliveryDate = localOrderDate.plusDays(3);
+        LocalDate endDeliveryDate = localOrderDate.plusDays(7);
+
+        List<OrderDetail> orderDetailList = orderDetailService.findListProductByOrderId(id);
+
+        model.addAttribute("orderDetailList", orderDetailList);
+        model.addAttribute("order", order);
+        model.addAttribute("coupon", coupon);
+        model.addAttribute("endDeliveryDate", endDeliveryDate);
+        model.addAttribute("startDeliveryDate", startDeliveryDate);
+
+        return "detailOrder";
+    }
+
+>>>>>>> Stashed changes
 }

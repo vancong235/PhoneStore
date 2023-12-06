@@ -3,8 +3,10 @@ package com.assignments.ecomerce.controller;
 import com.assignments.ecomerce.model.Category;
 import com.assignments.ecomerce.model.Product;
 import com.assignments.ecomerce.model.Supplier;
+import com.assignments.ecomerce.model.Users;
 import com.assignments.ecomerce.service.CategoryService;
 import com.assignments.ecomerce.service.SupplierService;
+import com.assignments.ecomerce.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,11 +28,18 @@ public class CategoryController {
     @Autowired
     private SupplierService supplierService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/category/{pageNo}")
     public String getAllCategory(@PathVariable("pageNo") int pageNo, Model model, Principal principal) {
 
         Page<Category> listCategory = categoryService.pageCategory(pageNo);
         List<Supplier> listSuppliers =  supplierService.getAllSuppliers();
+
+        Users users = userService.findByEmail(principal.getName());
+        model.addAttribute("user", users);
+
         model.addAttribute("listSuppliers", listSuppliers);
         model.addAttribute("listCategory", listCategory);
         model.addAttribute("currentPage", pageNo);
@@ -98,6 +107,10 @@ public class CategoryController {
                                  @RequestParam("keyword") String keyword,
                                  Model model, Principal principal, HttpSession session) {
         Page<Category> listCategory = categoryService.searchCategory(pageNo, keyword);
+        Users users = userService.findByEmail(principal.getName());
+
+
+        model.addAttribute("user", users);
         session.setAttribute("keyword", keyword);
         model.addAttribute("keyword", keyword);
         model.addAttribute("size", listCategory.getSize());

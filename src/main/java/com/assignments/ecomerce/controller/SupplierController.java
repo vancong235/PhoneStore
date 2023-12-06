@@ -2,7 +2,9 @@
 package com.assignments.ecomerce.controller;
 
 import com.assignments.ecomerce.model.Supplier;
+import com.assignments.ecomerce.model.Users;
 import com.assignments.ecomerce.service.SupplierService;
+import com.assignments.ecomerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -18,10 +20,16 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/supplier/{pageNo}")
     public String getAllSupplier(@PathVariable("pageNo") int pageNo,Model model, Principal principal) {
         //List<Supplier> listSupp = supplierService.getAllSuppliers();
         Page<Supplier> listSupp = supplierService.pageSupplier(pageNo);
+        Users user = userService.findByEmail(principal.getName());
+
+        model.addAttribute("user", user);
         model.addAttribute("listSupplier", listSupp);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", listSupp.getTotalPages());
@@ -95,6 +103,9 @@ public class SupplierController {
                               @RequestParam("keyword") String keyword,
                               Model model, Principal principal) {
         Page<Supplier> listSupplier = supplierService.searchSuppliers(pageNo, keyword);
+        Users user = userService.findByEmail(principal.getName());
+
+        model.addAttribute("user", user);
         model.addAttribute("size", listSupplier.getSize());
         model.addAttribute("listSupplier", listSupplier);
         model.addAttribute("currentPage", pageNo);

@@ -30,7 +30,7 @@ public class OrderDetailController {
         }
         model.addAttribute("listOrder", listOrder);
 
-        List<OrderDetail> listOrderDetail = orderDetailService.findAllByOrderId(orderId);
+        List<OrderDetail> listOrderDetail = orderDetailService.findListProductByOrderId(orderId);
         model.addAttribute("listOrderDetail", listOrderDetail);
         return "orderdetail";
     }

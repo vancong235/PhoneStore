@@ -45,7 +45,9 @@ public class UserController {
 
         Page<Users> listUsers = userService.pageUser(pageNo, 9);
 
-        System.out.println(listUsers.getTotalPages());
+        Users user = userService.findByEmail(principal.getName());
+
+        model.addAttribute("user", user);
 
         model.addAttribute("size", listUsers.getSize());
         model.addAttribute("listUsers", listUsers);
@@ -62,7 +64,9 @@ public class UserController {
                                 Model model, Principal principal,HttpSession session) {
 
         Page<Users> listUsers = userService.searchUsers(pageNo, keyword);
+        Users user = userService.findByEmail(principal.getName());
 
+        model.addAttribute("user", user);
         session.setAttribute("keyword", keyword);
         model.addAttribute("keyword", keyword);
 

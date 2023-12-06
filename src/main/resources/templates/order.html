@@ -14,7 +14,7 @@
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline" style="color: blue; font-size: 18px;">Admin</span>
+                    <span class="mr-2 d-none d-lg-inline" style="color: blue; font-size: 18px;">[[${user.fullname}]]</span>
                     <img class="img-profile rounded-circle" style="width:30px; height:30px"
                          src="/dist/img/user2-160x160.jpg">
                 </a>
@@ -119,18 +119,41 @@
 
                                             <td th:text="${#strings.substring(orders.orderDate, 0, 10)}"></td>
 
-                                            <td th:text="${(orders.Status == '1' ? 'Chờ xác nhận' : (orders.Status == '2' ? 'Đã xác nhận' : 'Đã hủy đơn'))}"
-                                                th:style="${orders.Status == '0' ? 'color: red; font-weight: bold' : (orders.Status == '1' ? 'color: green; font-weight: bold' : 'font-weight: bold')}">
+                                            <td th:text="${(orders.Status == 1 ? 'Chờ xác nhận' : (orders.Status == 2 ? 'Đã xác nhận' : 'Đã hủy đơn'))}"
+                                                th:style="${orders.Status == 0 ? 'color: red; font-weight: bold' : (orders.Status == 1 ? 'color: blue; font-weight: bold' : 'font-weight: bold')}">
                                             </td>
 
                                             <td th:text="${#numbers.formatDecimal(orders.total, 0, 'COMMA', 0, 'POINT') + '&nbsp;VND'}"></td>
 
-                                            <td th:text="${orders.employee.getId() + ' _ ' + orders.employee.getName()}"></td>
+                                            <td  th:text="${orders.employee != null ? orders.employee.getId() + ' _ ' + orders.employee.getName() : ''}"></td>
 
                                             <td style="text-align: center; vertical-align: middle;">
-                                                <a th:if="${orders.Status == '1'}" id="confirmButton"  class="btn btn-primary">Xác Nhận</a>
-                                                <a th:if="${orders.Status == '1' || orders.Status == '2'}" id="cancelButton" class="btn btn-danger">Hủy Đơn</a>
-                                                <a id="detailButton" th:href="@{/orderdetail(orderId=${orders.Id})}" class="btn btn-success">Detail</a>
+<!--                                                <a th:if="${orders.Status == '1'}" id="confirmButton"  class="btn btn-primary">Xác Nhận</a>-->
+                                                <a th:if="${orders.Status == 1}" id="confirmButton" th:href="@{/findByEmailEmployee/{email}/{orderId}(email=${user.email},orderId=${orders.Id})}"
+                                                        type="button" class="btn btn-primary"
+                                                        data-toggle="modal" data-target="#editModal"
+                                                        data-whatever="@mdo">
+                                                    Xác Nhận
+                                                </a>
+
+<!--                                                <a th:if="${orders.Status == 1 || orders.Status == 2}"-->
+<!--                                                   th:href="@{/cancelOrder(id = ${orders.Id})}"-->
+<!--                                                   id="cancelButton"-->
+<!--                                                   class="btn btn-danger">Hủy Đơn-->
+<!--                                                </a>-->
+
+                                                <a th:if="${orders.Status == 1 || orders.Status == 2}" id="cancelButton"
+                                                   type="button" class="btn btn-danger"
+                                                   data-toggle="modal" data-target="#ConfirmCancelModal"
+                                                   th:data-orderid="${orders.Id}"
+                                                   data-whatever="@mdo">
+                                                    Hủy Đơn
+                                                </a>
+
+                                                <a id="detailButton"
+                                                   th:href="@{/detail-order/{id}(id=${orders.Id})}"
+                                                   class="btn btn-success">Detail
+                                                </a>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -179,6 +202,68 @@
         <!-- /.content -->
     </div>
 </div>
+
+<!--Confirm Modal-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xác Nhận Đơn Hàng</h5>
+            </div>
+            <div class="modal-body">
+                <form id="ordersFormEdit" th:action="@{/update-orders}" method="put" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="idOrder" class="col-form-label">Mã Đơn Hàng</label>
+                        <input type="text"  class="form-control" id="idOrder" name="id" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="idEdit" class="col-form-label">Mã Nhân Viên</label>
+                        <input type="text"  class="form-control" id="idEdit" name="employee" readonly required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nameEdit" class="col-form-label">Tên Nhân Viên Xác Nhận</label>
+                        <input type="text" class="form-control" id="nameEdit" name="nameEmployee" readonly required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nameShipperEdit" class="col-form-label">Tên Nhân Viên Giao Hàng </label>
+                        <input type="text" class="form-control" id="nameShipperEdit" name="ShipName"  required>
+                        <div id="nameShipperEditError" style="color: red" class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneShipperEdit" class="col-form-label">SĐT Nhân Viên Giao Hàng </label>
+                        <input type="text" class="form-control" id="phoneShipperEdit" name="ShipPhoneNumber"  required>
+                        <div id="phoneShipperEditError" style="color: red" class="error-message"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="saveOrdersEdit(event)">Xác Nhận</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ConfirmCancelModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận hủy đơn hàng</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn hủy đơn hàng?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-danger" onclick="cancelOrder()">Hủy đơn hàng</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div th:replace="~{fragments::script}"></div>
 </body>
 
@@ -187,5 +272,67 @@
 <script>
     function logout() {
         window.location.href = '/logout';
+    }
+
+<!--    $('document').ready(function (){-->
+<!--        $('table #confirmButton').on('click', function (event){-->
+<!--        event.preventDefault();-->
+<!--        $('#editModal').modal('show');-->
+
+<!--        });-->
+<!--    });-->
+
+ $('document').ready(function (){
+        $('table #confirmButton').on('click', function (event){
+        event.preventDefault();
+        var href = $(this).attr('href');
+        $.ajax({
+            url: href,
+            type: 'GET',
+            success: function (confirmRespone, status) {
+                 $('#idOrder').val(confirmRespone.orderId);
+                $('#idEdit').val(confirmRespone.employee.id);
+                $('#nameEdit').val(confirmRespone.employee.name);
+
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+  function confirmOrder(event) {
+  event.preventDefault();
+  var name = document.getElementById("nameShipperEdit").value;
+  var phone = document.getElementById("phoneShipperEdit").value;
+
+
+  document.getElementById('nameShipperEditError').innerHTML = '';
+  document.getElementById('phoneShipperEditError').innerHTML = '';
+
+  if (name === "") {
+    document.getElementById('nameEditError').innerHTML = 'Vui lòng nhập tên shipper';
+    return;
+  }
+  if (phone === "") {
+   document.getElementById('phoneNumberEditError').innerHTML = 'Vui lòng nhập SĐT của Shipper';
+    return;
+  }
+
+    if(!validatePhoneNumber(phone)){
+        document.getElementById('phoneNumberEditError').innerHTML = 'Vui lòng nhập đúng định dạng SĐT';
+        return;
+    }
+
+
+   document.getElementById("ordersFormEdit").submit();
+}
+
+    function cancelOrder() {
+        var cancelButton = document.getElementById("cancelButton");
+        var orderId = cancelButton.getAttribute("data-orderid");
+        var cancelUrl = "/cancelOrder?id=" + orderId;
+        window.location.href = cancelUrl;
     }
 </script>

@@ -2,8 +2,10 @@ package com.assignments.ecomerce.controller;
 
 import com.assignments.ecomerce.model.Category;
 import com.assignments.ecomerce.model.Product;
+import com.assignments.ecomerce.model.Users;
 import com.assignments.ecomerce.service.CategoryService;
 import com.assignments.ecomerce.service.ProductService;
+import com.assignments.ecomerce.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,6 +25,9 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/product-details/{id}")
     public String DetailProduct(@PathVariable("id") Integer id, Model model) {
@@ -71,6 +76,10 @@ public class ProductController {
         List<Category> categories = categoryService.getAllCategory();
         Page<Product> listProducts = productService.pageProducts(pageNo, 9);
 
+        Users users = userService.findByEmail(principal.getName());
+        model.addAttribute("user", users);
+
+
         model.addAttribute("categories", categories);
         model.addAttribute("size", listProducts.getSize());
         model.addAttribute("listProducts", listProducts);
@@ -88,6 +97,10 @@ public class ProductController {
         Page<Product> listProducts = productService.searchProducts(pageNo, keyword, 9);
 
         List<Category> categories = categoryService.getAllCategory();
+
+        Users users = userService.findByEmail(principal.getName());
+        model.addAttribute("user", users);
+
         session.setAttribute("keyword", keyword);
         model.addAttribute("keyword", keyword);
         model.addAttribute("categories", categories);
@@ -107,6 +120,10 @@ public class ProductController {
 
         Page<Product> listProducts = productService.searchProducts(pageNo, keyword);
         List<Category> categories = categoryService.getAllCategory();
+
+        Users users = userService.findByEmail(principal.getName());
+        model.addAttribute("user", users);
+
         session.setAttribute("keyword", keyword);
         model.addAttribute("keyword", keyword);
         model.addAttribute("categories", categories);

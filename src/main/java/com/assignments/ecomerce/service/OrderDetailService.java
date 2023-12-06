@@ -16,7 +16,12 @@ public class OrderDetailService {
         return (List<OrderDetail>) orderDetailRepository.findAll();
     }
 
-    public List<OrderDetail> findAllByOrderId(Integer orderId) {
-        return orderDetailRepository.findAllByOrderId(orderId);
+//    public List<OrderDetail> findAllByOrderId(Integer orderId) {
+//        System.out.println(orderId);
+//        return orderDetailRepository.findAllByOrderId(orderId);
+//    }
+
+    public List<OrderDetail> findListProductByOrderId(Integer orderId) {
+        return orderDetailRepository.findListProductByOrderId(orderId);
     }
 }

@@ -2,7 +2,9 @@ package com.assignments.ecomerce.controller;
 
 import com.assignments.ecomerce.dto.CustomerDTO;
 import com.assignments.ecomerce.model.Customer;
+import com.assignments.ecomerce.model.Users;
 import com.assignments.ecomerce.service.CustomerService;
+import com.assignments.ecomerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -18,9 +20,15 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/customer/{pageNo}")
     public String getAllCustomer(@PathVariable("pageNo") int pageNo, Model model, Principal principal) {
         Page<Customer> listCustomer = customerService.pageCustomer(pageNo);
+        Users user = userService.findByEmail(principal.getName());
+
+        model.addAttribute("user", user);
         model.addAttribute("listCustomer", listCustomer);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", listCustomer.getTotalPages());
@@ -103,7 +111,9 @@ public class CustomerController {
                                  @RequestParam("keyword") String keyword,
                                  Model model, Principal principal) {
         Page<Customer> listCustomer = customerService.searchCustomer(pageNo, keyword.trim());
+        Users user = userService.findByEmail(principal.getName());
 
+        model.addAttribute("user", user);
         model.addAttribute("size", listCustomer.getSize());
         model.addAttribute("listCustomer", listCustomer);
         model.addAttribute("currentPage", pageNo);

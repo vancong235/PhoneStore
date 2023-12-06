@@ -27,6 +27,7 @@ public class OrderService {
         return (List<Orders>) orderRepository.findAll();
     }
 
+
     public Orders getOrderById(Integer id) {
         Optional<Orders> optionalOrder = orderRepository.findById(id);
         return optionalOrder.orElse(null);
@@ -74,6 +75,32 @@ public class OrderService {
             orderList.add(newOrder);
         }
         return orderList;
+    }
+
+    public Orders update(Orders orders) {
+        Orders orderUpdate = null;
+        try {
+            orderUpdate = orderRepository.findById(orders.getId()).get();
+            orderUpdate.setEmployee(orders.getEmployee());
+            orderUpdate.setShipName(orders.getShipName());
+            orderUpdate.setShipPhoneNumber(orders.getShipPhoneNumber());
+            orderUpdate.setStatus(2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orderRepository.save(orderUpdate);
+    }
+
+    public void cancelOrder(Integer id) {
+        try {
+            System.out.println(id);
+            Orders orders = orderRepository.getById(id);
+            orders.setStatus(0);
+            orderRepository.save(orders);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 //    public List<Object> getData(Date dateFrom, Date dateTo, String chartType) {

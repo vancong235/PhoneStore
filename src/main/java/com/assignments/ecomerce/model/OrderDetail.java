@@ -7,9 +7,16 @@ import lombok.Getter;
 @Table(name="OrderDetail")
 public class OrderDetail {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @EmbeddedId
+    private OrderDetailId id;
+
+    public OrderDetailId getId() {
+        return id;
+    }
+
+    public void setId(OrderDetailId id) {
+        this.id = id;
+    }
 
     @ManyToOne
     @JoinColumn(name = "orderId")
@@ -19,6 +26,15 @@ public class OrderDetail {
     private Product product;
 
     private Boolean isComment;
+
+    public OrderDetail(OrderDetailId id, Orders order, Product product, Boolean isComment, Integer quantity, Double unitPrice) {
+        this.id = id;
+        this.order = order;
+        this.product = product;
+        this.isComment = isComment;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+    }
 
     public Boolean getComment() {
         return isComment;

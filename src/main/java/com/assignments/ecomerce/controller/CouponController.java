@@ -7,6 +7,7 @@ import com.assignments.ecomerce.model.Users;
 import com.assignments.ecomerce.service.CategoryService;
 import com.assignments.ecomerce.service.CouponService;
 import com.assignments.ecomerce.service.ProductService;
+import com.assignments.ecomerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,6 +32,9 @@ public class CouponController {
     @Autowired
     private CouponService couponService;
 
+    @Autowired
+    private UserService userService;
+
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -40,6 +44,9 @@ public class CouponController {
     @GetMapping("/coupon/{pageNo}")
     public String getAllCoupons(@PathVariable("pageNo") int pageNo, Model model, Principal principal) {
         Page<Coupon> listCoupon = couponService.pageCoupon(pageNo);
+        Users user = userService.findByEmail(principal.getName());
+
+        model.addAttribute("user", user);
        // System.out.println(listCoupon.getSize());
         model.addAttribute("listCoupon", listCoupon);
         model.addAttribute("currentPage", pageNo);
@@ -150,6 +157,9 @@ public class CouponController {
                                  Model model, Principal principal) {
         //System.out.println(keyword);
         Page<Coupon> listCoupon = couponService.searchCoupon(pageNo, keyword);
+        Users user = userService.findByEmail(principal.getName());
+
+        model.addAttribute("user", user);
         //System.out.println(listCoupon.getSize());
         model.addAttribute("size", listCoupon.getSize());
         model.addAttribute("listCoupon", listCoupon);
