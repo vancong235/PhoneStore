@@ -2,6 +2,7 @@ package com.assignments.ecomerce.controller;
 
 import com.assignments.ecomerce.dto.UserDto;
 import com.assignments.ecomerce.model.Category;
+import com.assignments.ecomerce.model.Customer;
 import com.assignments.ecomerce.model.Product;
 import com.assignments.ecomerce.model.Users;
 import com.assignments.ecomerce.service.*;
@@ -79,7 +80,18 @@ public class LoginController {
             Users user = userService.findByEmail(principal.getName());
             model.addAttribute("userId", user.getId());
             model.addAttribute("user", userDetails);
-            model.addAttribute("name", principal.getName());
+            model.addAttribute("email", principal.getName());
+            model.addAttribute("name", user.getFullname());
+            Customer customer = customerService.findByEmail(principal.getName());
+            if (customer != null) {
+                if (customer.getAddress() != null) {
+                    model.addAttribute("address", customer.getAddress());
+                } else {
+                    model.addAttribute("address", "");
+                }
+            } else {
+                model.addAttribute("address", "");
+            }
 
 
             List<Category> categories = categoryService.getAllCategory();

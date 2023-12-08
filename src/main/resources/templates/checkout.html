@@ -32,7 +32,7 @@
             <div class="col-md-7 col-lg-8 order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-primary">Giỏ hàng</span>
-                    <span class="badge bg-primary rounded-pill">3</span>
+                    <span class="badge bg-primary rounded-pill" th:text="${size}"></span>
                 </h4>
                 <ul class="list-group mb-3 border-bottom">
                     <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -51,34 +51,30 @@
                             <small class="text-body-secondary" th:text="'Số lượng: '+${object.quantity}"></small>
                         </div>
                         <span th:with="totalPrice=${(object.product.price - (object.product.price * object.product.discount / 100))*object.quantity}">
-                                        <span style="color:red; font-weight:bold" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                                    <span style="color:red; font-weight:bold" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
                                     </span>
 <!--                        <span class="text-body-secondary" th:text="${object.product.price}"></span>-->
                     </li>
                     <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
                         <div class="text-success">
                             <h6 class="my-0">Thông tin khuyến mãi</h6>
-                            <span><small style="color:red; font-weight:bold;" th:text="'Mã khuyến mãi: ' + ${promo}"></small></span><br>
+                            <span><small style="color:red; font-weight:bold;" th:text="'Mã khuyến mãi: ' + ${promo}" th:value="${promo}"></small></span><br>
                             <small style="color:gray; font-weight:bold;" th:text="'Trạng thái: ' + ${status}"></small>
                         </div>
-                        <span class="text-success" th:text="'- ' + ${promoPrice} + 'đ'"></span>
+                        <span class="text-success" th:text="'- ' + ${promoPrice} + ' đ'"></span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Tổng tiền (VND)</span>
-                        <strong th:text="${totalPrice}"></strong>
+                        <strong th:text="${totalPrice} + ' đ'"></strong>
                     </li>
                 </ul>
 
-                <form action="/checkout" class="card p-2" method="get">
+                <form action="/checkout" class="card p-2" method="GET">
                     <div class="input-group">
                         <input type="text" class="form-control" name="promo" placeholder="Mã khuyến mãi">
                         <button type="submit" class="btn btn-secondary">Nhập mã</button>
                     </div>
                 </form>
-
-                <div class="col-lg-4 col-md-6 col-12" th:each="object : ${listCartDetail}">
-                    <div th:text="${object.product.id}"></div>
-                </div>
 
             </div>
             <div class="col-md-5 col-lg-4">
@@ -87,25 +83,15 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="firstName" class="form-label">Họ và tên đầy đủ</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required=""  style="padding: 8px; padding-left:16px">
+                            <input type="text" class="form-control" id="firstName" placeholder="" th:value="${name}" required=""  style="padding: 8px; padding-left:16px" readonly>
                             <div class="invalid-feedback">
                                 Valid first name is required.
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <label for="username" class="form-label">Username</label>
-                            <div class="input-group has-validation">
-                                <span class="input-group-text"  style="padding: 8px; padding-left:15px">@</span>
-                                <input type="text" class="form-control" id="username" placeholder="" required=""  style="padding: 8px; padding-left:16px">
-                                <div class="invalid-feedback">
-                                    Your username is required.
-                                </div>
                             </div>
                         </div>
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder=""  style="padding: 8px; padding-left:16px">
+                            <input type="email" class="form-control" id="email" placeholder="" th:value="${email}" style="padding: 8px; padding-left:16px" readonly>
                             <div class="invalid-feedback">
                                 Please enter a valid email address for shipping updates.
                             </div>
@@ -113,7 +99,7 @@
 
                         <div class="col-12">
                             <label for="address" class="form-label">Địa chỉ nhận hàng</label>
-                            <input type="text" class="form-control" id="address" placeholder="" required="" style="padding: 8px; padding-left:16px">
+                            <input type="text" class="form-control" id="address" th:value="${address}" placeholder="" required="" style="padding: 8px; padding-left:16px">
                             <div class="invalid-feedback">
                                 Please enter your shipping address.
                             </div>
@@ -128,15 +114,11 @@
                     <div class="my-3">
                         <div class="form-check">
                             <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
-                            <label class="form-check-label" for="credit">Credit card</label>
+                            <label class="form-check-label" for="credit">Thanh toán qua VNPay</label>
                         </div>
                         <div class="form-check">
                             <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
-                            <label class="form-check-label" for="debit">Debit card</label>
-                        </div>
-                        <div class="form-check">
-                            <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
-                            <label class="form-check-label" for="paypal">PayPal</label>
+                            <label class="form-check-label" for="debit">Thanh toán khi nhận hàng</label>
                         </div>
                     </div>
 

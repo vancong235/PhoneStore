@@ -24,4 +24,8 @@ public class OrderDetailService {
     public List<OrderDetail> findListProductByOrderId(Integer orderId) {
         return orderDetailRepository.findListProductByOrderId(orderId);
     }
+
+    public void save(OrderDetail orderDetail) {
+        orderDetailRepository.save(orderDetail);
+    }
 }

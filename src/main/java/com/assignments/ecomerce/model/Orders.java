@@ -31,10 +31,6 @@ public class Orders {
     @JoinColumn(name = "employeeId")
     private Employee employee;
 
-
-
-
-
     private String paymentMethod;
     private Double total;
     private String ShipName;

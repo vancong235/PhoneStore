@@ -99,4 +99,8 @@ public class CouponService {
         }
         return CouponList;
     }
+
+    public Coupon findByCodeReturnObject(String promo) {
+        return couponRepository.findByCodeReturnObject(promo);
+    }
 }

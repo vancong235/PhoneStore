@@ -138,4 +138,8 @@ public class CustomerService {
         Customer customer = customerRepository.findByPhone(phone);
         return customer != null;
     }
+
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
 }

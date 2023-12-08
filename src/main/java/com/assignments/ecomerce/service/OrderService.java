@@ -27,7 +27,9 @@ public class OrderService {
         return (List<Orders>) orderRepository.findAll();
     }
 
-
+    public void saveOrder(Orders orders) {
+        orderRepository.save(orders);
+    }
     public Orders getOrderById(Integer id) {
         Optional<Orders> optionalOrder = orderRepository.findById(id);
         return optionalOrder.orElse(null);
