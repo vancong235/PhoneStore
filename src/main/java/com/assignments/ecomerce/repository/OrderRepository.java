@@ -1,10 +1,13 @@
 package com.assignments.ecomerce.repository;
 
+import com.assignments.ecomerce.model.Employee;
 import com.assignments.ecomerce.model.Orders;
 import com.assignments.ecomerce.model.Product;
+import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -97,4 +100,6 @@ public interface OrderRepository extends JpaRepository<Orders,Integer> {
 
     @Query("SELECT p from Orders p where p.orderDate >= :start and p.orderDate <= :end ")
     List<Orders> searchOrdersByDate(Date start, Date end);
+    @Query(value = "SELECT * FROM Orders WHERE customerId = :customerId", nativeQuery = true)
+    List<Orders> findByCustomerId(@Param("customerId") Integer customerId);
 }

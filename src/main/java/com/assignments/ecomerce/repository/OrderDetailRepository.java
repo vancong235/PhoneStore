@@ -2,6 +2,7 @@ package com.assignments.ecomerce.repository;
 
 import com.assignments.ecomerce.model.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface OrderDetailRepository extends JpaRepository<OrderDetail,Integer>{
 //    List<OrderDetail> findAllByOrderId(Integer orderId);
 
-    @Query(value = "SELECT * FROM OrderDetail ", nativeQuery = true)
+    @Query(value = "SELECT * FROM OrderDetail", nativeQuery = true)
     List<OrderDetail> findAll();
     @Query(value = "SELECT * FROM OrderDetail WHERE orderId = :orderId", nativeQuery = true)
     List<OrderDetail> findListProductByOrderId(@Param("orderId") Integer orderId);
@@ -23,4 +24,9 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail,Integer
             "ORDER BY total_sold " +
             "DESC LIMIT 5",nativeQuery = true)
     List<Object[]> get5TopSaleProducts(int year);
+
+    @Modifying
+    @Query(value = "INSERT INTO orderdetail (orderId, productId, quantity, unitPrice, isComment) VALUES (:orderId, :productId, :quantity, :unitPrice, :isComment)", nativeQuery = true)
+    int saveOrderDetail(@Param("orderId") Integer orderId, @Param("productId") Integer productId, @Param("quantity") Integer quantity, @Param("unitPrice") Double unitPrice, @Param("isComment") Boolean isComment);
+
 }

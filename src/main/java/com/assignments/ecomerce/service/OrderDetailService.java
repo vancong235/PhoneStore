@@ -4,6 +4,7 @@ import com.assignments.ecomerce.dto.ProductDTO;
 import com.assignments.ecomerce.model.OrderDetail;
 import com.assignments.ecomerce.model.Product;
 import com.assignments.ecomerce.repository.OrderDetailRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,13 @@ public class OrderDetailService {
     }
 
 
+
     public void save(OrderDetail orderDetail) {
         orderDetailRepository.save(orderDetail);
+    }
+    @Transactional
+    public void saveOrderDetail(Integer orderId, Integer productId, Integer quantity, Double unitPrice, Boolean isComment) {
+        orderDetailRepository.saveOrderDetail(orderId, productId, quantity, unitPrice, isComment);
     }
         public List<Product> getTop5ProductSale ( int year){
             List<Object[]> list = orderDetailRepository.get5TopSaleProducts(year);

@@ -16,10 +16,10 @@
                 <label for="amount">Số tiền</label>
                 <input class="form-control" data-val="true" data-val-number="The field Amount must be a number."
                        data-val-required="The Amount field is required." id="amount" max="100000000" min="1"
-                       name="amount" type="number" value="10000"/>
+                       name="amount" type="number" th:value="${totalPrice}"/>
             </div>
-            <h4>Chọn phương thức thanh toán</h4>
-            <div class="form-group">
+            <h4 style="display: none;">Chọn phương thức thanh toán</h4>
+            <div class="form-group" style="display: none;">
                 <h5>Cách 1: Chuyển hướng sang Cổng VNPAY chọn phương thức thanh toán</h5>
                 <input type="radio" checked="true" id="bankCode1" name="bankCode" value="">
                 <label for="bankCode1">Cổng thanh toán VNPAYQR</label><br>

@@ -9,16 +9,17 @@ import java.io.Serializable;
 public class OrderDetailId implements Serializable {
     @Column(insertable = false, updatable = false)
     private Integer orderId;
+
     @Column(insertable = false, updatable = false)
     private Integer productId;
 
     public OrderDetailId(Integer orderId, Integer productId) {
         this.orderId = orderId;
         this.productId = productId;
-
     }
 
     public OrderDetailId() {
+
     }
 
     public Integer getOrderId() {
