@@ -40,13 +40,13 @@ public class OrderService {
         return (List<Orders>) orderRepository.findAll();
     }
 
-<<<<<<< Updated upstream
+
     public void saveOrder(Orders orders) {
         orderRepository.save(orders);
-=======
+
     public List<Orders> get5RecentlyAddedOrders (){
         return orderRepository.get5RecentlyAddedOrders();
->>>>>>> Stashed changes
+
     }
     public Orders getOrderById(Integer id) {
         Optional<Orders> optionalOrder = orderRepository.findById(id);

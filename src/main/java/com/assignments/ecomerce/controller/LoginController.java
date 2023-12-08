@@ -2,14 +2,14 @@ package com.assignments.ecomerce.controller;
 
 import com.assignments.ecomerce.dto.CustomerDTO;
 import com.assignments.ecomerce.dto.UserDto;
-<<<<<<< Updated upstream
+
 import com.assignments.ecomerce.model.Category;
 import com.assignments.ecomerce.model.Customer;
 import com.assignments.ecomerce.model.Product;
 import com.assignments.ecomerce.model.Users;
-=======
+
 import com.assignments.ecomerce.model.*;
->>>>>>> Stashed changes
+
 import com.assignments.ecomerce.service.*;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

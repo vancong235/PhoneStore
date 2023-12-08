@@ -32,10 +32,10 @@ public class OrderDetailService {
         return orderDetailRepository.findListProductByOrderId(orderId);
     }
 
-<<<<<<< Updated upstream
+
     public void save(OrderDetail orderDetail) {
         orderDetailRepository.save(orderDetail);
-=======
+
     public List<Product> getTop5ProductSale(int year) {
         List<Object[]> list = orderDetailRepository.get5TopSaleProducts(year);
         List<Product> listProduct = new ArrayList<>();
@@ -46,6 +46,6 @@ public class OrderDetailService {
             listProduct.add(product);
         }
         return listProduct;
->>>>>>> Stashed changes
+
     }
 }
