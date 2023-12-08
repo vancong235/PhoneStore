@@ -28,6 +28,14 @@ public class Product {
         this.status = status;
     }
 
+    public Product(Integer id, String name, Double price, int quantity, String image) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.image = image;
+    }
+
     private Integer discount;
 
     public String getSize() {

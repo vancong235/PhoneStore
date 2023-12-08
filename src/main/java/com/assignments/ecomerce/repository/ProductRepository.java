@@ -1,5 +1,6 @@
 package com.assignments.ecomerce.repository;
 
+import com.assignments.ecomerce.model.Orders;
 import com.assignments.ecomerce.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,9 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product,Integer> {
     @Query("SELECT od.product FROM OrderDetail od GROUP BY od.product.id ORDER BY SUM(od.quantity) DESC")
     List<Product> findTop10ByQuantitySold();
+
+    @Query(value = "SELECT * FROM product ORDER BY id DESC   LIMIT 5 ",nativeQuery = true)
+    List<Product> get5RecentlyAddedProducts ();
 
     @Query("SELECT DISTINCT size FROM Product WHERE name = :nameProduct")
     List<String> getAllSizeProduct(@Param("nameProduct") String nameProduct);

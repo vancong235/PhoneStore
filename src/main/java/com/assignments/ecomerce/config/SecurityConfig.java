@@ -37,9 +37,9 @@ public class SecurityConfig {
 
         http.csrf(c -> c.disable())
 
-                .authorizeHttpRequests(request -> request.requestMatchers("/statistical")
+                .authorizeHttpRequests(request -> request.requestMatchers("/statistical","/admin-page","/user","/coupon","/supplier")
                         .hasAuthority("ADMIN")
-                        .requestMatchers("/product").hasAuthority("MANAGER")
+                        .requestMatchers("/manager-page").hasAuthority("MANAGER")
 //                        .requestMatchers("/index").hasAuthority("USER")
                         .requestMatchers("/ipn", "/return","/payment","/userProductDetail","/userProductDetail/*","/img/*","/*","/index","/register","/reset-password","/spassword-request", "/css/**","dist/**","plugins/**","eshop/**").permitAll()
                         .anyRequest().authenticated())

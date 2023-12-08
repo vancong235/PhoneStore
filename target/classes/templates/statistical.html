@@ -30,8 +30,11 @@
             </li>
         </ul>
     </nav>
+
+
     <!-- Main Sidebar Container -->
-    <aside th:replace="~{fragments::sidebar}"></aside>
+    <aside th:replace="~{fragmentNavbar::navbarOfAdmin}"></aside>
+
     <div class="content-wrapper" style="min-height: 388.4px;">
         <!-- Main content -->
         <section class="content">
@@ -43,7 +46,7 @@
                             <span class="info-box-icon bg-info elevation-1"><i class="far fa-star"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Tổng Số Cây</span>
+                                <span class="info-box-text">Số Lượng Sản Phẩm</span>
                                 <span class="info-box-number">[[${countProduct}]]</span>
                             </div>
                             <!-- /.info-box-content -->
@@ -57,7 +60,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Hàng Mới Về</span>
-                                <span class="info-box-number">[[${countOrder}]]</span>
+                                <span class="info-box-number">15</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -85,7 +88,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Nhân Viên</span>
-                                <span class="info-box-number">[[${countOrder}]]</span>
+                                <span class="info-box-number">[[${countEmployee}]]</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -99,7 +102,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Khách Hàng</span>
-                                <span class="info-box-number">[[${countOrder}]]</span>
+                                <span class="info-box-number">[[${countCustomer}]]</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -113,7 +116,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Khách Hàng Mới</span>
-                                <span class="info-box-number">[[${countOrder}]]</span>
+                                <span class="info-box-number">12</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -130,7 +133,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Đơn Hàng Mới</span>
-                                <span class="info-box-number">760</span>
+                                <span class="info-box-number">76</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -182,124 +185,127 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- /.card-header -->
-                            <!-- STACKED BAR CHART -->
-<!--                            <div class="card card-success">-->
-<!--                                <div class="card-header">-->
 
-<!--                                </div>-->
-<!--                                <div class="card-body">-->
-<!--                                    <div class="chart">-->
-<!--                                        <canvas id="stackedBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                &lt;!&ndash; /.card-body &ndash;&gt;-->
-<!--                            </div>-->
+                            <div >
+                                <div >
+                                    <div class="card">
+                                        <div class="card-header border-0">
+                                            <div class="d-flex justify-content-between">
+                                                <h3 class="card-title">Sales</h3>
+                                                <a href="javascript:void(0);">View Report</a>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <p class="d-flex flex-column">
+                                                    <span class="text-bold text-lg">$[[${totalRevenueOfThisYear}]]</span>
+                                                    <span>Sales Over Time</span>
+                                                </p>
+                                                <p class="ml-auto d-flex flex-column text-right">
+                                                <span class="text-success">
+                                                    <i class="fas fa-arrow-up"></i> [[${percentageGrowth}]] %
+                                                </span>
+                                                    <span class="text-muted">Since last month</span>
+                                                </p>
+                                            </div>
+                                            <!-- /.d-flex -->
 
+                                            <div class="position-relative mb-4">
+                                                <canvas id="sales-chart" height="300"></canvas>
+                                            </div>
 
-                            <!-- PIE CHART -->
-<!--                            <div class="card card-danger">-->
-<!--                                <div class="card-header">-->
-<!--                                </div>-->
-<!--                                <div class="card-body">-->
-<!--                                    <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>-->
-<!--                                </div>-->
-<!--                                &lt;!&ndash; /.card-body &ndash;&gt;-->
-<!--                            </div>-->
-                            <!-- /.card -->
-                            <!-- /.card -->
-                            <!-- ./card-body -->
+                                            <div class="d-flex flex-row justify-content-end">
+                                            <span class="mr-2">
+                                                <i class="fas fa-square text-primary"></i> This year
+                                            </span>
 
-
-                            <div class="card card-danger">
-                                <div class="card-header">
-                                    <h3 class="card-title">Pie Chart</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                            <i class="fas fa-times"></i>
-                                        </button>
+                                                <span>
+                                                <i class="fas fa-square text-gray"></i> Last year
+                                            </span>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <!-- /.card -->
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-6">
+                                                <div class="description-block border-right">
+                                                    <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                                                    <h5 class="description-header">$[[${totalRevenueOfThisYear}]]</h5>
+                                                    <span class="description-text">TOTAL REVENUE</span>
+                                                </div>
+                                                <!-- /.description-block -->
+                                            </div>
+                                            <!-- /.col -->
+                                            <div class="col-sm-4 col-6">
+                                                <div class="description-block border-right">
+                                                    <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+                                                    <h5 class="description-header">$10,390.90</h5>
+                                                    <span class="description-text">TOTAL COST</span>
+                                                </div>
+                                                <!-- /.description-block -->
+                                            </div>
+                                            <!-- /.col -->
+                                            <div class="col-sm-4 col-6">
+                                                <div class="description-block border-right">
+                                                    <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                                                    <h5 class="description-header">$[[${totalProfit}]]</h5>
+                                                    <span class="description-text">TOTAL PROFIT</span>
+                                                </div>
+                                                <!-- /.description-block -->
+                                            </div>
+                                            <!-- /.col -->
+
+                                        </div>
+                                        <!-- /.row -->
+                                    </div>
+                                    <!-- /.card-footer -->
                                 </div>
-                                <div class="card-body">
-                                    <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                                </div>
-                                <!-- /.card-body -->
+                                <!-- /.card -->
                             </div>
-                            <!-- /.card -->
+                        </div>
+
 
                         </div>
                         <!-- /.col (LEFT) -->
-                        <div class="col-md-6">
-                            <!-- LINE CHART -->
-                            <div class="card card-info">
-                                <div class="card-header">
-                                    <h3 class="card-title">Line Chart</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                            <i class="fas fa-times"></i>
-                                        </button>
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                        <h3 class="card-title">Online Store Visitors</h3>
+                                        <a href="javascript:void(0);">View Report</a>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart">
-                                        <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                    <div class="d-flex">
+                                        <p class="d-flex flex-column">
+                                            <span class="text-bold text-lg">820</span>
+                                            <span>Visitors Over Time</span>
+                                        </p>
+                                        <p class="ml-auto d-flex flex-column text-right">
+                    <span class="text-success">
+                      <i class="fas fa-arrow-up"></i> 12.5%
+                    </span>
+                                            <span class="text-muted">Since last week</span>
+                                        </p>
+                                    </div>
+                                    <!-- /.d-flex -->
+
+                                    <div class="position-relative mb-4">
+                                        <canvas id="visitors-chart" height="200"></canvas>
+                                    </div>
+
+                                    <div class="d-flex flex-row justify-content-end">
+                  <span class="mr-2">
+                    <i class="fas fa-square text-primary"></i> This Week
+                  </span>
+
+                                        <span>
+                    <i class="fas fa-square text-gray"></i> Last Week
+                  </span>
                                     </div>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card -->
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col-sm-3 col-6">
-                                        <div class="description-block border-right">
-                                            <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
-                                            <h5 class="description-header">$35,210.43</h5>
-                                            <span class="description-text">TOTAL REVENUE</span>
-                                        </div>
-                                        <!-- /.description-block -->
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-3 col-6">
-                                        <div class="description-block border-right">
-                                            <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
-                                            <h5 class="description-header">$10,390.90</h5>
-                                            <span class="description-text">TOTAL COST</span>
-                                        </div>
-                                        <!-- /.description-block -->
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-3 col-6">
-                                        <div class="description-block border-right">
-                                            <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
-                                            <h5 class="description-header">$24,813.53</h5>
-                                            <span class="description-text">TOTAL PROFIT</span>
-                                        </div>
-                                        <!-- /.description-block -->
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-3 col-6">
-                                        <div class="description-block">
-                                            <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
-                                            <h5 class="description-header">1200</h5>
-                                            <span class="description-text">GOAL COMPLETIONS</span>
-                                        </div>
-                                        <!-- /.description-block -->
-                                    </div>
-                                </div>
-                                <!-- /.row -->
-                            </div>
-                            <!-- /.card-footer -->
-                        </div>
-                        <!-- /.card -->
-                    </div>
                     <!-- /.col -->
                 </div>
                 <!-- /.row -->
@@ -307,55 +313,8 @@
                 <!-- Main row -->
                 <div class="row">
                     <!-- Left col -->
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <!-- MAP & BOX PANE -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">US-Visitors Report</h3>
-
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body p-0">
-                                <div class="d-md-flex">
-                                    <div class="p-1 flex-fill" style="overflow: hidden">
-                                        <!-- Map will be created here -->
-                                        <div id="world-map-markers" style="height: 325px; overflow: hidden">
-                                            <div class="map"></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-pane-right bg-success pt-2 pb-2 pl-4 pr-4">
-                                        <div class="description-block mb-4">
-                                            <div class="sparkbar pad" data-color="#fff">90,70,90,70,75,80,70</div>
-                                            <h5 class="description-header">8390</h5>
-                                            <span class="description-text">Visits</span>
-                                        </div>
-                                        <!-- /.description-block -->
-                                        <div class="description-block mb-4">
-                                            <div class="sparkbar pad" data-color="#fff">90,50,90,70,61,83,63</div>
-                                            <h5 class="description-header">30%</h5>
-                                            <span class="description-text">Referrals</span>
-                                        </div>
-                                        <!-- /.description-block -->
-                                        <div class="description-block">
-                                            <div class="sparkbar pad" data-color="#fff">90,50,90,70,61,83,63</div>
-                                            <h5 class="description-header">70%</h5>
-                                            <span class="description-text">Organic</span>
-                                        </div>
-                                        <!-- /.description-block -->
-                                    </div><!-- /.card-pane-right -->
-                                </div><!-- /.d-md-flex -->
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-
 
                         <!-- TABLE: LATEST ORDERS -->
                         <div class="card">
@@ -378,68 +337,26 @@
                                         <thead>
                                         <tr>
                                             <th>Order ID</th>
-                                            <th>Item</th>
+                                            <th>Date</th>
+                                            <th>Payment Method</th>
                                             <th>Status</th>
-                                            <th>Popularity</th>
+                                            <th>Total</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                            <td>Call of Duty IV</td>
-                                            <td><span class="badge badge-success">Shipped</span></td>
-                                            <td>
-                                                <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                            </td>
+                                        <tr th:each="orders : ${recentlyAddedOrders}">
+                                            <td><a th:href="@{/detail-order/{id}(id=${orders.Id})}" th:text="${orders.Id}"></a></td>
+                                            <td th:text="${#strings.substring(orders.orderDate, 0, 10)}"></td>
+                                            <td th:text="${orders.paymentMethod}"></td>
+
+                                            <td><span   th:text="${(orders.Status == 1 ? 'Chờ xác nhận' : (orders.Status == 2 ? 'Đã xác nhận' : 'Đã hủy đơn'))}"
+                                                                                      th:class="${orders.Status == 0 ? 'badge badge-danger' : (orders.Status == 1 ? 'badge badge-info' : 'badge badge-warning')}">
+                                            </span></td>
+
+                                            <td th:text="${#numbers.formatDecimal(orders.total, 0, 'COMMA', 0, 'POINT') + '&nbsp;VNĐ'}"></td>
+
                                         </tr>
-                                        <tr>
-                                            <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                            <td>Samsung Smart TV</td>
-                                            <td><span class="badge badge-warning">Pending</span></td>
-                                            <td>
-                                                <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                            <td>iPhone 6 Plus</td>
-                                            <td><span class="badge badge-danger">Delivered</span></td>
-                                            <td>
-                                                <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                            <td>Samsung Smart TV</td>
-                                            <td><span class="badge badge-info">Processing</span></td>
-                                            <td>
-                                                <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                            <td>Samsung Smart TV</td>
-                                            <td><span class="badge badge-warning">Pending</span></td>
-                                            <td>
-                                                <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                            <td>iPhone 6 Plus</td>
-                                            <td><span class="badge badge-danger">Delivered</span></td>
-                                            <td>
-                                                <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                            <td>Call of Duty IV</td>
-                                            <td><span class="badge badge-success">Shipped</span></td>
-                                            <td>
-                                                <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                            </td>
-                                        </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -447,141 +364,168 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
-                                <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
-                                <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
+                                <a th:href="@{/order/0}" class="btn btn-sm btn-secondary float-right">View All Orders</a>
                             </div>
                             <!-- /.card-footer -->
                         </div>
                         <!-- /.card -->
+
+
                     </div>
                     <!-- /.col -->
 
-                    <div class="col-md-4">
-                        <!-- Info Boxes Style 2 -->
-                        <div class="info-box mb-3 bg-warning">
-                            <span class="info-box-icon"><i class="fas fa-tag"></i></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Inventory</span>
-                                <span class="info-box-number">5,200</span>
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">Products</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-                            <!-- /.info-box-content -->
                         </div>
-                        <!-- /.info-box -->
-                        <div class="info-box mb-3 bg-success">
-                            <span class="info-box-icon"><i class="far fa-heart"></i></span>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-striped table-valign-middle">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Sales</th>
+                                    <th>More</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="product : ${top5product}">
+                                    <td>
+                                        <img th:src="@{'/img/' + ${product.image}}" alt="Product 1" class="img-circle img-size-32 mr-2">
+                                        <a  class="product-title"th:text="${product.name}"></a>
+                                    </td>
+                                    <td><span  th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + '&nbsp;VNĐ'}"></span>  </td>
+                                    <td>
+                                        <small class="text-success mr-1">
+                                            <i class="fas fa-arrow-up"></i>
+                                            12%
+                                        </small>
+                                        <span  class="product-title"th:text="${product.quantity + '&nbsp;Sold'} "></span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/detail-product/{id}(id=${product.id})}" class="text-muted">
+                                            <i class="fas fa-search"></i>
+                                        </a>
+                                    </td>
+                                </tr>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Mentions</span>
-                                <span class="info-box-number">92,050</span>
-                            </div>
-                            <!-- /.info-box-content -->
+
+                                </tbody>
+                            </table>
                         </div>
-                        <!-- /.info-box -->
-                        <div class="info-box mb-3 bg-danger">
-                            <span class="info-box-icon"><i class="fas fa-cloud-download-alt"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Downloads</span>
-                                <span class="info-box-number">114,381</span>
-                            </div>
-                            <!-- /.info-box-content -->
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <a th:href="@{/product/0}" class="btn btn-sm btn-secondary float-right">View All Product</a>
                         </div>
-                        <!-- /.info-box -->
-                        <div class="info-box mb-3 bg-info">
-                            <span class="info-box-icon"><i class="far fa-comment"></i></span>
+                        <!-- /.card-footer -->
+                    </div>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Direct Messages</span>
-                                <span class="info-box-number">163,921</span>
+
+                    <!-- PRODUCT LIST -->
+                    <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-header border-transparent">
+                            <h3 class="card-title">Recently Added Products</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-                            <!-- /.info-box-content -->
                         </div>
-                        <!-- /.info-box -->
-
-
-
-                        <!-- PRODUCT LIST -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Recently Added Products</h3>
-
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body p-0">
-                                <ul class="products-list product-list-in-card pl-2 pr-2">
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">Samsung TV
-                                                <span class="badge badge-warning float-right">$1800</span></a>
-                                            <span class="product-description">
-                        Samsung 32" 1080p 60Hz LED Smart HDTV.
-                      </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">Bicycle
-                                                <span class="badge badge-info float-right">$700</span></a>
-                                            <span class="product-description">
-                        26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                      </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">
-                                                Xbox One <span class="badge badge-danger float-right">
-                        $350
-                      </span>
-                                            </a>
-                                            <span class="product-description">
-                        Xbox One Console Bundle with Halo Master Chief Collection.
-                      </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">PlayStation 4
-                                                <span class="badge badge-success float-right">$399</span></a>
-                                            <span class="product-description">
-                        PlayStation 4 500GB Console (PS4)
-                      </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                </ul>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer text-center">
-                                <a href="javascript:void(0)" class="uppercase">View All Products</a>
-                            </div>
-                            <!-- /.card-footer -->
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            <ul class="products-list product-list-in-card pl-2 pr-2" th:each="product : ${recentlyAddedProducts}">
+                                <li class="item">
+                                    <div class="product-img">
+                                        <img th:src="@{'/img/' + ${product.image}}" alt="Product Image" class="img-size-50">
+                                    </div>
+                                    <div class="product-info">
+                                        <a th:href="@{/detail-product/{id}(id=${product.id})}" class="product-title"th:text="${product.category.name}"></a>
+                                        <span class="badge badge-danger  float-right" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + '&nbsp;VNĐ'}"></span>
+                                        <span class="product-description" th:text="${product.Name}"></span>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
-                        <!-- /.card -->
+                        <!-- /.card-body -->
+                        <div class="card-footer text-center">
+                            <a th:href="@{/product/0}" class="uppercase">View All Products</a>
+                        </div>
+                        <!-- /.card-footer -->
+                    </div>
+                    </div>
+
+
+
+
+                    <div class="card col-md-5">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">Online Store Overview</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <p class="text-success text-xl">
+                                    <i class="ion ion-ios-refresh-empty"></i>
+                                </p>
+                                <p class="d-flex flex-column text-right">
+                    <span class="font-weight-bold">
+                      <i class="ion ion-android-arrow-up text-success"></i> 12%
+                    </span>
+                                    <span class="text-muted">CONVERSION RATE</span>
+                                </p>
+                            </div>
+                            <!-- /.d-flex -->
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <p class="text-warning text-xl">
+                                    <i class="ion ion-ios-cart-outline"></i>
+                                </p>
+                                <p class="d-flex flex-column text-right">
+                    <span class="font-weight-bold">
+                      <i class="ion ion-android-arrow-up text-warning"></i> 0.8%
+                    </span>
+                                    <span class="text-muted">SALES RATE</span>
+                                </p>
+                            </div>
+                            <!-- /.d-flex -->
+                            <div class="d-flex justify-content-between align-items-center mb-0">
+                                <p class="text-danger text-xl">
+                                    <i class="ion ion-ios-people-outline"></i>
+                                </p>
+                                <p class="d-flex flex-column text-right">
+                    <span class="font-weight-bold">
+                      <i class="ion ion-android-arrow-down text-danger"></i> 1%
+                    </span>
+                                    <span class="text-muted">REGISTRATION RATE</span>
+                                </p>
+                            </div>
+                            <!-- /.d-flex -->
+                        </div>
+                    </div>
+
+
+
+                    <!-- /.card -->
                     </div>
                     <!-- /.col -->
                 </div>
@@ -611,193 +555,158 @@
 <div th:replace="~{fragments::script}"></div>
 
 
-<script>
+<script th:inline="javascript">
     function logout() {
         window.location.href = '/logout';
     }
 
-<!--    $(function () {-->
-<!--      /* ChartJS-->
-<!--       * -&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--       * Here we will create a few charts using ChartJS-->
-<!--       */-->
 
-<!--      //&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      //- AREA CHART - -->
-<!--      //&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+    $(function () {
+  'use strict'
 
-<!--      // Get context with jQuery - using jQuery's .get() method.-->
-<!--      var areaChartCanvas = $('#areaChart').get(0).getContext('2d')-->
+  var ticksStyle = {
+    fontColor: '#495057',
+    fontStyle: 'bold'
+  }
 
-<!--      var areaChartData = {-->
-<!--        labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],-->
-<!--        datasets: [-->
-<!--          {-->
-<!--            label               : 'Digital Goods',-->
-<!--            backgroundColor     : 'rgba(60,141,188,0.9)',-->
-<!--            borderColor         : 'rgba(60,141,188,0.8)',-->
-<!--            pointRadius          : false,-->
-<!--            pointColor          : '#3b8bba',-->
-<!--            pointStrokeColor    : 'rgba(60,141,188,1)',-->
-<!--            pointHighlightFill  : '#fff',-->
-<!--            pointHighlightStroke: 'rgba(60,141,188,1)',-->
-<!--            data                : [28, 48, 40, 19, 86, 27, 90]-->
-<!--          },-->
-<!--          {-->
-<!--            label               : 'Electronics',-->
-<!--            backgroundColor     : 'rgba(210, 214, 222, 1)',-->
-<!--            borderColor         : 'rgba(210, 214, 222, 1)',-->
-<!--            pointRadius         : false,-->
-<!--            pointColor          : 'rgba(210, 214, 222, 1)',-->
-<!--            pointStrokeColor    : '#c1c7d1',-->
-<!--            pointHighlightFill  : '#fff',-->
-<!--            pointHighlightStroke: 'rgba(220,220,220,1)',-->
-<!--            data                : [65, 59, 80, 81, 56, 55, 40]-->
-<!--          },-->
-<!--        ]-->
-<!--      }-->
+  var mode = 'index'
+  var intersect = true
 
-<!--      var areaChartOptions = {-->
-<!--        maintainAspectRatio : false,-->
-<!--        responsive : true,-->
-<!--        legend: {-->
-<!--          display: false-->
-<!--        },-->
-<!--        scales: {-->
-<!--          xAxes: [{-->
-<!--            gridLines : {-->
-<!--              display : false,-->
-<!--            }-->
-<!--          }],-->
-<!--          yAxes: [{-->
-<!--            gridLines : {-->
-<!--              display : false,-->
-<!--            }-->
-<!--          }]-->
-<!--        }-->
-<!--      }-->
+  var $salesChart = $('#sales-chart')
+  var salesData = [[${salesData}]];
+  var salesDataLastYear = [[${salesDataLastYear}]];
 
-<!--      // This will get the first returned node in the jQuery collection.-->
-<!--      new Chart(areaChartCanvas, {-->
-<!--        type: 'line',-->
-<!--        data: areaChartData,-->
-<!--        options: areaChartOptions-->
-<!--      })-->
+  // eslint-disable-next-line no-unused-vars
+  var salesChart = new Chart($salesChart, {
+    type: 'bar',
+    data: {
+      labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      datasets: [
+        {
+          backgroundColor: '#007bff',
+          borderColor: '#007bff',
+          data: salesData
+        },
+        {
+          backgroundColor: '#ced4da',
+          borderColor: '#ced4da',
+          data: salesDataLastYear
+        }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      tooltips: {
+        mode: mode,
+        intersect: intersect
+      },
+      hover: {
+        mode: mode,
+        intersect: intersect
+      },
+      legend: {
+        display: false
+      },
+      scales: {
+        yAxes: [{
+          // display: false,
+          gridLines: {
+            display: true,
+            lineWidth: '4px',
+            color: 'rgba(0, 0, 0, .2)',
+            zeroLineColor: 'transparent'
+          },
+          ticks: $.extend({
+            beginAtZero: true,
 
-<!--      //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      //- LINE CHART - -->
-<!--      //&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      var lineChartCanvas = $('#lineChart').get(0).getContext('2d')-->
-<!--      var lineChartOptions = $.extend(true, {}, areaChartOptions)-->
-<!--      var lineChartData = $.extend(true, {}, areaChartData)-->
-<!--      lineChartData.datasets[0].fill = false;-->
-<!--      lineChartData.datasets[1].fill = false;-->
-<!--      lineChartOptions.datasetFill = false-->
+            // Include a dollar sign in the ticks
+            callback: function (value) {
+              if (value >= 1000) {
+                value /= 1000
+                value += 'k'
+              }
 
-<!--      var lineChart = new Chart(lineChartCanvas, {-->
-<!--        type: 'line',-->
-<!--        data: lineChartData,-->
-<!--        options: lineChartOptions-->
-<!--      })-->
+              return '$' + value
+            }
+          }, ticksStyle)
+        }],
+        xAxes: [{
+          display: true,
+          gridLines: {
+            display: false
+          },
+          ticks: ticksStyle
+        }]
+      }
+    }
+  })
 
-<!--      //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      //- DONUT CHART - -->
-<!--      //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      // Get context with jQuery - using jQuery's .get() method.-->
-<!--      var donutChartCanvas = $('#donutChart').get(0).getContext('2d')-->
-<!--      var donutData        = {-->
-<!--        labels: [-->
-<!--            'Chrome',-->
-<!--            'IE',-->
-<!--            'FireFox',-->
-<!--            'Safari',-->
-<!--            'Opera',-->
-<!--            'Navigator',-->
-<!--        ],-->
-<!--        datasets: [-->
-<!--          {-->
-<!--            data: [700,500,400,600,300,100],-->
-<!--            backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],-->
-<!--          }-->
-<!--        ]-->
-<!--      }-->
-<!--      var donutOptions     = {-->
-<!--        maintainAspectRatio : false,-->
-<!--        responsive : true,-->
-<!--      }-->
-<!--      //Create pie or douhnut chart-->
-<!--      // You can switch between pie and douhnut using the method below.-->
-<!--      new Chart(donutChartCanvas, {-->
-<!--        type: 'doughnut',-->
-<!--        data: donutData,-->
-<!--        options: donutOptions-->
-<!--      })-->
-
-<!--      //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      //- PIE CHART - -->
-<!--      //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      // Get context with jQuery - using jQuery's .get() method.-->
-<!--      var pieChartCanvas = $('#pieChart').get(0).getContext('2d')-->
-<!--      var pieData        = donutData;-->
-<!--      var pieOptions     = {-->
-<!--        maintainAspectRatio : false,-->
-<!--        responsive : true,-->
-<!--      }-->
-<!--      //Create pie or douhnut chart-->
-<!--      // You can switch between pie and douhnut using the method below.-->
-<!--      new Chart(pieChartCanvas, {-->
-<!--        type: 'pie',-->
-<!--        data: pieData,-->
-<!--        options: pieOptions-->
-<!--      })-->
-
-<!--      //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      //- BAR CHART - -->
-<!--      //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      var barChartCanvas = $('#barChart').get(0).getContext('2d')-->
-<!--      var barChartData = $.extend(true, {}, areaChartData)-->
-<!--      var temp0 = areaChartData.datasets[0]-->
-<!--      var temp1 = areaChartData.datasets[1]-->
-<!--      barChartData.datasets[0] = temp1-->
-<!--      barChartData.datasets[1] = temp0-->
-
-<!--      var barChartOptions = {-->
-<!--        responsive              : true,-->
-<!--        maintainAspectRatio     : false,-->
-<!--        datasetFill             : false-->
-<!--      }-->
-
-<!--      new Chart(barChartCanvas, {-->
-<!--        type: 'bar',-->
-<!--        data: barChartData,-->
-<!--        options: barChartOptions-->
-<!--      })-->
-
-<!--      //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      //- STACKED BAR CHART - -->
-<!--      //-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--      var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')-->
-<!--      var stackedBarChartData = $.extend(true, {}, barChartData)-->
-
-<!--      var stackedBarChartOptions = {-->
-<!--        responsive              : true,-->
-<!--        maintainAspectRatio     : false,-->
-<!--        scales: {-->
-<!--          xAxes: [{-->
-<!--            stacked: true,-->
-<!--          }],-->
-<!--          yAxes: [{-->
-<!--            stacked: true-->
-<!--          }]-->
-<!--        }-->
-<!--      }-->
-
-<!--      new Chart(stackedBarChartCanvas, {-->
-<!--        type: 'bar',-->
-<!--        data: stackedBarChartData,-->
-<!--        options: stackedBarChartOptions-->
-<!--      })-->
-<!--    })-->
+  var $visitorsChart = $('#visitors-chart')
+  // eslint-disable-next-line no-unused-vars
+  var visitorsChart = new Chart($visitorsChart, {
+    data: {
+      labels: ['18th', '20th', '22nd', '24th', '26th', '28th', '30th'],
+      datasets: [{
+        type: 'line',
+        data: [100, 120, 170, 167, 180, 177, 160],
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        pointBorderColor: '#007bff',
+        pointBackgroundColor: '#007bff',
+        fill: false
+        // pointHoverBackgroundColor: '#007bff',
+        // pointHoverBorderColor    : '#007bff'
+      },
+      {
+        type: 'line',
+        data: [60, 80, 70, 67, 80, 77, 100],
+        backgroundColor: 'tansparent',
+        borderColor: '#ced4da',
+        pointBorderColor: '#ced4da',
+        pointBackgroundColor: '#ced4da',
+        fill: false
+        // pointHoverBackgroundColor: '#ced4da',
+        // pointHoverBorderColor    : '#ced4da'
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      tooltips: {
+        mode: mode,
+        intersect: intersect
+      },
+      hover: {
+        mode: mode,
+        intersect: intersect
+      },
+      legend: {
+        display: false
+      },
+      scales: {
+        yAxes: [{
+          // display: false,
+          gridLines: {
+            display: true,
+            lineWidth: '4px',
+            color: 'rgba(0, 0, 0, .2)',
+            zeroLineColor: 'transparent'
+          },
+          ticks: $.extend({
+            beginAtZero: true,
+            suggestedMax: 200
+          }, ticksStyle)
+        }],
+        xAxes: [{
+          display: true,
+          gridLines: {
+            display: false
+          },
+          ticks: ticksStyle
+        }]
+      }
+    }
+  })
+})
 </script>
 
 </html>

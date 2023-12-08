@@ -16,4 +16,11 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail,Integer
     List<OrderDetail> findAll();
     @Query(value = "SELECT * FROM OrderDetail WHERE orderId = :orderId", nativeQuery = true)
     List<OrderDetail> findListProductByOrderId(@Param("orderId") Integer orderId);
+
+    @Query(value = "SELECT orderdetail.productId, SUM(orderdetail.quantity) AS total_sold FROM orderdetail " +
+            "JOIN `orders` ON orderdetail.orderId = `orders`.Id WHERE YEAR(`orders`.orderDate) = :year " +
+            "GROUP BY orderdetail.productId " +
+            "ORDER BY total_sold " +
+            "DESC LIMIT 5",nativeQuery = true)
+    List<Object[]> get5TopSaleProducts(int year);
 }

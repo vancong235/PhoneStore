@@ -1,23 +1,36 @@
 package com.assignments.ecomerce.service;
 
 import com.assignments.ecomerce.model.*;
+import com.assignments.ecomerce.repository.OrderDetailRepository;
 import com.assignments.ecomerce.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    private ForgotPasswordService emailService;
 
     public Orders findById(Integer id) {
         return orderRepository.findById(id).get();
@@ -27,14 +40,37 @@ public class OrderService {
         return (List<Orders>) orderRepository.findAll();
     }
 
+<<<<<<< Updated upstream
     public void saveOrder(Orders orders) {
         orderRepository.save(orders);
+=======
+    public List<Orders> get5RecentlyAddedOrders (){
+        return orderRepository.get5RecentlyAddedOrders();
+>>>>>>> Stashed changes
     }
     public Orders getOrderById(Integer id) {
         Optional<Orders> optionalOrder = orderRepository.findById(id);
         return optionalOrder.orElse(null);
     }
 
+    public double convertVNDToUSD(double vndAmount) {
+        double exchangeRate = 23000;
+        double usdAmount = vndAmount / exchangeRate;
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.0");
+        String formattedAmount = decimalFormat.format(usdAmount);
+        return Double.parseDouble(formattedAmount);
+    }
+    public List<Double> getMonthlyRevenue(int year){
+        List<Object[]> getMonthlyRevenue = orderRepository.getMonthlyRevenue(year);
+        List<Double> Data = new ArrayList<>();
+        for (Object[] result : getMonthlyRevenue) {
+            Double temp = (Double)result[2];
+            Double total = convertVNDToUSD(temp);
+            Data.add(total);
+        }
+        return Data;
+    }
     public int countOrders(){
         return orderRepository.countOrders();
     }
@@ -44,12 +80,28 @@ public class OrderService {
         return orderRepository.pageOrders(pageable);
     }
 
-    public Page<Orders> searchOrders(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
+
+    public Page<Orders> searchOrders(int pageNo, String keyword,int pageSize) {
+
+        String status1 = "Chờ xác nhận";
+        String status2 = "Đã xác nhận";
+        String status3 = "Đã hủy đơn";
+        if(status1.toLowerCase().replaceAll("\\s", "").contains(keyword.toLowerCase()) && keyword!= ""){
+            keyword = "1";
+        }
+        if(status2.toLowerCase().replaceAll("\\s", "").contains(keyword.toLowerCase())&& keyword!= ""){
+            keyword = "2";
+        }
+        if(status3.toLowerCase().replaceAll("\\s", "").contains(keyword.toLowerCase())&& keyword!= ""){
+            keyword = "0";
+        }
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
         List<Orders> order = transfer(orderRepository.searchOrders(keyword.trim()));
         Page<Orders> orderPages = toPage(order, pageable);
         return orderPages;
     }
+
+
 
     private Page toPage(List<Orders> list, Pageable pageable) {
         if (pageable.getOffset() >= list.size()) {
@@ -79,7 +131,7 @@ public class OrderService {
         return orderList;
     }
 
-    public Orders update(Orders orders) {
+    public String update(Orders orders) {
         Orders orderUpdate = null;
         try {
             orderUpdate = orderRepository.findById(orders.getId()).get();
@@ -87,24 +139,80 @@ public class OrderService {
             orderUpdate.setShipName(orders.getShipName());
             orderUpdate.setShipPhoneNumber(orders.getShipPhoneNumber());
             orderUpdate.setStatus(2);
+          //update order status
+            orderRepository.save(orderUpdate);
 
+            //set quantity product
+            List<OrderDetail> orderDetails = orderDetailRepository.findListProductByOrderId(orderUpdate.getId());
+            for (OrderDetail od : orderDetails) {
+                Product product = productService.getProductById(od.getProduct().getId());
+                int quan = product.getQuantity();
+                int newQuan = quan-od.getQuantity();
+                if(newQuan<0){
+                    //update order status
+                    orderUpdate.setStatus(1);
+                    orderRepository.save(orderUpdate);
+                    String message ="Sản phẩm với ID: "+product.getId()+ " không đủ số lượng. \n\n Vui lòng kiểm tra số lượng sản phẩm trước khi xác nhận ";
+                    return message;
+                }
+                product.setQuantity(newQuan);
+                productService.updateQuantity(product);
+            }
+            //send email confirm
+            emailService.sendEmailConfirmOrder(orderUpdate.getCustomer().getEmail(),
+                    "Order Confirmation",
+                    orderUpdate.getEmployee().getName(),
+                    orderDetails);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return orderRepository.save(orderUpdate);
+        return "";
     }
 
     public void cancelOrder(Integer id) {
         try {
-            System.out.println(id);
             Orders orders = orderRepository.getById(id);
             orders.setStatus(0);
             orderRepository.save(orders);
+
+            emailService.sendEmailCancelOrder(orders.getCustomer().getEmail(),
+                    "Order Cancel",
+                    orders.getEmployee().getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public  Page<Orders> searchOrdersByTotalPrice(Integer pageNo, String  start, String  end){
+        Double priceStart =0.0;
+        Double priceEnd = Double.MAX_VALUE;
+        if(start != null && start != ""){
+            priceStart = Double.parseDouble(start.trim().replace(",", ""));
+        }
+        if(end != null && end != ""){
+            priceEnd = Double.parseDouble(end.trim().replace(",", ""));
+        }
+
+        List<Orders> order = transfer(orderRepository.searchOrdersByTotalPrice(priceStart,priceEnd));
+        int pageSize = order.size() >1 ? order.size() : 1;
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Orders> orderPages = toPage(order, pageable);
+        return orderPages;
+    }
+
+    public  Page<Orders> searchOrdersByDate(Integer pageNo, Date  start, Date  end){
+        if(start == null){
+            start =  new Date(0);
+        }
+        if(end == null){
+            end =  Calendar.getInstance().getTime();
+        }
+        List<Orders> order = transfer(orderRepository.searchOrdersByDate(start,end));
+        int pageSize = order.size() >1 ? order.size() : 1;
+        Pageable pageable = PageRequest.of(pageNo,pageSize );
+        Page<Orders> orderPages = toPage(order, pageable);
+        return orderPages;
+    }
 //    public List<Object> getData(Date dateFrom, Date dateTo, String chartType) {
 //        switch (chartType) {
 //            case "top5Customers":

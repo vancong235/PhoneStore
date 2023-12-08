@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Admin</title>
 
+    <script th:src="@{~/js/exceljs.js}"></script>
+    <script th:src="@{~/js/FileSaver.js}"></script>
+    <script th:src="@{~/plugins/chart.js/Chart.min.js}"></script>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback"/>
@@ -67,7 +70,7 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
 
-                            <li  class="nav-item">
+                            <li th:if ="${user.role == ADMIN}" class="nav-item">
                                 <a class="nav-link"  th:href="@{/statistical}">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <span>Trang chủ</span></a>
@@ -92,14 +95,14 @@
                                     <span>Khách Hàng</span></a>
                             </li>
 
-                            <li class="nav-item">
+                            <li  class="nav-item">
                                 <a class="nav-link"  th:href="@{/employee/0}">
                                     <i class="nav-icon fas fa-users"></i>
                                     <span>Nhân Viên</span></a>
                             </li>
 
 
-                            <li class="nav-item">
+                            <li  class="nav-item">
                                 <a class="nav-link" th:href="@{/user/0}">
                                     <i class="nav-icon fas fa-user-circle"></i>
                                     <span>Tài khoản</span></a>
@@ -113,18 +116,17 @@
                             </li>
 
                             <!-- Nav Item - Tables -->
-                            <li class="nav-item">
+                            <li  class="nav-item">
                                 <a class="nav-link" th:href="@{/coupon/0}">
                                     <i class="nav-icon fa fa-credit-card"></i>
                                     <span>Khuyến Mãi</span></a>
                             </li>
 
-                            <li class="nav-item">
+                            <li  class="nav-item">
                                 <a class="nav-link" th:href="@{/supplier/0}">
                                     <i class="nav-icon fas fa-truck"></i>
                                     <span>Nhà cung cấp</span></a>
                             </li>
-
 
                         </ul>
                     </nav>

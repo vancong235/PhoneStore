@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
-<head th:replace="~{fragments::header}"></head>
+<head th:replace="~{fragments::header}">
+
+</head>
 
 <body class="sidebar-mini layout-fixed" style="height: auto;">
 <div class="wrapper">
@@ -32,7 +34,7 @@
     </nav>
 
     <!-- Main Sidebar Container -->
-    <aside th:replace="~{fragments::sidebar}"></aside>
+    <aside th:replace="~{fragmentNavbar::navbarOfAdmin}"></aside>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper" style="min-height: 388.4px;">
@@ -61,13 +63,13 @@
                                         <p class="pt-3">Tìm thấy <strong th:text="${totalElements}"></strong> danh mục</p>
                                     </div>
                                 </div>
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <div class="row mt-3">
+                                <div class="card-header " >
+                                    <h3 class="card-title" style="width: 100%">
+                                        <div class="row mt-3" style="">
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <form th:action="@{/search-products/0}" method="get">
+                                                        <form th:action="@{/search-order/0}" method="get">
                                                             <div class="input-group input-group-sm" style="width:150px">
                                                                 <input type="text" class="form-control"
                                                                        placeholder="Bạn tìm gì?"
@@ -80,23 +82,58 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                                <!-- /input-group -->
                                             </div>
-                                            <!-- /.col-lg-6 -->
-<!--                                            <div class="col-lg-6">-->
-<!--                                                <div class="input-group">-->
-<!--                                                    <div class="input-group-prepend">-->
-<!--                                                        <div class="input-group input-group-sm">-->
-
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                                &lt;!&ndash; /input-group &ndash;&gt;-->
-<!--                                            </div>-->
-<!--                                            &lt;!&ndash; /.col-lg-6 &ndash;&gt;-->
+                                            <div  class="col-lg-6" style=" width:100%;justify-content: flex-end">
+                                                <div class="input-group" style="justify-content: flex-end">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group input-group-sm" >
+                                                <span class="input-group-append">
+                                                    <button  type="submit" onclick="Export()" class="btn btn-info rounded">
+                                                        Export Excel
+                                                    </button>
+                                                </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </h3>
                                 </div>
+
+                                <div class="card-header " style="background-color:rgb(220,220,220)">
+                                    <h3 class="card-title" style="width: 100%">
+                                        <form th:action="@{/filter/0}"  onsubmit="return validateForm()" method="post">
+                                        <div style="display: flex; justify-content: space-between; width: 80%; margin-left: 10%; margin-right: 10%;">
+                                            <div style="padding: 5px; margin-right: 10px;display: flex; justify-content: center; align-items: center;">
+                                                <label style=" margin-right: 10px;margin-top: 10px;display: flex; justify-content: center; align-items: center;" for="filterSelect">Filter By:</label>
+                                                <select id="filterSelect" name="filterType" onchange="toggleDiv()">
+                                                    <option value="date">Date</option>
+                                                    <option value="price">Price</option>
+                                                </select>
+                                            </div>
+                                            <div id="filterByTotalPrice" style="display: none; padding: 5px; margin-right: 10px;">
+                                                <label style="margin-right: 10px;height:100%;white-space: nowrap; display: flex; justify-content: center; align-items: center;" for="startTotalPrice">Giá từ:</label>
+                                                <input  class="form-control"  type="text" id="startTotalPrice" name="startTotalPrice"  oninput="formatNumberInput(this)" style="width: 80%;border: 2px solid #0000FF; border-radius: 10px;margin-right: 10%;">
+                                                <label style="margin-right: 10px;height:100%;white-space: nowrap; display: flex; justify-content: center; align-items: center;" for="endTotalPrice">Giá đến:</label>
+                                                <input  class="form-control"  type="text" id="endTotalPrice"  name="endTotalPrice" oninput="formatNumberInput(this)"style="width: 80%;border: 2px solid #0000FF; border-radius: 10px;">
+                                            </div>
+                                            <div id="filterByDate" style="display: flex; padding: 5px; margin-right: 10px;">
+                                                <label style="margin-right: 10px;height:100%;white-space: nowrap; display: flex; justify-content: center; align-items: center;" for="startDate">Ngày bắt đầu:</label>
+                                                <input class="form-control" type="date" id="startDate" name="startDate" style="width: 80%;margin-right: 10%;">
+                                                <label style="margin-right: 10px;height:100%;white-space: nowrap; display: flex; justify-content: center; align-items: center;" for="endDate">Ngày kết thúc:</label>
+                                                <input class="form-control" type="date" id="endDate" name="endDate" style="width: 80%;">
+                                            </div>
+                                            <div style="padding: 5px;display: flex; justify-content: center; align-items: center;">
+                                                <button style="border: 2px solid #ccc; border-radius: 15px;background-color:#D8BFD8;
+                                                                transition: box-shadow 0.3s ease-in-out;" onmouseover="this.style.boxShadow='0 0 5px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.boxShadow='none';" type="submit">Search</button>
+                                            </div>
+                                        </div>
+                                        </form>
+                                    </h3>
+                                </div>
+
+
+
                                 <!-- /.card-header -->
                                 <div class="card-body table-responsive p-0">
                                     <table class="table table-hover text-nowrap">
@@ -335,4 +372,92 @@
         var cancelUrl = "/cancelOrder?id=" + orderId;
         window.location.href = cancelUrl;
     }
+
+
+    function Export(){
+        const table = document.querySelector('table');
+        const rows = table.querySelectorAll('tr');
+
+            // Tạo workbook và worksheet
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Sheet1');
+
+            // Đọc dữ liệu từ bảng HTML và đưa vào worksheet
+            rows.forEach(row => {
+                const rowData = [];
+                const cols = row.querySelectorAll('td, th');
+                console.log(cols);
+                cols.forEach((col,index) => {
+                    if( index !== 6)
+                        rowData.push(col.innerText);
+                });
+
+                worksheet.addRow(rowData);
+            });
+
+             worksheet.columns.forEach((column,index) => {
+                column.width = 10;
+                 if(index === 1 || index === 2){
+                    column.width = 20;
+                 }
+                 if(index === 4){
+                    column.width = 15;
+                 }
+                 // Đặt độ rộng mong muốn, đơn vị là ký tự
+            });
+
+            // Tạo Blob từ workbook
+            workbook.xlsx.writeBuffer()
+                .then(buffer => {
+                    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+                    // Sử dụng FileSaver để tải xuống Blob
+                    saveAs(blob, 'Order.xlsx');
+                });
+    }
+
+    function toggleDiv() {
+    var filterSelect = document.getElementById("filterSelect");
+    var div1 = document.getElementById("div1");
+    var div2 = document.getElementById("div2");
+
+    if (filterSelect.value === "date") {
+      filterByDate.style.display = "flex";
+      filterByTotalPrice.style.display = "none";
+    } else if (filterSelect.value === "price") {
+      filterByDate.style.display = "none";
+      filterByTotalPrice.style.display = "flex";
+    }
+  }
+
+  function formatNumberInput(input) {
+  let value = input.value;
+  value = value.replace(/\D/g, '');
+  value = value.replace(/,/g, '');
+  value = new Intl.NumberFormat().format(value);
+  input.value = value;
+}
+
+  function validateForm() {
+  var startTotalPrice = document.getElementById("startTotalPrice").value.replace(/,/g, '');
+  var endTotalPrice = document.getElementById("endTotalPrice").value.replace(/,/g, '');
+  var startDate = document.getElementById("startDate").value;
+  var endDate = document.getElementById("endDate").value;
+
+  if (parseFloat(startTotalPrice) >= parseFloat(endTotalPrice)) {
+    alert("Start total price must be less than end total price.");
+    startTotalPriceInput.value = '';
+    endTotalPriceInput.value = '';
+    return false;
+  }
+
+  if (new Date(startDate) >= new Date(endDate)) {
+    alert("Start date must be less than end date.");
+    startDateInput.value = '';
+    endDateInput.value = '';
+    return false;
+  }
+
+  return true;
+}
 </script>

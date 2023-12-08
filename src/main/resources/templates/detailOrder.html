@@ -134,7 +134,7 @@
                     </tr>
 
                     <tr th:each="orderdetail,index : ${orderDetailList}">
-                        <td th:text="${orderdetail.order.id}" style="text-align: center; vertical-align: middle;"></td>
+                        <td th:text="${orderdetail.product.id}" style="text-align: center; vertical-align: middle;"></td>
 
                         <td th:text="${orderdetail.product.getName()}" style="text-align: center; vertical-align: middle;"></td>
                         <td style="text-align: center; vertical-align: middle;">

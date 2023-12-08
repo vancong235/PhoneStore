@@ -184,6 +184,7 @@ public class ProductController {
                                        @RequestParam("photo_file") MultipartFile photo_file,
                                        RedirectAttributes attributes) {
         try {
+            System.out.println(id);
             productService.update(photo_file, product);
             attributes.addFlashAttribute("success", "Update successfully");
         } catch (Exception e) {

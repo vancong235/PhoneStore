@@ -99,6 +99,8 @@ public class ProductDTO {
         this.category = category;
     }
 
+
+
     public ProductDTO(Integer id, String name, String description, Double price, int quantity, String image, Category category) {
         this.id = id;
         this.name = name;

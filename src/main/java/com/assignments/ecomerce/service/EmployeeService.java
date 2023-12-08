@@ -23,6 +23,9 @@ public class EmployeeService {
         return employeeList;
     }
 
+    public int countEmployee(){
+        return employeeRepository.countEmployees();
+    }
     public Page<Employee> pageEmployee(int pageNo) {
         Pageable pageable = PageRequest.of(pageNo, 5);
         return employeeRepository.pageEmployee(pageable);

@@ -93,6 +93,15 @@ public class ProductService {
         return optionalOrder.orElse(null);
     }
 
+    public  Product updateQuantity(Product product){
+        try {
+            productRepository.save(product);
+            return product;
+        }catch (Exception e){
+
+        }
+        return null;
+    }
     public Product update(MultipartFile photo, Product product) {
         Product productUpdate = productRepository.getById(product.getId());
         try {
@@ -170,6 +179,9 @@ public class ProductService {
         return productPages;
     }
 
+    public List<Product> get5RecentlyAddedProducts (){
+        return productRepository.get5RecentlyAddedProducts();
+    }
     private Page toPage(List<Product> list, Pageable pageable) {
         if (pageable.getOffset() >= list.size()) {
             return Page.empty();

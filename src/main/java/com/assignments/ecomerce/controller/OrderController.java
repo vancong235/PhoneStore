@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -68,7 +69,7 @@ public class OrderController {
         Page<Orders> listOrder = orderService.pageOrders(pageNo);
         Users user = userService.findByEmail(principal.getName());
         Employee employee = employeeService.findByEmail(principal.getName());
-        //System.out.println(employee.getName());
+
         model.addAttribute("employee", employee);
         model.addAttribute("user", user);
         model.addAttribute("listOrder", listOrder);
@@ -78,14 +79,57 @@ public class OrderController {
     }
 
 
+
+        @PostMapping("/filter/{pageNo}")
+        public String processFilterForm(
+                @PathVariable("pageNo") int pageNo,
+                @RequestParam(name = "filterType", required = false) String filterType,
+                @RequestParam(name = "startTotalPrice", required = false) String startTotalPrice,
+                @RequestParam(name = "endTotalPrice", required = false) String endTotalPrice,
+                @RequestParam(name = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                @RequestParam(name = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                Principal principal,
+                Model model) {
+            Employee employee = employeeService.findByEmail(principal.getName());
+            Users user = userService.findByEmail(principal.getName());
+            model.addAttribute("employee", employee);
+            model.addAttribute("user", user);
+
+            if(filterType .equalsIgnoreCase("price") ){
+                Page<Orders> listOrders = orderService.searchOrdersByTotalPrice(pageNo,startTotalPrice,endTotalPrice);
+                model.addAttribute("listOrder",listOrders);
+                model.addAttribute("size", listOrders.getSize());
+                model.addAttribute("listOrder", listOrders);
+                model.addAttribute("currentPage", pageNo);
+                model.addAttribute("totalPages", listOrders.getTotalPages());
+            }
+            else {
+                Page<Orders> listOrders = orderService.searchOrdersByDate(pageNo,startDate,endDate);
+                model.addAttribute("listOrder",listOrders);
+                model.addAttribute("size", listOrders.getSize());
+                model.addAttribute("listOrder", listOrders);
+                model.addAttribute("currentPage", pageNo);
+                model.addAttribute("totalPages", listOrders.getTotalPages());
+            }
+            return  "order";
+        }
+
+
     @GetMapping("/update-orders")
     public String update(Orders orders, RedirectAttributes attributes) {
+        String messeage = "";
         try {
-            orderService.update(orders);
-            attributes.addFlashAttribute("success", "Order confirm successfully !");
+             messeage = orderService.update(orders);
+             if(messeage == ""){
+                 attributes.addFlashAttribute("success", "Order confirm successfully !");
+             }
+             else {
+                 attributes.addFlashAttribute("error", messeage);
+             }
+
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
-            attributes.addFlashAttribute("error", "Failed to confirm, something was wrong !");
+            attributes.addFlashAttribute("error", messeage);
         } catch (Exception e) {
             e.printStackTrace();
             attributes.addFlashAttribute("error", "Error server");
@@ -96,9 +140,11 @@ public class OrderController {
     public String searchOrder(@PathVariable("pageNo") int pageNo,
                                  @RequestParam("keyword") String keyword,
                                  Model model, Principal principal) {
-        Page<Orders> listOrder = orderService.searchOrders(pageNo, keyword);
+        Page<Orders> listOrder = orderService.searchOrders(pageNo, keyword,5);
         Users user = userService.findByEmail(principal.getName());
+        Employee employee = employeeService.findByEmail(principal.getName());
 
+        model.addAttribute("employee", employee);
         model.addAttribute("user", user);
         model.addAttribute("size", listOrder.getSize());
         model.addAttribute("listOrder", listOrder);
