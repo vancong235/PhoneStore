@@ -35,17 +35,18 @@ public class OrderDetailService {
 
     public void save(OrderDetail orderDetail) {
         orderDetailRepository.save(orderDetail);
-
-    public List<Product> getTop5ProductSale(int year) {
-        List<Object[]> list = orderDetailRepository.get5TopSaleProducts(year);
-        List<Product> listProduct = new ArrayList<>();
-        for (Object[] result : list) {
-            Product product= productService.getById((Integer) result[0]);
-            BigDecimal quantity = (BigDecimal) result[1];
-            product.setQuantity(quantity.intValue());
-            listProduct.add(product);
-        }
-        return listProduct;
-
     }
+        public List<Product> getTop5ProductSale ( int year){
+            List<Object[]> list = orderDetailRepository.get5TopSaleProducts(year);
+            List<Product> listProduct = new ArrayList<>();
+            for (Object[] result : list) {
+                Product product = productService.getById((Integer) result[0]);
+                BigDecimal quantity = (BigDecimal) result[1];
+                product.setQuantity(quantity.intValue());
+                listProduct.add(product);
+            }
+            return listProduct;
+
+        }
+
 }

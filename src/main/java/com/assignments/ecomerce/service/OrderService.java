@@ -13,9 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -43,7 +40,7 @@ public class OrderService {
 
     public void saveOrder(Orders orders) {
         orderRepository.save(orders);
-
+    }
         public List<Orders> get5RecentlyAddedOrders () {
             return orderRepository.get5RecentlyAddedOrders();
 
@@ -212,5 +209,4 @@ public class OrderService {
             Page<Orders> orderPages = toPage(order, pageable);
             return orderPages;
         }
-    }
 }
