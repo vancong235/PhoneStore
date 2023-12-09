@@ -25,6 +25,9 @@ public class OrderDetail {
     @JoinColumn(name = "productId")
     private Product product;
 
+    private Integer quantity;
+    private Double unitPrice;
+
     private Boolean isComment;
 
     public OrderDetail(OrderDetailId id, Orders order, Product product, Boolean isComment, Integer quantity, Double unitPrice) {
@@ -44,8 +47,6 @@ public class OrderDetail {
         isComment = comment;
     }
 
-    private Integer quantity;
-    private Double unitPrice;
 
     public Orders getOrder() {
         return order;

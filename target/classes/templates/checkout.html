@@ -79,11 +79,11 @@
             </div>
             <div class="col-md-5 col-lg-4">
                 <h4 class="mb-3">Thông tin hóa đơn</h4>
-                <form class="needs-validation" novalidate="">
+                <form class="needs-validation" action="/pay" method="POST">
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="firstName" class="form-label">Họ và tên đầy đủ</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="" th:value="${name}" required=""  style="padding: 8px; padding-left:16px" readonly>
+                            <input type="text" class="form-control" name="firstName" id="firstName" placeholder="" th:value="${name}" required=""  style="padding: 8px; padding-left:16px" readonly>
                             <div class="invalid-feedback">
                                 Valid first name is required.
                             </div>
@@ -91,7 +91,7 @@
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="" th:value="${email}" style="padding: 8px; padding-left:16px" readonly>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="" th:value="${email}" style="padding: 8px; padding-left:16px" readonly>
                             <div class="invalid-feedback">
                                 Please enter a valid email address for shipping updates.
                             </div>
@@ -99,29 +99,25 @@
 
                         <div class="col-12">
                             <label for="address" class="form-label">Địa chỉ nhận hàng</label>
-                            <input type="text" class="form-control" id="address" th:value="${address}" placeholder="" required="" style="padding: 8px; padding-left:16px">
+                            <input type="text" class="form-control" name="address" id="address" th:value="${address}" placeholder="" required="" style="padding: 8px; padding-left:16px">
                             <div class="invalid-feedback">
                                 Please enter your shipping address.
                             </div>
                         </div>
                     </div>
-
-
                     <hr class="my-4">
-
                     <h4 class="mb-3">Phương thức thanh toán</h4>
-
                     <div class="my-3">
                         <div class="form-check">
-                            <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+                            <input id="credit" name="paymentMethod" value=1 type="radio" class="form-check-input" checked="" required="">
                             <label class="form-check-label" for="credit">Thanh toán qua VNPay</label>
                         </div>
                         <div class="form-check">
-                            <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
+                            <input id="debit" name="paymentMethod" value=2 type="radio" class="form-check-input" required="">
                             <label class="form-check-label" for="debit">Thanh toán khi nhận hàng</label>
                         </div>
                     </div>
-
+                    <input style="display: none;" name="promo" th:value="${promo}"> </input>
                     <hr class="my-4">
 
                     <button class="w-100 btn btn-primary btn-lg" type="submit">Xác nhận thanh toán</button>

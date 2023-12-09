@@ -1,12 +1,11 @@
 package com.assignments.ecomerce.controller;
 
+import com.assignments.ecomerce.dto.CustomerDTO;
 import com.assignments.ecomerce.dto.UserDto;
 import com.assignments.ecomerce.model.*;
-import com.assignments.ecomerce.service.PermissionsService;
-import com.assignments.ecomerce.service.RolePermissionsService;
-import com.assignments.ecomerce.service.RoleService;
-import com.assignments.ecomerce.service.UserService;
+import com.assignments.ecomerce.service.*;
 import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -14,10 +13,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -25,6 +29,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private CustomerService customerService;
     @Autowired
     private RoleService roleService;
 
@@ -57,7 +69,72 @@ public class UserController {
         return "users";
     }
 
+    @GetMapping("/userInfor")
+    public String userPage(Model model, Principal principal, @RequestParam(value = "remember", required = false) boolean remember) {
+        if (principal != null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
 
+            Users user = userService.findByEmail(principal.getName());
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("user", userDetails);
+            model.addAttribute("email", principal.getName());
+            model.addAttribute("name", user.getFullname());
+
+            Customer customer = customerService.findByEmail(principal.getName());
+
+            if (customer != null) {
+                if (customer.getAddress() != null) {
+                    model.addAttribute("address", customer.getAddress());
+                } else {
+                    model.addAttribute("address", "");
+                }
+            } else {
+                model.addAttribute("address", "");
+            }
+
+            List<Category> categories = categoryService.getAllCategory();
+            Page<Product> listProducts = productService.searchProducts(0, "", 9);
+
+            model.addAttribute("categories", categories);
+            model.addAttribute("size", listProducts.getSize());
+            model.addAttribute("listProducts", listProducts);
+            model.addAttribute("currentPage", 0);
+            model.addAttribute("totalPages", listProducts.getTotalPages());
+
+            model.addAttribute("phone", customer.getPhoneNumber());
+            model.addAttribute("fullname", customer.getName());
+            model.addAttribute("address", customer.getAddress());
+            LocalDate birthday = customer.getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Định dạng giá trị ngày thành chuỗi YYYY-MM-DD
+            String formattedBirthday = birthday.format(DateTimeFormatter.ISO_DATE);
+            model.addAttribute("birthday", formattedBirthday);
+
+            return "userInfor";
+        } else {
+            // User is not logged in, redirect to login page
+            return "redirect:/login";
+        }
+    }
+
+    @PostMapping("/userInfor")
+    public String processPayment(
+            @RequestParam("fullname") String fullname,
+            @RequestParam("address") String address,
+            @RequestParam("phone") String phone,
+            @RequestParam("birthday") Date birthday,
+            @RequestParam("sex") Boolean sex,
+            Principal principal, Model model) {
+        CustomerDTO customer = new CustomerDTO();
+        customer.setEmail(principal.getName());
+        customer.setName(fullname);
+        customer.setStatus(1);
+        customer.setGender(sex);
+        customer.setPhoneNumber(phone);
+        customer.setBirthday(birthday);
+        customerService.save(customer);
+        return "userInfor"; // Trả về tên view (thường là trang hiển thị thông tin người dùng)
+    }
     @GetMapping("/search-user/{pageNo}")
     public String searchProduct(@PathVariable("pageNo") int pageNo,
                                 @RequestParam("keyword") String keyword,

@@ -10,7 +10,9 @@ import com.assignments.ecomerce.service.UserService;
 
 import com.assignments.ecomerce.service.*;
 
+import jakarta.persistence.criteria.Order;
 import jakarta.servlet.http.HttpServletRequest;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -33,12 +35,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
 public class OrderController {
     @Autowired
     private CartDetailService cartDetailService;
+    @Autowired
+    private CategoryService categoryService;
     @Autowired
     private ProductService productService;
     @Autowired
@@ -156,10 +161,8 @@ public class OrderController {
 
     @GetMapping("/checkout")
     public String orderProduct(@RequestParam(value = "promo", defaultValue = "UNDEFINED") String promo, Model model, Principal principal) {
-        System.out.println(promo);
         if (principal != null) {
             Users user = userService.findByEmail(principal.getName());
-
             List<CartDetail> list = cartDetailService.findByUserId(user.getId());
             Double sum = 0.0d;
             int size = 0;
@@ -196,6 +199,130 @@ public class OrderController {
             return "redirect:/login";
         }
     }
+
+    @PostMapping("/pay")
+    public String processPayment(
+                                @RequestParam(value = "promo", defaultValue = "UNDEFINED") String promo,
+                                @RequestParam("address") String address,
+                                @RequestParam("paymentMethod") Integer paymentMethod,
+                                Principal principal, Model model) {
+        System.out.println(promo);
+        System.out.println("paymentMethod " + paymentMethod);
+        Users user = userService.findByEmail(principal.getName());
+        List<CartDetail> cartDetail = cartDetailService.findByUserId(user.getId());
+        Double sum = 0d;
+        Double promoPrice = 0.0d;
+        for (CartDetail object : cartDetail) {
+            sum += object.getQuantity() * object.getUnitPrice();
+        }
+        if (!promo.equals("UNDEFINED")) {
+            try {
+                Coupon coupon = couponService.findByCodeReturnObject(promo);
+                model.addAttribute("status", coupon.getDescription());
+                promoPrice = Integer.parseInt(coupon.getPromotion()) * sum / 100;
+            } catch (Exception e) {
+                model.addAttribute("status", "Mã không tồn tại");
+            }
+        } else {
+            model.addAttribute("status", "Mã không tồn tại");
+        }
+        DecimalFormat df = new DecimalFormat("###");
+        if (paymentMethod == 1) {
+            model.addAttribute("totalPrice", df.format(Math.floor(sum - promoPrice)));
+            return "vnpay_pay";
+        } else {
+            Users users = userService.findByEmail(principal.getName());
+            Customer customer = customerService.findByEmail(principal.getName());
+            List<CartDetail> listCartDetail = cartDetailService.findByUserId(users.getId());
+            List<OrderDetail> listOrderDetail = new ArrayList<>();
+            Orders order = new Orders();
+            order.setCustomer(customer);
+            order.setPaymentMethod("COD");
+            Date currentDate = new Date(System.currentTimeMillis());
+            order.setOrderDate(currentDate);
+            try {
+                Coupon coupon = couponService.findByCodeReturnObject(promo);
+                model.addAttribute("status", coupon.getDescription());
+                order.setCouponId(coupon.getId());
+                promoPrice = Integer.parseInt(coupon.getPromotion()) * sum / 100;
+            } catch (Exception e) {
+                model.addAttribute("status", "Mã không tồn tại");
+            }
+            order.setShipAddress(customer.getAddress());
+            order.setTotal(Double.valueOf(sum-promoPrice));
+            order.setStatus(1);
+            Integer idOfOrder = orderService.saveOrderPay(order);
+            for (CartDetail o : cartDetail) {
+                OrderDetail orderDetail = new OrderDetail();
+                OrderDetailId orderDetailId = new OrderDetailId();
+                orderDetailId.setOrderId(idOfOrder);
+                orderDetailId.setProductId(o.getProductId());
+                orderDetail.setId(orderDetailId);
+                orderDetail.setQuantity(o.getQuantity());
+                orderDetail.setUnitPrice(o.getUnitPrice());
+                orderDetail.setComment(false);
+                listOrderDetail.add(orderDetail);
+            }
+            for (OrderDetail orderDetail : listOrderDetail) {
+                orderDetailService.saveOrderDetail(idOfOrder,orderDetail.getId().getProductId(), orderDetail.getQuantity(), orderDetail.getUnitPrice(), orderDetail.getComment());
+            }
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+
+            Users user1 = userService.findByEmail(principal.getName());
+            model.addAttribute("userId", user1.getId());
+            model.addAttribute("user", userDetails);
+            model.addAttribute("email", principal.getName());
+            model.addAttribute("name", user1.getFullname());
+            Customer customer1 = customerService.findByEmail(principal.getName());
+            if (customer1 != null) {
+                if (customer1.getAddress() != null) {
+                    model.addAttribute("address", customer1.getAddress());
+                } else {
+                    model.addAttribute("address", "");
+                }
+            } else {
+                model.addAttribute("address", "");
+            }
+
+
+            List<Category> categories = categoryService.getAllCategory();
+            Page<Product> listProducts = productService.searchProducts(0, "", 9);
+
+            model.addAttribute("categories", categories);
+            model.addAttribute("size", listProducts.getSize());
+            model.addAttribute("listProducts", listProducts);
+            model.addAttribute("currentPage", 0);
+            model.addAttribute("totalPages", listProducts.getTotalPages());
+            return "return_succes";
+        }
+    }
+    @PostMapping("/vnpay_pay")
+    public String returnVnPay(@RequestParam(value = "promo", defaultValue = "UNDEFINED") String promo, Model model, Principal principal) {
+        Users user = userService.findByEmail(principal.getName());
+        List<CartDetail> cartDetail = cartDetailService.findByUserId(user.getId());
+        Double sum = 0d;
+        Double promoPrice = 0.0d;
+
+        for (CartDetail object: cartDetail) {
+            sum += object.getQuantity() * object.getUnitPrice();
+        }
+
+        if (!promo.equals("UNDEFINED")) {
+            try {
+                Coupon coupon = couponService.findByCodeReturnObject(promo);
+                model.addAttribute("status", coupon.getDescription());
+                promoPrice = Integer.parseInt(coupon.getPromotion())*sum/100;
+            } catch (Exception e) {
+                model.addAttribute("status", "Mã không tồn tại");
+            }
+        } else {
+            model.addAttribute("status", "Mã không tồn tại");
+        }
+        model.addAttribute("valueNeedPrice", sum-promoPrice);
+        return "vnpay_pay";
+    }
+
     @GetMapping("/return")
     public String returnPayment(HttpServletRequest request,Principal principal, Model model) throws UnsupportedEncodingException {
         if (principal != null) {
@@ -207,7 +334,6 @@ public class OrderController {
                     fields.put(fieldName, fieldValue);
                 }
             }
-
             String vnp_SecureHash = request.getParameter("vnp_SecureHash");
             if (fields.containsKey("vnp_SecureHashType")) {
                 fields.remove("vnp_SecureHashType");
@@ -223,13 +349,14 @@ public class OrderController {
                     Users users = userService.findByEmail(principal.getName());
                     Customer customer = customerService.findByEmail(principal.getName());
                     List<CartDetail> listCartDetail = cartDetailService.findByUserId(users.getId());
-                    List<OrderDetail> listOrderDetail = null;
+                    List<OrderDetail> listOrderDetail = new ArrayList<>();
                     Orders order = new Orders();
                     order.setId(Integer.parseInt(request.getParameter("vnp_TxnRef")));
                     order.setCustomer(customer);
                     order.setPaymentMethod("VNPay");
                     String dateString = request.getParameter("vnp_PayDate");
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                    System.out.println(order.getId());
                     try {
                         Date date = dateFormat.parse(dateString);
                         order.setOrderDate(date);
@@ -237,20 +364,24 @@ public class OrderController {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    order.setTotal(Double.valueOf(request.getParameter("vnp_Amount")));
+                    order.setStatus(1);
+                    order.setShipAddress(customer.getAddress());
+                    order.setTotal(Double.valueOf(request.getParameter("vnp_Amount"))/100);
                     for (CartDetail cartDetail : listCartDetail) {
                         OrderDetail orderDetail = new OrderDetail();
                         OrderDetailId orderDetailId = new OrderDetailId();
                         orderDetailId.setOrderId(order.getId());
                         orderDetailId.setProductId(cartDetail.getProductId());
+                        orderDetail.setId(orderDetailId);
                         orderDetail.setQuantity(cartDetail.getQuantity());
                         orderDetail.setUnitPrice(cartDetail.getUnitPrice());
                         orderDetail.setComment(false);
                         listOrderDetail.add(orderDetail);
                     }
-                    orderService.saveOrder(order);
+                    Integer idOfOrder = orderService.saveOrderPay(order);
+                    System.out.println(idOfOrder);
                     for (OrderDetail orderDetail : listOrderDetail) {
-                        orderDetailService.save(orderDetail);
+                        orderDetailService.saveOrderDetail(idOfOrder,orderDetail.getId().getProductId(), orderDetail.getQuantity(), orderDetail.getUnitPrice(), orderDetail.getComment());
                     }
                 } else {
                     model.addAttribute("message", 0);
@@ -265,9 +396,43 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/vnpay_pay")
+    @GetMapping("/historyOrder")
     public String paymentWithVNpay(Model model, Principal principal) {
-        return "vnpay_pay";
+        Users user = userService.findByEmail(principal.getName());
+        List<Orders> order = orderService.findByCustomerId(user.getId());
+        model.addAttribute("orderList", order);
+        if (principal != null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("user", userDetails);
+            model.addAttribute("email", principal.getName());
+            model.addAttribute("name", user.getFullname());
+            Customer customer = customerService.findByEmail(principal.getName());
+            if (customer != null) {
+                if (customer.getAddress() != null) {
+                    model.addAttribute("address", customer.getAddress());
+                } else {
+                    model.addAttribute("address", "");
+                }
+            } else {
+                model.addAttribute("address", "");
+            }
+
+
+            List<Category> categories = categoryService.getAllCategory();
+            Page<Product> listProducts = productService.searchProducts(0, "", 9);
+
+            model.addAttribute("categories", categories);
+            model.addAttribute("size", listProducts.getSize());
+            model.addAttribute("listProducts", listProducts);
+            model.addAttribute("currentPage", 0);
+            model.addAttribute("totalPages", listProducts.getTotalPages());
+
+            return "historyOrder";
+        } else {
+            // User is not logged in, redirect to login page
+            return "redirect:/login";
+        }
     }
 
     @RequestMapping(value = "/cancelOrder", method = {RequestMethod.PUT, RequestMethod.GET})
