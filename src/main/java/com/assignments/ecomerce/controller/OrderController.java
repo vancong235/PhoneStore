@@ -284,10 +284,11 @@ public class OrderController {
     }
 
     @GetMapping("/detail-order/{id}")
-    public String DetailOrder(@PathVariable("id") Integer id, Model model) {
+    public String DetailOrder(@PathVariable("id") Integer id, Model model, Principal principal) {
         Orders order = orderService.findById(id);
         Coupon coupon = couponService.findById(order.getCouponId());
-
+        Users users = userService.findByEmail(principal.getName());
+        model.addAttribute("user", users);
         //convert date to localDate
         LocalDate localOrderDate = order.getOrderDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate startDeliveryDate = localOrderDate.plusDays(3);

@@ -135,11 +135,13 @@ public class ProductController {
     }
 
     @GetMapping("/detail-product/{id}")
-    public String DetailProducts(@PathVariable("id") Integer id, Model model) {
+    public String DetailProducts(@PathVariable("id") Integer id, Model model, Principal principal) {
         Product newProduct = productService.getById(id);
         List<Category> categories = categoryService.getAllCategory();
         List<String> listSizeProduct = productService.getAllSizeProduct(newProduct.getName().trim());
         Integer getSoldShoeCount = productService.getSoldShoeCount(id);
+        Users users = userService.findByEmail(principal.getName());
+        model.addAttribute("user", users);
         model.addAttribute("categories", categories);
         model.addAttribute("listProducts", newProduct);
         model.addAttribute("listSizeProduct", listSizeProduct);
