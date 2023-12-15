@@ -10,6 +10,7 @@ D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\Cookie
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\controller\LoginController.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\impl\CustomUserDetailsService.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\Users.java
+D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\config\Config.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\Permissions.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\CustomerService.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\utilities\ImageUpload.java
@@ -19,6 +20,7 @@ D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\RolePerm
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\ForgotPasswordToken.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\CartDetailRepository.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\PermissionsRepository.java
+D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\controller\FragmentController.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\controller\UserProductController.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\controller\UserController.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\CartDetailService.java
@@ -42,11 +44,14 @@ D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\Comments
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\CommentsRepository.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\ForgotPasswordRepository.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\ProductRepository.java
+D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\dto\ConfirmRespone.java
+D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\PaymentRequest.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\Product.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\CategoryService.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\controller\StatisticalController.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\EmployeeService.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\CouponService.java
+D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\StatisticalRepository.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\controller\OrderController.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\CouponRepository.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\controller\CartDetailController.java
@@ -63,10 +68,13 @@ D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\controller\For
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\UserService.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\OrderDetailRepository.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\OrderRepository.java
+D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\OrderDetailId.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\Orders.java
+D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\IpUtils.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\CommentsService.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\dto\UserDto.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\model\OrderDetail.java
+D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\controller\AjaxController.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\repository\RoleRepository.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\dto\CustomerDTO.java
 D:\J2EE\GitPush\PhoneStore\src\main\java\com\assignments\ecomerce\service\impl\UserServiceImpl.java
