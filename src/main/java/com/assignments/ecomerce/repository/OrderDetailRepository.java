@@ -29,4 +29,6 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail,Integer
     @Query(value = "INSERT INTO orderdetail (orderId, productId, quantity, unitPrice, isComment) VALUES (:orderId, :productId, :quantity, :unitPrice, :isComment)", nativeQuery = true)
     int saveOrderDetail(@Param("orderId") Integer orderId, @Param("productId") Integer productId, @Param("quantity") Integer quantity, @Param("unitPrice") Double unitPrice, @Param("isComment") Boolean isComment);
 
+    @Query(value = "SELECT o.id FROM orders o, orderdetail od WHERE o.customerId = :customerId AND od.productId = :productId LIMIT 1", nativeQuery = true)
+    int findOrderIdBought(@Param("customerId") Integer customerId, @Param("productId") Integer productId);
 }

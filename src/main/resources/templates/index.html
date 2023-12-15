@@ -131,21 +131,15 @@
                 <div class="shop-sidebar">
                     <!-- Single Widget -->
                     <div class="single-widget category">
-                        <h3 class="title">Categories</h3>
-                        <ul class="categor-list">
-                            <li><a href="#">T-shirts</a></li>
-                            <li><a href="#">jacket</a></li>
-                            <li><a href="#">jeans</a></li>
-                            <li><a href="#">sweatshirts</a></li>
-                            <li><a href="#">trousers</a></li>
-                            <li><a href="#">kitwears</a></li>
-                            <li><a href="#">accessories</a></li>
+                        <h3 class="title">Danh mục</h3>
+                        <ul class="categor-list" th:each="category : ${categories}">
+                            <li><a href="#" th:text="${category.Name}">T-shirts</a></li>
                         </ul>
                     </div>
                     <!--/ End Single Widget -->
                     <!-- Shop By Price -->
                     <div class="single-widget range">
-                        <h3 class="title">Shop by Price</h3>
+                        <h3 class="title">Lọc theo khoảng giá</h3>
                         <div class="price-filter">
                             <div class="price-filter-inner">
                                 <div id="slider-range"></div>
@@ -172,78 +166,6 @@
                             </li>
                         </ul>
                     </div>
-                    <!--/ End Shop By Price -->
-                    <!-- Single Widget -->
-                    <div class="single-widget recent-post">
-                        <h3 class="title">Recent post</h3>
-                        <!-- Single Post -->
-                        <div class="single-post first">
-                            <div class="image">
-                                <img src="https://via.placeholder.com/75x75" alt="#">
-                            </div>
-                            <div class="content">
-                                <h5><a href="#">Girls Dress</a></h5>
-                                <p class="price">$99.50</p>
-                                <ul class="reviews">
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li><i class="ti-star"></i></li>
-                                    <li><i class="ti-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- End Single Post -->
-                        <!-- Single Post -->
-                        <div class="single-post first">
-                            <div class="image">
-                                <img src="https://via.placeholder.com/75x75}" alt="#">
-                            </div>
-                            <div class="content">
-                                <h5><a href="#">Women Clothings</a></h5>
-                                <p class="price">$99.50</p>
-                                <ul class="reviews">
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li><i class="ti-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- End Single Post -->
-                        <!-- Single Post -->
-                        <div class="single-post first">
-                            <div class="image">
-                                <img src="https://via.placeholder.com/75x75" alt="#">
-                            </div>
-                            <div class="content">
-                                <h5><a href="#">Man Tshirt</a></h5>
-                                <p class="price">$99.50</p>
-                                <ul class="reviews">
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                    <li class="yellow"><i class="ti-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- End Single Post -->
-                    </div>
-                    <!--/ End Single Widget -->
-                    <!-- Single Widget -->
-                    <div class="single-widget category">
-                        <h3 class="title">Manufacturers</h3>
-                        <ul class="categor-list">
-                            <li><a href="#">Forever</a></li>
-                            <li><a href="#">giordano</a></li>
-                            <li><a href="#">abercrombie</a></li>
-                            <li><a href="#">ecko united</a></li>
-                            <li><a href="#">zara</a></li>
-                        </ul>
-                    </div>
-                    <!--/ End Single Widget -->
                 </div>
             </div>
             <div class="col-lg-9 col-md-8 col-12">
@@ -262,11 +184,11 @@
                                     </select>
                                 </div>
                                 <div class="single-shorter">
-                                    <label>Sort By :</label>
+                                    <label>Lọc theo :</label>
                                     <select>
-                                        <option selected="selected">Name</option>
-                                        <option>Price</option>
-                                        <option>Size</option>
+                                        <option selected="selected">Tên</option>
+                                        <option>Giá</option>
+                                        <option>Giảm nhiều</option>
                                     </select>
                                 </div>
                             </div>

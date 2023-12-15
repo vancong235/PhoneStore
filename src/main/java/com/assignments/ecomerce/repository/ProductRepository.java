@@ -56,4 +56,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
             "ORDER BY sumQuantity DESC")
     List<Object[]> getTop10ProductsWithSumQuantity();
 
+
+    @Query("SELECT p FROM Product p WHERE p.name = :nameProduct AND p.size IN (SELECT DISTINCT p.size FROM Product p WHERE p.name = :nameProduct)")
+    List<Product> getProductsWithDifferentSizes(@Param("nameProduct") String nameProduct);
 }

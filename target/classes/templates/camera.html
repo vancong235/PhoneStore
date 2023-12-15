@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Camera Page</title>
+</head>
+<body>
+<video id="videoElement" autoplay></video>
+<form id="uploadForm" enctype="multipart/form-data">
+    <canvas id="canvas" style="display:none"></canvas>
+    <input type="file" id="imageInput" name="image" style="display:none" accept="image/jpeg">
+
+    <div id="captureButton"></div>
+    <button type="button" onclick="captureAndUpload()">Gửi ảnh</button>
+</form>
+
+<script>
+    // Lấy video element
+    var video = document.getElementById("videoElement");
+
+    // Lấy button chụp ảnh
+    var captureButton = document.getElementById("captureButton");
+
+    // Lấy canvas element
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+
+    // Lấy input file element
+    var imageInput = document.getElementById("imageInput");
+
+    // Kiểm tra trình duyệt hỗ trợ getUserMedia() hay không
+    if (navigator.mediaDevices.getUserMedia) {
+        // Yêu cầu truy cập camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                // Thiết lập đầu ra video element với stream từ camera
+                video.srcObject = stream;
+            })
+            .catch(function (error) {
+                console.log("Error accessing camera: " + error);
+            });
+    } else {
+        console.log("getUserMedia not supported");
+    }
+
+    // Hàm xử lý khi button chụp ảnh và gửi được nhấn
+    function captureAndUpload() {
+        // Thiết lập kích thước của canvas bằng kích thước hiển thị của video
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // Vẽ hình ảnh từ video lên canvas
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Lưu trữ ảnh chụp dưới dạng file blob
+        canvas.toBlob(function(blob) {
+            // Tạo đối tượng FormData
+            var formData = new FormData();
+            formData.append("image", blob, "image.jpg");
+
+            // Gửi form lên server
+            fetch("/upload", {
+                method: "POST",
+                body: formData
+            })
+                .then(function(response) {
+                    if (response.ok) {
+                        // Xử lý khi phản hồi từ server thành công
+                        console.log("Upload succeeded");
+                    } else {
+                        // Xử lý khi phản hồi từ server không thành công
+                        console.log("Upload failed: " + response.status);
+                    }
+                })
+                .catch(function(error) {
+                    // Xử lý khi có lỗi xảy ra trong quá trình gửi yêu cầu
+                    console.log("Error sending request: " + error);
+                });
+        }, "image/jpeg");
+    }
+</script>
+</body>
+</html>

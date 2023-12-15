@@ -9,6 +9,7 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -60,7 +61,6 @@ public class UserController {
         Users user = userService.findByEmail(principal.getName());
 
         model.addAttribute("user", user);
-
         model.addAttribute("size", listUsers.getSize());
         model.addAttribute("listUsers", listUsers);
         model.addAttribute("currentPage", pageNo);
@@ -109,7 +109,7 @@ public class UserController {
             // Định dạng giá trị ngày thành chuỗi YYYY-MM-DD
             String formattedBirthday = birthday.format(DateTimeFormatter.ISO_DATE);
             model.addAttribute("birthday", formattedBirthday);
-
+            model.addAttribute("sex", customer.getGender());
             return "userInfor";
         } else {
             // User is not logged in, redirect to login page
@@ -122,18 +122,23 @@ public class UserController {
             @RequestParam("fullname") String fullname,
             @RequestParam("address") String address,
             @RequestParam("phone") String phone,
-            @RequestParam("birthday") Date birthday,
+            @RequestParam("birthday") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate birthday,
             @RequestParam("sex") Boolean sex,
             Principal principal, Model model) {
+        Users c = userService.findByEmail(principal.getName());
         CustomerDTO customer = new CustomerDTO();
+        customer.setId(c.getId());
         customer.setEmail(principal.getName());
         customer.setName(fullname);
         customer.setStatus(1);
         customer.setGender(sex);
         customer.setPhoneNumber(phone);
-        customer.setBirthday(birthday);
-        customerService.save(customer);
-        return "userInfor"; // Trả về tên view (thường là trang hiển thị thông tin người dùng)
+        customer.setAddress(address);
+        Date convertedBirthday = java.sql.Date.valueOf(birthday);
+        // Set the converted birthday to the customer object
+        customer.setBirthday(convertedBirthday);
+        customerService.update(customer);
+        return "redirect:/userInfor"; // Trả về tên view (thường là trang hiển thị thông tin người dùng)
     }
     @GetMapping("/search-user/{pageNo}")
     public String searchProduct(@PathVariable("pageNo") int pageNo,

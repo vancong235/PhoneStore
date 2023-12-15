@@ -1,15 +1,13 @@
 package com.assignments.ecomerce.controller;
 
-import com.assignments.ecomerce.model.Category;
-import com.assignments.ecomerce.model.Product;
-import com.assignments.ecomerce.model.Users;
-import com.assignments.ecomerce.service.CategoryService;
-import com.assignments.ecomerce.service.ProductService;
-import com.assignments.ecomerce.service.UserService;
+import com.assignments.ecomerce.model.*;
+import com.assignments.ecomerce.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +16,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProductController {
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private CustomerService customerService;
     @Autowired
     private ProductService productService;
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CommentsService commentsService;
 
     @Autowired
     private UserService userService;
@@ -34,6 +41,8 @@ public class ProductController {
         Product product = productService.findById(id);
         List<Product> productDtoList = productService.findAllByCategory(product.getCategory().getName());
         List<Category> categories = categoryService.getAllCategory();
+
+
         model.addAttribute("products", productDtoList);
         model.addAttribute("productDetail", product);
         model.addAttribute("categories", categories);
@@ -245,11 +254,34 @@ public class ProductController {
         return "index";
     }
     @GetMapping("/userProductDetail/{id}")
-    public String userProductDetail(@PathVariable("id") Integer id, Model model) {
+    public String userProductDetail(@PathVariable("id") Integer id, Principal principal, Model model) {
         Product newProduct = productService.getById(id);
-        List<Category> categories = categoryService.getAllCategory();
-        model.addAttribute("categories", categories);
+
+        List<Comments> comments = commentsService.findByProductId(newProduct.getId());
+        for (Comments comment : comments) {
+            System.out.println("Comment ID: " + comment.getId());
+            System.out.println("Comment Content: " + comment.getContent());
+            System.out.println("Comment Start: " + comment.getStar());
+            System.out.println("Comment Start: " + comment.getCustomer().getEmail());
+            System.out.println("--------------------");
+        }
+
+        if (principal != null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+            Users user = userService.findByEmail(principal.getName());
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("user", userDetails);
+            model.addAttribute("email", principal.getName());
+            model.addAttribute("name", user.getFullname());
+            Customer customer = customerService.findByEmail(principal.getName());
+            model.addAttribute("comments", comments);
+        } else {
+
+        }
+        List<Product> listProduct = productService.getProductsWithDifferentSizes(newProduct.getName());
+
         model.addAttribute("product", newProduct);
+        model.addAttribute("productSizeList", listProduct);
         return "userProductDetail";
     }
 }

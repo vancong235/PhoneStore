@@ -101,6 +101,17 @@ public class CartDetailController {
     @PostMapping("/add")
     public String add(HttpServletRequest request, Model model, Principal principal) {
         int userId = Integer.parseInt(request.getParameter("userId"));
+        String quantityBuyParam = request.getParameter("quantityBuy");
+        int quantityBuy = 1; // Giá trị mặc định là 1
+
+        if (quantityBuyParam != null && !quantityBuyParam.isEmpty()) {
+            try {
+                quantityBuy = Integer.parseInt(quantityBuyParam);
+            } catch (NumberFormatException e) {
+                // Xử lý ngoại lệ nếu giá trị không hợp lệ
+                // Ở đây, có thể ghi log hoặc thực hiện hành động khác
+            }
+        }
         if (principal != null && principal.getName() != null) {
             Users user = userService.findByEmail(principal.getName());
             if (user != null && user.getId() == userId) {
@@ -108,7 +119,7 @@ public class CartDetailController {
                 Product product = productService.findById(productId);
                 String message = "Thêm thất bại";
                 if (product != null) {
-                    if (cartDetailService.saveCart(user.getId(), productId, 1, product.getPrice())) {
+                    if (cartDetailService.saveCart(user.getId(), productId, quantityBuy, product.getPrice())) {
                         message = "Thêm thành công mã sản phẩm " + product.getId() + " vào giỏ hàng";
                     }
                 } else {

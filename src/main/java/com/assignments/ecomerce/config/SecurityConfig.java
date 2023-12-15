@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .hasAuthority("ADMIN")
                         .requestMatchers("/manager-page").hasAuthority("MANAGER")
 //                        .requestMatchers("/index").hasAuthority("USER")
-                        .requestMatchers("/ipn", "/return","/payment","/userProductDetail","/userProductDetail/*","/img/*","/*","/index","/register","/reset-password","/spassword-request", "/css/**","dist/**","plugins/**","eshop/**").permitAll()
+                        .requestMatchers("/upload","/camera/*", "/ipn", "/return","/payment","/userProductDetail","/userProductDetail/*","/img/*","/*","/index","/register","/reset-password","/spassword-request", "/css/**","dist/**","plugins/**","eshop/**").permitAll()
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login")

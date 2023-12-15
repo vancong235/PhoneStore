@@ -88,7 +88,7 @@
             <div class="col-12 d-flex align-items-center justify-content-center">
                 <!-- Logo -->
                 <div class="logo">
-                    <a href="index.html" class="d-flex justify-content-center"><img th:src="@{~/eshop/images/logo.png}"
+                    <a href="/user-page" class="d-flex justify-content-center"><img th:src="@{~/eshop/images/logo.png}"
                                                                                     alt="logo"></a>
                 </div>
             </div>
@@ -105,16 +105,13 @@
                                     <div class="d-flex justify-content-between bd-highlight">
                                         <div class="bd-highlight">
                                             <ul class="nav col-12">
-                                                <li class="active"><a href="#">Trang chủ</a></li>
-                                                <li><a href="/user-page">Sản phẩm</a></li>
+                                                <li class="active"><a href="/">Sản phẩm</a></li>
                                             </ul>
                                         </div>
                                         <div class="bd-highlight d-flex align-items-center justify-content-center">
                                             <form method="get">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control"
-                                                           placeholder="Nhập thứ cần tìm..."
-                                                           style="padding: 5px; padding-left: 10px; font-size: 14px; border-color:#f7941d">
+                                                    <input type="text" class="form-control" placeholder="Nhập thứ cần tìm..." style="padding: 5px; padding-left: 10px; font-size: 14px; border-color:#f7941d; height: auto;">
                                                     <button type="submit" class="customeBtn border-dark-5 p-3"
                                                             style="font-size: 14; font-weight: bold;"><i
                                                             class="fa fa-search" aria-hidden="true"></i></button>
@@ -139,8 +136,8 @@
                                                     </a>
                                                     <ul class="dropdown">
                                                         <li><a href="/userInfor">Thông tin tài khoản</a></li>
-                                                        <li><a href="/">Đánh giá sản phẩm</a></li>
                                                         <li><a href="/historyOrder">Lịch sử đơn hàng</a></li>
+                                                        <li><a href="/logout">Đăng xuất</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>
@@ -162,7 +159,7 @@
             <div class="col-12 d-flex align-items-center justify-content-center">
                 <!-- Logo -->
                 <div class="logo">
-                    <a href="index.html" class="d-flex justify-content-center"><img th:src="@{~/eshop/images/logo.png}"
+                    <a href="/user-page" class="d-flex justify-content-center"><img th:src="@{~/eshop/images/logo.png}"
                                                                                     alt="logo"></a>
                 </div>
             </div>
@@ -179,17 +176,13 @@
                                     <div class="d-flex justify-content-between bd-highlight">
                                         <div class="bd-highlight">
                                             <ul class="nav col-12">
-                                                <li class="active"><a href="#">Home</a></li>
-                                                <li><a href="/user-page">Sản phẩm</a></li>
-                                                <li><a href="contact.html">Contact Us</a></li>
+                                                <li class="active"><a href="/">Sản phẩm</a></li>
                                             </ul>
                                         </div>
                                         <div class="bd-highlight d-flex align-items-center justify-content-center">
                                             <form method="get">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control"
-                                                           placeholder="Nhập thứ cần tìm..."
-                                                           style="padding: 5px; padding-left: 10px; font-size: 14px; border-color:#f7941d">
+                                                    <input type="text" class="form-control" placeholder="Nhập thứ cần tìm..." style="padding: 5px; padding-left: 10px; font-size: 14px; border-color:#f7941d; height: auto;">
                                                     <button type="submit" class="customeBtn border-dark-5 p-3"
                                                             style="font-size: 14; font-weight: bold;"><i
                                                             class="fa fa-search" aria-hidden="true"></i></button>
@@ -232,9 +225,9 @@
                                                             </span>
                                                     </a>
                                                     <ul class="dropdown">
-                                                        <li><a href="userInfor">Thông tin tài khoản</a></li>
-                                                        <li><a href="blog-single-sidebar.html">Đánh giá sản phẩm</a></li>
+                                                        <li><a href="/userInfor">Thông tin tài khoản</a></li>
                                                         <li><a href="/historyOrder">Lịch sử đơn hàng</a></li>
+                                                        <li><a href="/logout">Đăng xuất</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>

@@ -213,7 +213,7 @@ public class OrderController {
         Double sum = 0d;
         Double promoPrice = 0.0d;
         for (CartDetail object : cartDetail) {
-            sum += object.getQuantity() * object.getUnitPrice();
+            sum += (object.getProduct().getPrice() - (object.getProduct().getPrice() * object.getProduct().getDiscount() / 100)) * object.getQuantity();
         }
         if (!promo.equals("UNDEFINED")) {
             try {
@@ -305,7 +305,7 @@ public class OrderController {
         Double promoPrice = 0.0d;
 
         for (CartDetail object: cartDetail) {
-            sum += object.getQuantity() * object.getUnitPrice();
+            sum += (object.getProduct().getPrice() - (object.getProduct().getPrice() * object.getProduct().getDiscount() / 100)) * object.getQuantity();
         }
 
         if (!promo.equals("UNDEFINED")) {
@@ -342,7 +342,7 @@ public class OrderController {
                 fields.remove("vnp_SecureHash");
             }
             String signValue = Config.hashAllFields(fields);
-
+            model.addAttribute("money", Double.valueOf(request.getParameter("vnp_Amount"))/100);
             if (signValue.equals(vnp_SecureHash)) {
                 if ("00".equals(request.getParameter("vnp_ResponseCode"))) {
                     model.addAttribute("message", 1);
@@ -384,6 +384,7 @@ public class OrderController {
                         orderDetailService.saveOrderDetail(idOfOrder,orderDetail.getId().getProductId(), orderDetail.getQuantity(), orderDetail.getUnitPrice(), orderDetail.getComment());
                     }
                 } else {
+
                     model.addAttribute("message", 0);
                 }
             } else {

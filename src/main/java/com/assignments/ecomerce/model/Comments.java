@@ -2,6 +2,7 @@ package com.assignments.ecomerce.model;
 
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Date;
 
@@ -11,8 +12,12 @@ public class Comments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer customerId;
-    private Integer productId;
+    @ManyToOne
+    @JoinColumn(name = "customerId")
+    private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "productId")
+    private Product product;
     private Integer orderId;
     private Integer star;
 
@@ -23,14 +28,30 @@ public class Comments {
     public Comments() {
     }
 
-    public Comments(Integer id, Integer customerId, Integer productId, Integer orderId, Integer star, Date time, String content) {
+    public Comments(Integer id, Customer customer, Product product, Integer orderId, Integer star, Date time, String content) {
         this.id = id;
-        this.customerId = customerId;
-        this.productId = productId;
+        this.customer = customer;
+        this.product = product;
         this.orderId = orderId;
         this.star = star;
         this.time = time;
         this.content = content;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Integer getId() {
@@ -39,22 +60,6 @@ public class Comments {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
     }
 
     public Integer getOrderId() {

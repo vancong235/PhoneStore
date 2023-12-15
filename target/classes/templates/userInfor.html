@@ -128,20 +128,64 @@
     <div class="container">
         <div class="row">
             <div class="row g-5">
-<!--                <div class="col-md-5 col-lg-4 order-md-last">-->
-<!--                    <h4 class="d-flex justify-content-between align-items-center mb-3">-->
-<!--                        <span class="text-primary">Thông tin của bạn</span>-->
-<!--                    </h4>-->
-<!--                    <ul class="list-group mb-3">-->
-<!--                        <li class="list-group-item d-flex justify-content-between lh-sm">-->
-<!--                            <div>-->
-<!--                                <h6 class="my-0">User name</h6>-->
-<!--                                <small class="text-body-secondary">Brief description</small>-->
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                    </ul>-->
+                <div class="col-md-5 col-lg-4 order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">Thông tin của bạn</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Email</h6>
+                                <small class="text-body-secondary">
+                                    <span th:if="${email != null}" th:text="${email}"></span>
+                                </small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Họ và tên</h6>
+                                <small class="text-body-secondary">
+                                    <span th:if="${fullname != null}" th:text="${fullname}"></span>
+                                </small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Số điện thoại</h6>
+                                <small class="text-body-secondary">
+                                    <span th:if="${phone != null}" th:text="${phone}"></span>
+                                </small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Địa chỉ</h6>
+                                <small class="text-body-secondary">
+                                    <span th:if="${address != null}" th:text="${address}"></span>
+                                </small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Sinh nhật</h6>
+                                <small class="text-body-secondary">
+                                    <span th:if="${birthday != null}" th:text="${birthday}"></span>
+                                </small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Giới tính</h6>
+                                <small class="text-body-secondary">
+                                    <span th:if="${sex == true}">Nam</span>
+                                    <span th:if="${sex == false}">Nữ</span>
+                                    <span th:unless="${sex}">Undefined</span>
+                                </small>
+                            </div>
+                        </li>
+                    </ul>
 
-<!--                </div>-->
+                </div>
                 <div class="col-md-7 col-lg-8">
                     <h4 class="mb-3">Chỉnh sửa thông tin</h4>
                     <form class="needs-validation" action="/userInfor" method="POST">

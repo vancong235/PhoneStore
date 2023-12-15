@@ -55,4 +55,8 @@ public class OrderDetailService {
 
         }
 
+        @Transactional
+    public int findOrderIdBought(Integer id, Integer productId) {
+        return orderDetailRepository.findOrderIdBought(id, productId);
+    }
 }

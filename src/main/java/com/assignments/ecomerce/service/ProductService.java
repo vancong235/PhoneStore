@@ -3,6 +3,7 @@ package com.assignments.ecomerce.service;
 import com.assignments.ecomerce.model.Product;
 import com.assignments.ecomerce.repository.ProductRepository;
 import com.assignments.ecomerce.utilities.ImageUpload;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -244,6 +245,10 @@ public class ProductService {
         return productRepository.getAllSizeProduct(nameProduct);
     }
 
+    @Transactional
+    public List<Product> getProductsWithDifferentSizes(String nameProduct){
+        return productRepository.getProductsWithDifferentSizes(nameProduct);
+    }
 //    public Integer getSoldShoeCount(Product product){
 //        System.out.println(productRepository.getSoldShoeCount(product));
 //        return productRepository.getSoldShoeCount(product);
